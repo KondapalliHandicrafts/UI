@@ -4,7 +4,7 @@ export { default as LocationIcon } from './Location';
 export { default as MailIcon } from './Mail';
 export { default as PhoneIcon } from './Phone';
 export { default as TwitterIcon } from './Twitter';
-export { default as SendIcon } from './Send';
+export { default as SubmitIcon } from './Submit';
 export { default as CloseIcon } from './Close';
 export { default as MenuIcon } from './Menu';
 export { default as HomeIcon } from './Home';

@@ -1,9 +1,16 @@
+// @flow
 import React, { useState, useEffect } from 'react';
+import type { Node } from 'react';
 import PropTypes from 'prop-types';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
+import type { apiResultType } from '__GLOBAL__/Types';
 
-const SimpleSnackbar = props => {
+const SimpleSnackbar = (props: {
+  apiResult: apiResultType,
+  autoHideDuration: number,
+  open: boolean
+}): Node => {
   const [messageOpen, setOpen] = useState(false);
   const { apiResult, autoHideDuration, open } = props;
   let severity;

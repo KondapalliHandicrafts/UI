@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import styles from './styles.css';
 
-const SendIcon = props => {
+const SubmitIcon = props => {
   const { className } = props;
   const classes = styles(props);
   return (
@@ -14,7 +14,7 @@ const SendIcon = props => {
   );
 };
 
-SendIcon.propTypes = { className: PropTypes.string };
-SendIcon.defaultProps = { className: null };
+SubmitIcon.propTypes = { className: PropTypes.string };
+SubmitIcon.defaultProps = { className: null };
 
-export default SendIcon;
+export default SubmitIcon;

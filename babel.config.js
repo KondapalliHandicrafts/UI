@@ -20,7 +20,8 @@ module.exports = api => {
         corejs: '3.0.0'
       }
     ],
-    '@babel/preset-react'
+    '@babel/preset-react',
+    '@babel/preset-flow'
   ];
   const plugins = [
     '@babel/transform-react-constant-elements',

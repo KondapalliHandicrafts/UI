@@ -1,12 +1,14 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
+import type { Node } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import type { selectFieldType } from '__GLOBAL__/Types';
 
-const SelectField = props => {
+const SelectField = (props: selectFieldType): Node => {
   const {
     className,
     required,
@@ -19,11 +21,6 @@ const SelectField = props => {
   } = props;
   const { errors, control } = useFormContext();
   const { validate, ...restRules } = rules;
-
-  const allValidations = {
-    reqired: value => (required ? value !== 'Select' || 'Required' : true),
-    ...validate
-  };
 
   return (
     <Controller
@@ -46,8 +43,8 @@ const SelectField = props => {
             >
               <option value="Select">Select</option>
               {options.map(item => (
-                <option key={item} value={item}>
-                  {item}
+                <option key={item.toString()} value={item}>
+                  {item.toString()}
                 </option>
               ))}
             </Select>
@@ -61,27 +58,20 @@ const SelectField = props => {
       control={control}
       rules={{
         required: { value: required, message: 'Required' },
-        validate: allValidations,
+        validate: {
+          reqired: value =>
+            required ? value !== 'Select' || 'Required' : true,
+          ...validate
+        },
         ...restRules
       }}
     />
   );
 };
 
-SelectField.propTypes = {
-  className: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  options: PropTypes.array.isRequired,
-  required: PropTypes.bool,
-  rules: PropTypes.object,
-  register: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired
-};
-
 SelectField.defaultProps = {
   className: null,
-  rules: {},
+  rules: ({}: any),
   required: false
 };
 

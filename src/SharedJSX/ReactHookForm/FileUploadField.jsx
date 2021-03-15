@@ -1,13 +1,15 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
+import type { Node } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import type { fileUploadType } from '__GLOBAL__/Types';
 import { maxSizeMB } from './_helpers';
 import styles from './styles.css';
 
-const FileUploadField = props => {
+const FileUploadField = (props: fileUploadType): Node => {
   const { required, name, id, rules, multiple, accept, maxSize } = props;
   const { errors, control, trigger } = useFormContext();
   const classes = styles({ ...props, errors });
@@ -67,20 +69,10 @@ const FileUploadField = props => {
   );
 };
 
-FileUploadField.propTypes = {
-  accept: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  rules: PropTypes.object,
-  required: PropTypes.bool,
-  maxSize: PropTypes.number,
-  multiple: PropTypes.bool,
-  name: PropTypes.string.isRequired
-};
-
 FileUploadField.defaultProps = {
   required: false,
   maxSize: 1024 * 1034 * 1, // 1MB
   multiple: false,
-  rules: {}
+  rules: ({}: any)
 };
 export default FileUploadField;

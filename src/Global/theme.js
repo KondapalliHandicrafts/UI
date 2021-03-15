@@ -1,6 +1,7 @@
+// @flow
 import { createMuiTheme } from '@material-ui/core/styles';
 
-const theme = createMuiTheme({
+const theme = (createMuiTheme({
   palette: {
     primary: { main: '#F4A460' },
     secondary: { main: '#FF7F50' },
@@ -21,6 +22,6 @@ const theme = createMuiTheme({
     useNextVariants: true,
     htmlFontSize: 10
   }
-});
+}): any);
 
 export default theme;

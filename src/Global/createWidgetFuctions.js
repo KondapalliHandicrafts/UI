@@ -1,4 +1,5 @@
-const getActionsData = (widgetName, camelCaseName) => {
+// @flow
+const getActionsData = (widgetName: string, camelCaseName: string): string => {
   return `import { createAction } from '__GLOBAL__/redux';
 import { post } from '__GLOBAL__/webAPI';
 import { UNMOUNT, ${widgetName.toUpperCase()}_LOADER } from '../_helpers/constants';
@@ -8,12 +9,12 @@ export const ${camelCaseName}Loader = createAction(${widgetName.toUpperCase()}_L
 `;
 };
 
-const getConstantsData = widgetName => {
+const getConstantsData = (widgetName: string): string => {
   return `export const UNMOUNT = 'UNMOUNT';
 export const ${widgetName.toUpperCase()}_LOADER = '${widgetName.toUpperCase()}_LOADER';
 `;
 };
-const getReducerData = widgetName => {
+const getReducerData = (widgetName: string): string => {
   return `import { PURGE } from 'redux-persist';
 import { createReducer } from '__GLOBAL__/redux';
 import { UNMOUNT, ${widgetName.toUpperCase()}_LOADER } from '../_helpers/constants';
@@ -42,7 +43,7 @@ export default createReducer(defaultState, ${widgetName}Reducer);
 `;
 };
 
-const getAppIndexData = (widgetName, camelCaseName) => {
+const getAppIndexData = (widgetName: string, camelCaseName: string): string => {
   return `import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ${widgetName} from './component';
@@ -59,7 +60,7 @@ export default connect(mapStatetoProps, mapDispatchtoProps)(${widgetName});
 `;
 };
 
-const getReadMeData = widgetName => {
+const getReadMeData = (widgetName: string): string => {
   return `1. Add routing path in /src/Global/constants.js.
   2. Add ${widgetName}Reducer in /src/rootReducer.js.
   3. Create Routing component reference in /src/Routing/App/Component.jsx. Choose publicRoute if pages dont require login otherwise choose privateRoute.
@@ -79,7 +80,7 @@ const getReadMeData = widgetName => {
   `;
 };
 
-const getAppComponentData = widgetName => {
+const getAppComponentData = (widgetName: string): string => {
   return `import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';

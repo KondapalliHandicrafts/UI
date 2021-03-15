@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles(theme => ({
+export default (makeStyles(theme => ({
   fileUploadContainer: {
     border: '1px solid',
     padding: '2rem 1rem',
@@ -17,4 +17,4 @@ export default makeStyles(theme => ({
     width: '100%',
     textAlign: 'center'
   }
-}));
+})): Function);

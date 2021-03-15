@@ -1,0 +1,28 @@
+[ignore]
+<PROJECT_ROOT>/build/.*
+
+[include]
+src/.*
+
+[libs]
+
+[lints]
+
+[untyped]
+<PROJECT_ROOT>/node_modules/.*
+
+[options]
+react.runtime=automatic
+; all=true
+emoji=true
+module.file_ext=.js
+module.file_ext=.jsx
+module.file_ext=.css
+module.file_ext=.css.js
+module.name_mapper.extension='css' -> '{ }'
+module.name_mapper.extension='css.js' -> 'function() { }'
+module.name_mapper='^__SHARED__\/\(.*\)$' -> '<PROJECT_ROOT>/src/SharedJSX/\1'
+module.name_mapper='^__GLOBAL__\/\(.*\)$' -> '<PROJECT_ROOT>/src/Global/\1'
+module.name_mapper='^__ASSETS__\/\(.*\)$' -> '<PROJECT_ROOT>/src/Assets/\1'
+
+[strict]

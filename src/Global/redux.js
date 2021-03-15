@@ -1,4 +1,5 @@
-export function createReducer(initialState, actionHandlers) {
+// @flow
+export function createReducer(initialState: any, actionHandlers: any): any {
   return function reducer(state = initialState, action = {}) {
     // eslint-disable-next-line
     if (actionHandlers.hasOwnProperty(action.type)) {
@@ -8,7 +9,7 @@ export function createReducer(initialState, actionHandlers) {
   };
 }
 
-export function createAction(type, ...argNames) {
+export function createAction(type: string, ...argNames: any): any {
   return (...args) => {
     const action = { type };
     argNames.forEach((arg, index) => {

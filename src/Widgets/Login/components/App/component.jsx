@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -110,6 +111,5 @@ Login.propTypes = {
   history: PropTypes.object.isRequired,
   loginUser: PropTypes.func.isRequired
 };
-Login.defaultProps = {};
 
 export default Login;
