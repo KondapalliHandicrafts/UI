@@ -20,7 +20,7 @@ const styles = makeStyles(() => ({
 }));
 
 const AddCard = props => {
-  const { dataLoaded, addNewCard, addCardLoader } = props;
+  const { dataLoaded, addCardRequest, addCardLoader } = props;
   const { handleSubmit, reset, watch, setValue, ...methods } = useForm({
     mode: 'onTouched',
     defaultValues: {
@@ -37,7 +37,7 @@ const AddCard = props => {
   }, []);
 
   const submitData = data => {
-    addNewCard(data);
+    addCardRequest(data);
     reset();
   };
   return (
@@ -111,7 +111,7 @@ const AddCard = props => {
 
 AddCard.propTypes = {
   addCardLoader: PropTypes.func.isRequired,
-  addNewCard: PropTypes.func.isRequired,
+  addCardRequest: PropTypes.func.isRequired,
   dataLoaded: PropTypes.bool.isRequired
 };
 AddCard.defaultProps = {};

@@ -55,6 +55,7 @@ const TextFieldKH = props => {
         );
       }}
       name={name}
+      defaultValue=""
       control={control}
       rules={{
         required: { value: required, message: 'Required' },

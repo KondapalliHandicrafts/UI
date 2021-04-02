@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as addCardAction from '__SRC__/actions';
 import AddCard from './component';
-import * as addCardAction from '../../actions/addCardActions';
 
 const mapStatetoProps = state => ({
   ...state.addCardReducer

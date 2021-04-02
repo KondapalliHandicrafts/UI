@@ -31,8 +31,8 @@ const styles = makeStyles(() => ({
 const ResetPassword = props => {
   const {
     dataLoaded,
-    checkResetID,
-    resetPassword,
+    verifyResetID,
+    resetPasswordRequest,
     userdata,
     showSuccessMessage
   } = props;
@@ -42,21 +42,21 @@ const ResetPassword = props => {
     defaultValues: {
       password: '',
       confirmPassword: '',
-      securityAnswer1: '',
-      securityAnswer2: '',
-      securityQuestion1: '',
-      securityQuestion2: ''
+      secAns1: '',
+      secAns2: '',
+      secQue1: '',
+      secQue2: ''
     }
   });
 
   useEffect(() => {
-    checkResetID(id);
+    verifyResetID(id);
   }, [id]);
 
   useEffect(() => {
     if (userdata) {
-      setValue('securityQuestion1', userdata.secQue1);
-      setValue('securityQuestion2', userdata.secQue2);
+      setValue('secQue1', userdata.secQue1);
+      setValue('secQue2', userdata.secQue2);
     }
   }, [userdata]);
 
@@ -82,7 +82,9 @@ const ResetPassword = props => {
               <Grid
                 className={classes.resetWrap}
                 component="form"
-                onSubmit={handleSubmit(values => resetPassword(values, id))}
+                onSubmit={handleSubmit(values =>
+                  resetPasswordRequest(values, id)
+                )}
                 container
                 spacing={2}
               >
@@ -113,14 +115,14 @@ const ResetPassword = props => {
                 </Grid>
                 <Grid item xs={12}>
                   <SelectField
-                    name="securityQuestion1"
+                    name="secQue1"
                     label="Security Question 1"
                     id="secques1"
                     disabled
                     rules={{
                       validate: {
                         different: value =>
-                          watch('securityQuestion2') !== value ||
+                          watch('secQue2') !== value ||
                           'Question already selected'
                       }
                     }}
@@ -131,21 +133,21 @@ const ResetPassword = props => {
                 <Grid item xs={12}>
                   <TextField
                     label="Security Answer 1"
-                    name="securityAnswer1"
+                    name="secAns1"
                     id="secans1"
                     required
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <SelectField
-                    name="securityQuestion2"
+                    name="secQue2"
                     label="Security Question 2"
                     disabled
                     id="secques2"
                     rules={{
                       validate: {
                         different: value =>
-                          watch('securityQuestion1') !== value ||
+                          watch('secQue1') !== value ||
                           'Question already selected'
                       }
                     }}
@@ -156,7 +158,7 @@ const ResetPassword = props => {
                 <Grid item xs={12}>
                   <TextField
                     label="Security Answer 2"
-                    name="securityAnswer2"
+                    name="secAns2"
                     id="secans2"
                     required
                   />
@@ -165,7 +167,9 @@ const ResetPassword = props => {
                   <Button
                     startIcon={<SubmitIcon />}
                     type="submit"
-                    onClick={handleSubmit(values => resetPassword(values, id))}
+                    onClick={handleSubmit(values =>
+                      resetPasswordRequest(values, id)
+                    )}
                   >
                     Submit
                   </Button>
@@ -182,9 +186,9 @@ const ResetPassword = props => {
 };
 
 ResetPassword.propTypes = {
-  checkResetID: PropTypes.func.isRequired,
+  verifyResetID: PropTypes.func.isRequired,
   dataLoaded: PropTypes.bool.isRequired,
-  resetPassword: PropTypes.func.isRequired,
+  resetPasswordRequest: PropTypes.func.isRequired,
   showSuccessMessage: PropTypes.bool.isRequired,
   userdata: PropTypes.object.isRequired
 };

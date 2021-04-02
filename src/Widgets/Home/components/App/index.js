@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as homeAction from '__SRC__/actions';
 import Home from './component';
-import * as homeAction from '../../actions/homeActions';
 
 const mapStatetoProps = state => ({
   ...state.homeReducer,

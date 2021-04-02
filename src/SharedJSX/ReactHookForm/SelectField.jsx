@@ -58,6 +58,7 @@ const SelectField = props => {
         );
       }}
       name={name}
+      defaultValue="Select"
       control={control}
       rules={{
         required: { value: required, message: 'Required' },

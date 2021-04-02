@@ -2,12 +2,10 @@ const path = require('path');
 const fs = require('fs');
 const prompt = require('prompt');
 const {
-  getActionsData,
   getReducerData,
   getAppIndexData,
   getReadMeData,
-  getAppComponentData,
-  getConstantsData
+  getAppComponentData
 } = require('./Global/createWidgetFuctions');
 
 const createWidget = widgetName => {
@@ -18,25 +16,14 @@ const createWidget = widgetName => {
       camelCaseWidgetName = word.replace(word[0], word[0].toLowerCase());
     else camelCaseWidgetName += word.replace(word[0], word[0].toUpperCase());
   });
-  const widgetPath = path.resolve(__dirname, './widget/', widgetName);
-  const helpersPath = path.resolve(`${widgetPath}/_helpers`);
-  const actionsPath = path.resolve(`${widgetPath}/actions`);
+  const widgetPath = path.resolve(__dirname, './Widgets/', widgetName);
   const reducerPath = path.resolve(`${widgetPath}/reducer`);
   const appPath = path.resolve(`${widgetPath}/components/App`);
 
   fs.mkdir(widgetPath, () => {
-    fs.writeFileSync(`${widgetPath}/README.md`, getReadMeData(widgetName));
-  });
-  fs.mkdir(helpersPath, { recursive: true }, () => {
     fs.writeFileSync(
-      `${helpersPath}/constants.js`,
-      getConstantsData(widgetName)
-    );
-  });
-  fs.mkdir(actionsPath, { recursive: true }, () => {
-    fs.writeFileSync(
-      `${actionsPath}/${camelCaseWidgetName}Actions.js`,
-      getActionsData(widgetName, camelCaseWidgetName)
+      `${widgetPath}/README.md`,
+      getReadMeData(widgetName, camelCaseWidgetName)
     );
   });
   fs.mkdir(reducerPath, { recursive: true }, () => {

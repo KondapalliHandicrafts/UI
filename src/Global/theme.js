@@ -12,14 +12,16 @@ const theme = createMuiTheme({
     transparent: 'transparent',
     black5: 'rgba(0, 0, 0, 0.5)',
     black2: 'rgba(0, 0, 0, 0.2)',
+    success: '#4caf50',
     error: '#BA0C2F',
+    favourite: '#ff4343',
     buttonColor: '#F4A460',
     buttonColor2: '#DEB887',
     textColor: '#505050'
   },
   typography: {
-    useNextVariants: true,
-    htmlFontSize: 10
+    // useNextVariants: true
+    // htmlFontSize: 10
   }
 });
 

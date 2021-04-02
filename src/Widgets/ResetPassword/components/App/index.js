@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as resetPasswordAction from '__SRC__/actions';
 import ResetPassword from './component';
-import * as resetPasswordAction from '../../actions/resetPasswordActions';
 
 const mapStatetoProps = state => ({
   ...state.resetPasswordReducer

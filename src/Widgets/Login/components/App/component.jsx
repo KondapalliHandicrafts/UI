@@ -35,7 +35,7 @@ const styles = makeStyles(() => ({
 }));
 
 const Login = props => {
-  const { dataLoaded, loginUser, history } = props;
+  const { dataLoaded, loginRequest, history } = props;
   const { handleSubmit, ...methods } = useForm({
     mode: 'onTouched',
     defaultValues: {
@@ -54,7 +54,7 @@ const Login = props => {
             <Grid
               className={classes.loginWrap}
               component="form"
-              onSubmit={handleSubmit(loginUser)}
+              onSubmit={handleSubmit(loginRequest)}
               container
               spacing={2}
             >
@@ -86,7 +86,7 @@ const Login = props => {
                   startIcon={<LoginIcon />}
                   className={classes.loginBtn}
                   type="submit"
-                  onClick={handleSubmit(loginUser)}
+                  onClick={handleSubmit(loginRequest)}
                 >
                   Login
                 </Button>
@@ -108,7 +108,7 @@ const Login = props => {
 Login.propTypes = {
   dataLoaded: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired,
-  loginUser: PropTypes.func.isRequired
+  loginRequest: PropTypes.func.isRequired
 };
 Login.defaultProps = {};
 

@@ -5,17 +5,25 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Divider from '@material-ui/core/Divider';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import IconButton from '__SHARED__/IconButton';
+import Avatar from '__SHARED__/Avatar';
 import {
   MenuIcon,
   SearchIcon,
+  HeartIcon,
   ProfileIcon,
   KeyIcon,
+  HomeIcon,
   LogoutIcon,
   LoginIcon
 } from '__SHARED__/SVG';
@@ -24,6 +32,9 @@ import Button from '__SHARED__/Button';
 const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1
+  },
+  logo: {
+    marginLeft: '1rem'
   },
   list: {
     width: 250
@@ -53,6 +64,15 @@ const useStyles = makeStyles(theme => ({
       display: 'flex'
     }
   },
+  itemWrap: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  menuIcon: {
+    marginLeft: '1rem',
+    marginRight: '1rem'
+  },
   sectionMobile: {
     display: 'flex',
     marginLeft: 'auto',
@@ -80,7 +100,7 @@ ElevationScroll.propTypes = {
 
 export default function ElevateAppBar(props) {
   const classes = useStyles();
-  const { isLoggedIn, logout } = props;
+  const { isLoggedIn, logoutRequest } = props;
   const history = useHistory();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -88,7 +108,7 @@ export default function ElevateAppBar(props) {
 
   useEffect(() => {}, [history.location.pathname]);
 
-  const toggleDrawer = open => event => {
+  const toggleDrawer = (event, open) => {
     if (
       event.type === 'keydown' &&
       (event.key === 'Tab' || event.key === 'Shift')
@@ -104,6 +124,27 @@ export default function ElevateAppBar(props) {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const headerMenu = [
+    {
+      id: 1,
+      displayName: 'Profile',
+      path: '/profile',
+      icon: <ProfileIcon className={classes.menuIcon} />
+    },
+    {
+      id: 2,
+      displayName: 'My Wishlist',
+      path: '/myWishlist',
+      icon: <HeartIcon className={classes.menuIcon} />
+    },
+    {
+      id: 3,
+      displayName: 'Change Password',
+      path: '/changePassword',
+      icon: <KeyIcon className={classes.menuIcon} />
+    }
+  ];
 
   const renderMenu = (
     <Menu
@@ -121,19 +162,26 @@ export default function ElevateAppBar(props) {
       open={Boolean(anchorEl)}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
-        Profile <ProfileIcon />
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        Change Password <KeyIcon />
-      </MenuItem>
+      {headerMenu.map(item => (
+        <MenuItem
+          key={item.id}
+          className={classes.itemWrap}
+          onClick={() => {
+            history.push(item.path);
+            handleMenuClose();
+          }}
+        >
+          {item.displayName} {item.icon}
+        </MenuItem>
+      ))}
       <MenuItem
+        className={classes.itemWrap}
         onClick={() => {
-          logout(history);
+          logoutRequest(history);
           handleMenuClose();
         }}
       >
-        Logout <LogoutIcon />
+        Logout <LogoutIcon className={classes.menuIcon} />
       </MenuItem>
     </Menu>
   );
@@ -142,11 +190,15 @@ export default function ElevateAppBar(props) {
     <React.Fragment>
       <ElevationScroll {...props}>
         <AppBar color="secondary">
-          <Toolbar disableGutters>
+          <Toolbar variant="dense" disableGutters>
             {isLoggedIn && (
-              <IconButton onClick={toggleDrawer(true)} icon={<MenuIcon />} />
+              <IconButton
+                className={classes.menuIcon}
+                onClick={e => toggleDrawer(e, true)}
+                icon={<MenuIcon />}
+              />
             )}
-            <Typography variant="h6" component="h6">
+            <Typography className={classes.logo} variant="h6" component="h6">
               Kondapalli Handicafts
             </Typography>
             {history.location.pathname.includes('/home') && (
@@ -175,21 +227,48 @@ export default function ElevateAppBar(props) {
               <IconButton
                 className={classes.loginBtn}
                 onClick={handleProfileMenuOpen}
-                icon={<ProfileIcon />}
+                icon={
+                  <Avatar>
+                    <ProfileIcon />
+                  </Avatar>
+                }
               />
             )}
           </Toolbar>
         </AppBar>
       </ElevationScroll>
       <SwipeableDrawer
+        PaperProps={{ className: classes.paper }}
         open={drawerOpen}
-        anchor="left"
         disableBackdropTransition={!iOS}
         disableDiscovery={iOS}
-        onClose={toggleDrawer(false)}
-        onOpen={toggleDrawer(true)}
+        onClose={e => toggleDrawer(e, false)}
+        onOpen={e => toggleDrawer(e, true)}
       >
-        Testing
+        <Typography className={classes.logo} variant="h6" component="h6">
+          Kondapalli Handicafts
+        </Typography>
+        <Divider />
+        <List>
+          {[
+            { icon: <HomeIcon />, text: 'Home', path: '/home' },
+            { icon: <KeyIcon />, text: 'Starred' },
+            { icon: <KeyIcon />, text: 'Send email' },
+            { icon: <KeyIcon />, text: 'Drafts' }
+          ].map(item => (
+            <ListItem
+              button
+              key={item.text}
+              onClick={e => {
+                history.push(item.path);
+                toggleDrawer(e, false);
+              }}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItem>
+          ))}
+        </List>
       </SwipeableDrawer>
       {renderMenu}
     </React.Fragment>
@@ -198,5 +277,5 @@ export default function ElevateAppBar(props) {
 
 ElevateAppBar.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
-  logout: PropTypes.func.isRequired
+  logoutRequest: PropTypes.func.isRequired
 };

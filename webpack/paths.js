@@ -7,6 +7,7 @@ module.exports = {
   templatePath: path.resolve(__dirname, '../', 'src/index.html'),
   globalPath: path.resolve(__dirname, '../', 'src/Global'),
   sharedPath: path.resolve(__dirname, '../', 'src/SharedJSX'),
+  srcPath: path.resolve(__dirname, '../', 'src'),
   assetsPath: path.resolve(__dirname, '../', 'src/Assets'),
   widgetsPath: path.resolve(__dirname, '../', 'src/Widgets'),
   faviconPath: path.resolve(__dirname, '../', 'src/Assets/Images/favicon.ico'),

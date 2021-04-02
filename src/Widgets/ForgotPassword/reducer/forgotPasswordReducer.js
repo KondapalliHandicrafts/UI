@@ -4,7 +4,7 @@ import {
   UNMOUNT,
   FORGOTPASSWORD_LOADER,
   FORGOTPASSWORD_SUCCESS
-} from '../_helpers/constants';
+} from '__GLOBAL__/constants';
 
 const defaultState = {
   data: [],

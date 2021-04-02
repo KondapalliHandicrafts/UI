@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Paper from '__SHARED__/Paper';
 import { useForm, FormProvider } from 'react-hook-form';
 import { securityQuestions } from '__GLOBAL__/constants';
@@ -35,7 +36,7 @@ const styles = makeStyles(() => ({
 }));
 
 const Register = props => {
-  const { dataLoaded, registerUser } = props;
+  const { dataLoaded, registerUserRequest } = props;
   const { handleSubmit, watch, ...methods } = useForm({
     mode: 'onTouched',
     defaultValues: {
@@ -43,24 +44,24 @@ const Register = props => {
       password: '',
       confirmPassword: '',
       email: '',
-      securityAnswer1: '',
-      securityAnswer2: '',
-      securityQuestion1: '',
-      securityQuestion2: ''
+      secAns1: '',
+      secAns2: '',
+      secQue1: '',
+      secQue2: ''
     }
   });
 
   const classes = styles(props);
   return (
     <React.Fragment>
-      <Loading open={dataLoaded} />
+      <Loading open={!dataLoaded} />
       <Grid className={classes.container}>
         <Paper elevation={4}>
           <FormProvider {...methods}>
             <Grid
               className={classes.registerWrap}
               component="form"
-              onSubmit={handleSubmit(registerUser)}
+              onSubmit={handleSubmit(registerUserRequest)}
               container
               spacing={2}
             >
@@ -80,7 +81,7 @@ const Register = props => {
                   required
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <TextField
                   label="Username"
                   name="username"
@@ -88,9 +89,28 @@ const Register = props => {
                   required
                 />
               </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  label="Mobile"
+                  name="mobile"
+                  id="mobile"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">+91 </InputAdornment>
+                    )
+                  }}
+                  rules={{
+                    validate: {
+                      maxLength: value =>
+                        value.length === 10 || 'Provide valid mobile number'
+                    }
+                  }}
+                  required
+                />
+              </Grid>
               <Grid item xs={12}>
                 <TextField
-                  label="email"
+                  label="Email"
                   name="email"
                   id="email"
                   type="email"
@@ -123,13 +143,13 @@ const Register = props => {
               </Grid>
               <Grid item xs={12}>
                 <SelectField
-                  name="securityQuestion1"
+                  name="secQue1"
                   label="Security Question 1"
                   id="secques1"
                   rules={{
                     validate: {
                       different: value =>
-                        watch('securityQuestion2') !== value ||
+                        watch('secQue2') !== value ||
                         'Question already selected'
                     }
                   }}
@@ -140,20 +160,20 @@ const Register = props => {
               <Grid item xs={12}>
                 <TextField
                   label="Security Answer 1"
-                  name="securityAnswer1"
+                  name="secAns1"
                   id="secans1"
                   required
                 />
               </Grid>
               <Grid item xs={12}>
                 <SelectField
-                  name="securityQuestion2"
+                  name="secQue2"
                   label="Security Question 2"
                   id="secques2"
                   rules={{
                     validate: {
                       different: value =>
-                        watch('securityQuestion1') !== value ||
+                        watch('secQue1') !== value ||
                         'Question already selected'
                     }
                   }}
@@ -164,7 +184,7 @@ const Register = props => {
               <Grid item xs={12}>
                 <TextField
                   label="Security Answer 2"
-                  name="securityAnswer2"
+                  name="secAns2"
                   id="secans2"
                   required
                 />
@@ -178,7 +198,7 @@ const Register = props => {
                   startIcon={<SubmitIcon />}
                   className={classes.signupBtn}
                   type="submit"
-                  onClick={handleSubmit(registerUser)}
+                  onClick={handleSubmit(registerUserRequest)}
                 >
                   Signup
                 </Button>
@@ -193,7 +213,7 @@ const Register = props => {
 
 Register.propTypes = {
   dataLoaded: PropTypes.bool.isRequired,
-  registerUser: PropTypes.func.isRequired
+  registerUserRequest: PropTypes.func.isRequired
 };
 Register.defaultProps = {};
 

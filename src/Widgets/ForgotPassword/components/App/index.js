@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as forgotPasswordAction from '__SRC__/actions';
 import ForgotPassword from './component';
-import * as forgotPasswordAction from '../../actions/forgotPasswordActions';
 
 const mapStatetoProps = state => ({
   ...state.forgotPasswordReducer

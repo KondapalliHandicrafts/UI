@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as registerAction from '__SRC__/actions';
 import Register from './component';
-import * as registerAction from '../../actions/registerActions';
 
 const mapStatetoProps = state => ({
   ...state.registerReducer

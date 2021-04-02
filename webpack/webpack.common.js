@@ -45,7 +45,8 @@ module.exports = env => {
         __GLOBAL__: commonPaths.globalPath,
         __SHARED__: commonPaths.sharedPath,
         __ASSETS__: commonPaths.assetsPath,
-        __WIDGETS__: commonPaths.widgetsPath
+        __WIDGETS__: commonPaths.widgetsPath,
+        __SRC__: commonPaths.srcPath
       }
     },
     plugins: [

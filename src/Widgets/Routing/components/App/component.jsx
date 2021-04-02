@@ -10,15 +10,20 @@ import Header from './Header';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 
-const HomePage = lazy(() => import('../../../Home/components/App'));
-const LoginPage = lazy(() => import('../../../Login/components/App'));
-const AddCard = lazy(() => import('../../../AddCard/components/App'));
-const Register = lazy(() => import('../../../Register/components/App'));
+const HomePage = lazy(() => import('__WIDGETS__/Home/components/App'));
+const LoginPage = lazy(() => import('__WIDGETS__/Login/components/App'));
+const AddCard = lazy(() => import('__WIDGETS__/AddCard/components/App'));
+const Register = lazy(() => import('__WIDGETS__/Register/components/App'));
+const Profile = lazy(() => import('__WIDGETS__/Profile/components/App'));
+const Wishlist = lazy(() => import('__WIDGETS__/Wishlist/components/App'));
+const ChangePassword = lazy(() =>
+  import('__WIDGETS__/ChangePassword/components/App')
+);
 const ForgotPassword = lazy(() =>
-  import('../../../ForgotPassword/components/App')
+  import('__WIDGETS__/ForgotPassword/components/App')
 );
 const ResetPassword = lazy(() =>
-  import('../../../ResetPassword/components/App')
+  import('__WIDGETS__/ResetPassword/components/App')
 );
 
 const routing = props => {
@@ -50,6 +55,21 @@ const routing = props => {
           <PrivateRoute
             path="/addCard"
             component={AddCard}
+            isLoggedIn={isLoggedIn}
+          />
+          <PrivateRoute
+            path="/myWishlist"
+            component={Wishlist}
+            isLoggedIn={isLoggedIn}
+          />
+          <PrivateRoute
+            path="/changePassword"
+            component={ChangePassword}
+            isLoggedIn={isLoggedIn}
+          />
+          <PrivateRoute
+            path="/profile"
+            component={Profile}
             isLoggedIn={isLoggedIn}
           />
           <PublicRoute

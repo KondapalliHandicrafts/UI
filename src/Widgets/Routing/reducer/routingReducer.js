@@ -1,6 +1,6 @@
 import { PURGE } from 'redux-persist';
 import { createReducer } from '__GLOBAL__/redux';
-import { UNMOUNT } from '../_helpers/constants';
+import { UNMOUNT } from '__GLOBAL__/constants';
 
 const defaultState = {
   data: [],

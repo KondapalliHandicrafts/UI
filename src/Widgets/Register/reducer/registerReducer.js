@@ -1,10 +1,10 @@
 import { PURGE } from 'redux-persist';
 import { createReducer } from '__GLOBAL__/redux';
-import { UNMOUNT, REGISTER_LOADER } from '../_helpers/constants';
+import { UNMOUNT, REGISTER_LOADER } from '__GLOBAL__/constants';
 
 const defaultState = {
   data: [],
-  dataLoaded: false
+  dataLoaded: true
 };
 
 const registerReducer = {

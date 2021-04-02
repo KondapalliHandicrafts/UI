@@ -26,7 +26,7 @@ const styles = makeStyles(() => ({
 }));
 
 const ForgotPassword = props => {
-  const { dataLoaded, forgotPassword, message } = props;
+  const { dataLoaded, forgotPasswordRequest, message } = props;
   const classes = styles(props);
   const { handleSubmit, ...methods } = useForm({
     mode: 'onTouched',
@@ -55,7 +55,7 @@ const ForgotPassword = props => {
                   <Button
                     startIcon={<SubmitIcon />}
                     type="submit"
-                    onClick={handleSubmit(forgotPassword)}
+                    onClick={handleSubmit(forgotPasswordRequest)}
                   >
                     Submit
                   </Button>
@@ -72,7 +72,7 @@ const ForgotPassword = props => {
 ForgotPassword.propTypes = {
   dataLoaded: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired,
-  forgotPassword: PropTypes.func.isRequired
+  forgotPasswordRequest: PropTypes.func.isRequired
 };
 ForgotPassword.defaultProps = {};
 

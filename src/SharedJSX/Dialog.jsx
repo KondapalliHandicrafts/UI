@@ -7,8 +7,9 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
-import { CloseIcon } from '__ASSETS__/SVG';
+import { CloseIcon } from './SVG';
 import IconButton from './IconButton';
+import ActionButtons from './ActionButtons';
 
 const customTitleStyles = makeStyles(theme => ({
   root: {
@@ -97,7 +98,9 @@ const DialogKH = props => {
         {title}
       </DialogTitleCustom>
       <DialogContent>{children}</DialogContent>
-      <DialogActions>{buttons && buttons.map(item => item)}</DialogActions>
+      <DialogActions>
+        <ActionButtons buttons={buttons} />
+      </DialogActions>
     </Dialog>
   );
 };

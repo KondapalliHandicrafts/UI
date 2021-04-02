@@ -5,7 +5,7 @@ import {
   RESETPASSWORD_LOADER,
   RESETPASSWORD_SUCCESS,
   RESETID_SUCCESS
-} from '../_helpers/constants';
+} from '__GLOBAL__/constants';
 
 const defaultState = {
   data: [],

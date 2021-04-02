@@ -21,6 +21,8 @@ module.exports = {
   root: true,
   rules: {
     indent: ['error', 2],
+    'no-underscore-dangle': 'allow',
+    'import/no-cycle': [2, { maxDepth: 1 }],
     'react/prefer-stateless-function': 'warn',
     'react/self-closing-comp': [
       'warn',

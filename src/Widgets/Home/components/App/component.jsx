@@ -25,7 +25,7 @@ const Home = props => {
       <Loading open={!dataLoaded} />
       <Grid container className={classes.container} spacing={2}>
         {data.map(item => (
-          <Card {...props} item={item} key={item.id} />
+          <Card {...props} item={item} key={item._id} />
         ))}
       </Grid>
     </React.Fragment>

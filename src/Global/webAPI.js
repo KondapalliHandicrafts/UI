@@ -20,7 +20,7 @@ export const renderAPIResult = (apiPostResult, status) => {
   return apiPostResult;
 };
 
-export const post = ({ url, inputs, showSnack, headers }) =>
+export const postCall = ({ url, inputs, showSnack, headers }) =>
   axiosAPI
     .post(url, inputs, {
       headers: {
@@ -40,7 +40,7 @@ export const post = ({ url, inputs, showSnack, headers }) =>
       return err.response.data;
     });
 
-export const get = ({ url, headers }) =>
+export const getCall = ({ url, headers }) =>
   axiosAPI
     .get(url, {
       headers: {
@@ -51,6 +51,46 @@ export const get = ({ url, headers }) =>
     .then(res => res.data)
     .catch(err => {
       throw new Error(err);
+    });
+
+export const deleteCall = ({ url, showSnack = true, headers }) =>
+  axiosAPI
+    .delete(url, {
+      headers: {
+        Authorization: store.getState().loginReducer.token,
+        ...headers
+      }
+    })
+    .then(res => {
+      if (showSnack) return renderAPIResult(res.data, res.status);
+      return res.data;
+    })
+    .catch(err => {
+      if (err.response) {
+        renderAPIResult(err.response.data, err.response.status);
+        throw new Error(err);
+      }
+      return err.response.data;
+    });
+
+export const putCall = ({ url, inputs, showSnack = true, headers }) =>
+  axiosAPI
+    .put(url, inputs, {
+      headers: {
+        Authorization: store.getState().loginReducer.token,
+        ...headers
+      }
+    })
+    .then(res => {
+      if (showSnack) return renderAPIResult(res.data, res.status);
+      return res.data;
+    })
+    .catch(err => {
+      if (err.response) {
+        renderAPIResult(err.response.data, err.response.status);
+        throw new Error(err);
+      }
+      return err.response.data;
     });
 
 export default axiosAPI;
