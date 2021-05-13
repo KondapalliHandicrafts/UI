@@ -56,8 +56,8 @@ module.exports = env => {
         // favicon: commonPaths.faviconPath
       }),
       new webpack.DefinePlugin({
-        NODE_ENV: JSON.stringify(env.NODE_ENV),
-        API_URL: JSON.stringify(env.API_URL)
+        'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
+        'process.env.API_URL': JSON.stringify(env.API_URL)
       }),
       new ScriptExtHtmlWebpackPlugin({
         defaultAttribute: 'async'
