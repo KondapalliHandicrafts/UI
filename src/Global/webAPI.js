@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
@@ -8,8 +9,8 @@ import { store } from '../store';
 
 const axiosAPI = axios.create({
   baseURL:
-    process.env.NODE_ENV === 'production' ||
-    (process.env.NODE_ENV === 'development' && process.env.API_URL === 'prod')
+    NODE_ENV === 'production' ||
+    (NODE_ENV === 'development' && API_URL === 'prod')
       ? 'https://kondapalli-handicrafts.herokuapp.com/'
       : 'http://localhost:3000'
 });
