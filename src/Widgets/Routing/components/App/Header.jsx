@@ -104,7 +104,9 @@ export default function ElevateAppBar(props) {
   const { isLoggedIn, logoutRequest, isAdmin } = props;
   const history = useHistory();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const iOS =
+    typeof window === 'undefined' &&
+    /iPad|iPhone|iPod/.test(navigator.userAgent);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   useEffect(() => {}, [history.location.pathname]);
