@@ -61,7 +61,7 @@ const CardKH = props => {
       </CardActionArea>
       <CardContent className={classes.cardContent}>
         {title && (
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h6" component="h2">
             {title}
           </Typography>
         )}

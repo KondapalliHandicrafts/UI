@@ -25,10 +25,10 @@ import {
   KeyIcon,
   HomeIcon,
   DashboardIcon,
-  LogoutIcon,
-  LoginIcon
+  LogoutIcon
+  // LoginIcon
 } from '__SHARED__/SVG';
-import Button from '__SHARED__/Button';
+// import Button from '__SHARED__/Button';
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -215,7 +215,7 @@ export default function ElevateAppBar(props) {
                 />
               </div>
             )}
-            {!isLoggedIn && history.location.pathname !== '/login' && (
+            {/* {!isLoggedIn && history.location.pathname !== '/login' && (
               <Button
                 startIcon={<LoginIcon />}
                 className={classes.loginBtn}
@@ -223,7 +223,7 @@ export default function ElevateAppBar(props) {
               >
                 Login
               </Button>
-            )}
+            )} */}
             {isLoggedIn && (
               <IconButton
                 className={classes.loginBtn}

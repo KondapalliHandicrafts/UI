@@ -7,29 +7,29 @@ import {
 } from 'react-router-dom';
 import Loading from '__SHARED__/Loading';
 import Header from './Header';
-import PrivateRoute from './PrivateRoute';
-import PublicRoute from './PublicRoute';
+// import PrivateRoute from './PrivateRoute';
+// import PublicRoute from './PublicRoute';
 
 const HomePage = lazy(() => import('__WIDGETS__/Home/components/App'));
-const LoginPage = lazy(() => import('__WIDGETS__/Login/components/App'));
-const AdminDashboard = lazy(() =>
-  import('__WIDGETS__/AdminDashboard/components/App')
-);
-const Register = lazy(() => import('__WIDGETS__/Register/components/App'));
-const Profile = lazy(() => import('__WIDGETS__/Profile/components/App'));
-const Wishlist = lazy(() => import('__WIDGETS__/Wishlist/components/App'));
-const ChangePassword = lazy(() =>
-  import('__WIDGETS__/ChangePassword/components/App')
-);
-const ForgotPassword = lazy(() =>
-  import('__WIDGETS__/ForgotPassword/components/App')
-);
-const ResetPassword = lazy(() =>
-  import('__WIDGETS__/ResetPassword/components/App')
-);
+// const LoginPage = lazy(() => import('__WIDGETS__/Login/components/App'));
+// const AdminDashboard = lazy(() =>
+//   import('__WIDGETS__/AdminDashboard/components/App')
+// );
+// const Register = lazy(() => import('__WIDGETS__/Register/components/App'));
+// const Profile = lazy(() => import('__WIDGETS__/Profile/components/App'));
+// const Wishlist = lazy(() => import('__WIDGETS__/Wishlist/components/App'));
+// const ChangePassword = lazy(() =>
+//   import('__WIDGETS__/ChangePassword/components/App')
+// );
+// const ForgotPassword = lazy(() =>
+//   import('__WIDGETS__/ForgotPassword/components/App')
+// );
+// const ResetPassword = lazy(() =>
+//   import('__WIDGETS__/ResetPassword/components/App')
+// );
 
 const routing = props => {
-  const { isLoggedIn } = props;
+  // const { isLoggedIn } = props;
   return (
     <Router>
       <Suspense fallback={<Loading open />}>
@@ -39,7 +39,7 @@ const routing = props => {
             <Redirect to="/home" />
           </Route>
           <Route path="/home" component={HomePage} />
-          <PublicRoute
+          {/* <PublicRoute
             path="/login"
             component={LoginPage}
             isLoggedIn={isLoggedIn}
@@ -78,7 +78,7 @@ const routing = props => {
             path="/signup"
             component={Register}
             isLoggedIn={isLoggedIn}
-          />
+          /> */}
         </Switch>
       </Suspense>
     </Router>
