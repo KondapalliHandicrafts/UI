@@ -9,6 +9,7 @@ import Button from '__SHARED__/Button';
 import IconButton from '__SHARED__/IconButton';
 import RouteLink from '__SHARED__/RouteLink';
 import { AddCartIcon, DeleteIcon } from '__SHARED__/SVG';
+import { imageLoader } from '__GLOBAL__/helpers';
 
 const styles = makeStyles(() => ({
   container: {
@@ -53,7 +54,7 @@ const Wishlist = props => {
           </Grid>
         )}
         {data.map(card => (
-          <Grid key={card._id} item xs={12} sm={6}>
+          <Grid key={card._id} item xs={12} md={6}>
             <Card
               className={classes.card}
               isActionsArea
@@ -62,7 +63,8 @@ const Wishlist = props => {
               imageProps={{
                 alt: card.title,
                 width: '250px',
-                imageURL: `data:image/webp;base64,${card.filedata}`
+                height: 'auto',
+                imageURL: imageLoader(card.filename)
               }}
               buttons={[
                 <Button key={1} startIcon={<AddCartIcon />} onClick={() => {}}>

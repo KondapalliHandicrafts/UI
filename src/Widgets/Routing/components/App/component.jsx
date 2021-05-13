@@ -12,7 +12,9 @@ import PublicRoute from './PublicRoute';
 
 const HomePage = lazy(() => import('__WIDGETS__/Home/components/App'));
 const LoginPage = lazy(() => import('__WIDGETS__/Login/components/App'));
-const AddCard = lazy(() => import('__WIDGETS__/AddCard/components/App'));
+const AdminDashboard = lazy(() =>
+  import('__WIDGETS__/AdminDashboard/components/App')
+);
 const Register = lazy(() => import('__WIDGETS__/Register/components/App'));
 const Profile = lazy(() => import('__WIDGETS__/Profile/components/App'));
 const Wishlist = lazy(() => import('__WIDGETS__/Wishlist/components/App'));
@@ -53,8 +55,8 @@ const routing = props => {
             isLoggedIn={isLoggedIn}
           />
           <PrivateRoute
-            path="/addCard"
-            component={AddCard}
+            path="/adminDashboard"
+            component={AdminDashboard}
             isLoggedIn={isLoggedIn}
           />
           <PrivateRoute

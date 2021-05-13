@@ -17,7 +17,8 @@ const theme = createMuiTheme({
     favourite: '#ff4343',
     buttonColor: '#F4A460',
     buttonColor2: '#DEB887',
-    textColor: '#505050'
+    textColor: '#505050',
+    tableBackgroundGray: 'rgba(0, 0, 0, 0.04);'
   },
   typography: {
     // useNextVariants: true

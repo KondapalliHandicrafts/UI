@@ -9,6 +9,8 @@ import {
   VERIFY_RESETID_REQUEST,
   RESET_PASSWORD_REQUEST,
   ADD_CARD_REQUEST,
+  EDIT_CARD_REQUEST,
+  DELETE_CARD_REQUEST,
   CHANGE_PASSWORD_REQUEST,
   USER_DETAILS_REQUEST,
   ADD_WISHLIST_REQUEST,
@@ -37,6 +39,8 @@ import {
   addAddress,
   deleteAddress,
   getUserDetails,
+  editCard,
+  deleteCard,
   defaultAddress
 } from './ApiCalls';
 
@@ -49,6 +53,7 @@ export function* publicRouteSaga() {
   yield takeEvery(VERIFY_RESETID_REQUEST, checkResetID);
   yield takeEvery(RESET_PASSWORD_REQUEST, resetPassword);
   yield takeEvery(ADD_CARD_REQUEST, addNewCard);
+  yield takeEvery(EDIT_CARD_REQUEST, editCard);
   yield takeEvery(CHANGE_PASSWORD_REQUEST, changePassword);
   yield takeEvery(USER_DETAILS_REQUEST, getUserDetails);
   yield takeEvery(CURRENT_PASSWORD_REQUEST, checkCurrentPassword);
@@ -59,6 +64,7 @@ export function* publicRouteSaga() {
   yield takeEvery(DEFAULT_ADDRESS_REQUEST, defaultAddress);
   yield takeEvery(ADD_WISHLIST_REQUEST, addWishlist);
   yield takeEvery(WISHLIST_REQUEST, getWishlist);
+  yield takeEvery(DELETE_CARD_REQUEST, deleteCard);
 }
 
 export default function* rootSaga() {

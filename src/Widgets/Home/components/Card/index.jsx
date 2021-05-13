@@ -8,6 +8,7 @@ import { HeartIcon, AddCartIcon } from '__SHARED__/SVG';
 import Button from '__SHARED__/Button';
 import Card from '__SHARED__/Card';
 import IconButton from '__SHARED__/IconButton';
+import { imageLoader } from '__GLOBAL__/helpers';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -45,7 +46,7 @@ export default function ImgMediaCard(props) {
         imageProps={{
           alt: item.title,
           imageHeight: 200,
-          imageURL: `data:image/webp;base64,${item.filedata}`
+          imageURL: imageLoader(item.filename)
         }}
         title={item.title}
         buttons={[

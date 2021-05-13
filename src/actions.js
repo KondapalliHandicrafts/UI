@@ -19,7 +19,6 @@ import {
   SUBMIT_PROFILE_REQUEST,
   RESETID_SUCCESS,
   RESETPASSWORD_SUCCESS,
-  ADD_LOADER,
   PROFILE_SUCCESS,
   RESET_PASSWORD_REQUEST,
   FORGOT_PASSWORD_REQUEST,
@@ -30,11 +29,14 @@ import {
   WISHLIST_LOADER,
   WISHLIST_SUCCESS,
   ADD_CARD_REQUEST,
+  DELETE_CARD_REQUEST,
   CHANGE_PASSWORD_LOADER,
   WISHLIST_REQUEST,
   CHANGE_PASSWORD_REQUEST,
   PROFILE_LOADER,
-  USER_DETAILS_REQUEST
+  DASHBOARD_LOADER,
+  USER_DETAILS_REQUEST,
+  EDIT_CARD_REQUEST
 } from '__GLOBAL__/constants';
 
 export const loginSuccessful = createAction(LOGIN_SUCCESS, 'data');
@@ -57,7 +59,7 @@ export const resetPasswordSuccess = createAction(RESETPASSWORD_SUCCESS, 'data');
 export const profileSuccess = createAction(PROFILE_SUCCESS, 'data');
 export const registerLoader = createAction(REGISTER_LOADER, 'value');
 export const registerUserSuccess = createAction(REGISTER_LOADER);
-export const addCardLoader = createAction(ADD_LOADER, 'value');
+export const adminDashboardLoader = createAction(DASHBOARD_LOADER, 'value');
 export const checkCurrentPasswordSuccess = createAction(
   CURRENT_PASSWORD_SUCCESS,
   'message',
@@ -70,6 +72,8 @@ export const checkCurPasswordRequest = createAction(
   'value'
 );
 export const addCardRequest = createAction(ADD_CARD_REQUEST, 'data');
+export const editCardRequest = createAction(EDIT_CARD_REQUEST, 'data');
+export const deleteCardRequest = createAction(DELETE_CARD_REQUEST, 'id');
 export const addAddressRequest = createAction(ADD_ADDRESS_REQUEST, 'data');
 export const editAddressRequest = createAction(EDIT_ADDRESS_REQUEST, 'data');
 export const deleteAddressRequest = createAction(DELETE_ADDRESS_REQUEST, 'id');

@@ -5,6 +5,7 @@ import { UNMOUNT, LOGIN_SUCCESS } from '__GLOBAL__/constants';
 const defaultState = {
   data: [],
   token: null,
+  isAdmin: false,
   dataLoaded: false,
   isLoggedIn: false
 };
@@ -16,6 +17,7 @@ const loginReducer = {
   [LOGIN_SUCCESS]: (state, action) => ({
     ...state,
     isLoggedIn: true,
+    isAdmin: action.data.isAdmin,
     token: action.data.token
   }),
   [UNMOUNT]: state => ({

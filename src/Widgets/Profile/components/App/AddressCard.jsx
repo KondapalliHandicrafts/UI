@@ -68,10 +68,7 @@ const AddressCards = props => {
                   size="small"
                   variant="outlined"
                   key={3}
-                  onClick={() => {
-                    console.log(item._id);
-                    defaultAddressRequest(item._id);
-                  }}
+                  onClick={() => defaultAddressRequest(item._id)}
                 >
                   Set default
                 </Button>

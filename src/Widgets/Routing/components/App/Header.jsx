@@ -24,6 +24,7 @@ import {
   ProfileIcon,
   KeyIcon,
   HomeIcon,
+  DashboardIcon,
   LogoutIcon,
   LoginIcon
 } from '__SHARED__/SVG';
@@ -100,7 +101,7 @@ ElevationScroll.propTypes = {
 
 export default function ElevateAppBar(props) {
   const classes = useStyles();
-  const { isLoggedIn, logoutRequest } = props;
+  const { isLoggedIn, logoutRequest, isAdmin } = props;
   const history = useHistory();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -252,22 +253,29 @@ export default function ElevateAppBar(props) {
         <List>
           {[
             { icon: <HomeIcon />, text: 'Home', path: '/home' },
-            { icon: <KeyIcon />, text: 'Starred' },
+            isAdmin && {
+              icon: <DashboardIcon />,
+              text: 'Admin Dashboard',
+              path: '/adminDashboard'
+            },
             { icon: <KeyIcon />, text: 'Send email' },
             { icon: <KeyIcon />, text: 'Drafts' }
-          ].map(item => (
-            <ListItem
-              button
-              key={item.text}
-              onClick={e => {
-                history.push(item.path);
-                toggleDrawer(e, false);
-              }}
-            >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItem>
-          ))}
+          ].map(
+            item =>
+              item && (
+                <ListItem
+                  button
+                  key={item.text}
+                  onClick={e => {
+                    history.push(item.path);
+                    toggleDrawer(e, false);
+                  }}
+                >
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.text} />
+                </ListItem>
+              )
+          )}
         </List>
       </SwipeableDrawer>
       {renderMenu}
@@ -276,6 +284,7 @@ export default function ElevateAppBar(props) {
 }
 
 ElevateAppBar.propTypes = {
+  isAdmin: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   logoutRequest: PropTypes.func.isRequired
 };

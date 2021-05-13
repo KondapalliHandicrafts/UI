@@ -21,7 +21,7 @@ module.exports = {
   root: true,
   rules: {
     indent: ['error', 2],
-    'no-underscore-dangle': 'allow',
+    'no-underscore-dangle': 0,
     'import/no-cycle': [2, { maxDepth: 1 }],
     'react/prefer-stateless-function': 'warn',
     'react/self-closing-comp': [
@@ -74,7 +74,7 @@ module.exports = {
       }
     ],
     'react/jsx-first-prop-new-line': ['warn', 'multiline'],
-    'react/jsx-indent': ['warn', 2],
+    // 'react/jsx-indent': ['warn', 2],
     'comma-dangle': ['error', 'never'],
     'react/jsx-key': 'error',
     'react/jsx-indent-props': 0,

@@ -25,3 +25,8 @@ export { default as AddIcon } from './Add';
 export { default as HeartIcon } from './Heart';
 export { default as AddCartIcon } from './AddCart';
 export { default as CartIcon } from './Cart';
+export { default as LastPageIcon } from './LastPage';
+export { default as FirstPageIcon } from './FirstPage';
+export { default as ArrowLeftIcon } from './ArrowLeft';
+export { default as ArrowRightIcon } from './ArrowRight';
+export { default as DashboardIcon } from './Dashboard';

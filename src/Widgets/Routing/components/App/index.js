@@ -5,7 +5,8 @@ import Routing from './component';
 
 const mapStatetoProps = state => ({
   ...state.routingReducer,
-  isLoggedIn: state.loginReducer.isLoggedIn
+  isLoggedIn: state.loginReducer.isLoggedIn,
+  isAdmin: state.loginReducer.isAdmin
 });
 
 const mapDispatchtoProps = dispatch =>

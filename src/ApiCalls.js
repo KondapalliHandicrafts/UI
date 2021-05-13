@@ -12,7 +12,7 @@ import {
   getWishlistDataRequest,
   wishlistLoader,
   registerLoader,
-  addCardLoader,
+  adminDashboardLoader,
   getCardsData,
   getUserDetailsRequest,
   checkCurrentPasswordSuccess,
@@ -147,22 +147,46 @@ export function* checkCurrentPassword(action) {
 }
 
 export function* addNewCard(action) {
-  yield put(addCardLoader(false));
+  yield put(adminDashboardLoader(false));
   try {
-    const formData = new FormData();
-    formData.append('height', action.data.height);
-    formData.append('title', action.data.title);
-    formData.append('description', action.data.description);
-    formData.append('price', action.data.price);
-    formData.append('file', action.data.file);
     const res = yield call(postCall, {
       url: '/card',
-      inputs: formData,
+      inputs: action.data,
       showSnack: true
     });
-    if (res) yield put(addCardLoader(true));
+    if (res) yield put(getCardsData());
+    else yield put(adminDashboardLoader(true));
   } catch (err) {
-    yield put(addCardLoader(true));
+    yield put(adminDashboardLoader(true));
+  }
+}
+
+export function* editCard(action) {
+  yield put(adminDashboardLoader(false));
+  try {
+    const res = yield call(putCall, {
+      url: `/card/${action.data.id}`,
+      inputs: action.data,
+      showSnack: true
+    });
+    if (res) yield put(getCardsData());
+    else yield put(adminDashboardLoader(true));
+  } catch (err) {
+    yield put(adminDashboardLoader(true));
+  }
+}
+
+export function* deleteCard(action) {
+  yield put(adminDashboardLoader(false));
+  try {
+    const res = yield call(deleteCall, {
+      url: `/card/${action.id}`,
+      showSnack: true
+    });
+    if (res) yield put(getCardsData());
+    else yield put(adminDashboardLoader(true));
+  } catch (err) {
+    yield put(adminDashboardLoader(true));
   }
 }
 

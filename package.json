@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack serve --env NODE_ENV=development",
+    "start:prod": "webpack serve --env NODE_ENV=development API_URL=prod",
     "build": "webpack --env NODE_ENV=production",
     "prettier:format": "prettier --write ./src",
     "eslint:fix": "eslint --fix ./src/**",

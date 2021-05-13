@@ -7,7 +7,11 @@ import ThemeCSS from './theme';
 import { store } from '../store';
 
 const axiosAPI = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000'
+  baseURL:
+    process.env.NODE_ENV === 'production' ||
+    (process.env.NODE_ENV === 'development' && process.env.API_URL === 'prod')
+      ? 'https://kondapalli-handicrafts.herokuapp.com/'
+      : 'http://localhost:3000'
 });
 
 export const renderAPIResult = (apiPostResult, status) => {

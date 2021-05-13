@@ -34,7 +34,7 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-const Button24 = props => {
+const ButtonKH = props => {
   const { children, onClick, icon, className, variant, ...other } = props;
   const classes = styles(props);
   return (
@@ -51,18 +51,18 @@ const Button24 = props => {
   );
 };
 
-Button24.propTypes = {
+ButtonKH.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
   icon: PropTypes.node,
   onClick: PropTypes.func.isRequired,
   variant: PropTypes.string
 };
-Button24.defaultProps = {
+ButtonKH.defaultProps = {
   icon: null,
   className: null,
   children: null,
   variant: 'contained'
 };
 
-export default Button24;
+export default ButtonKH;
