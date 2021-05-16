@@ -79,7 +79,7 @@ FileUploadField.propTypes = {
 
 FileUploadField.defaultProps = {
   required: false,
-  maxSize: 1024 * 1034 * 1, // 1MB
+  maxSize: 1024 * 1024 * 1, // 1MB
   multiple: false,
   rules: {}
 };

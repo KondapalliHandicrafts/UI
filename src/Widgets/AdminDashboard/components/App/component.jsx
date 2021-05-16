@@ -20,7 +20,8 @@ const styles = makeStyles(() => ({
     paddingTop: '7rem'
   },
   editBtn: {
-    padding: '0.2rem'
+    padding: '0.2rem',
+    marginRight: '1rem'
   }
 }));
 

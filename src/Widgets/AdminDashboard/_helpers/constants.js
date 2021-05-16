@@ -20,10 +20,10 @@ export const headers = [
     id: 'quantity',
     label: 'Quantity',
     minWidth: 100,
-    align: 'right',
+    align: 'left',
     sort: true
   },
-  { id: 'filename', label: 'filename', minWidth: 100, align: 'right' },
-  { id: 'display', label: 'Display', minWidth: 100, align: 'right' },
+  { id: 'filename', label: 'filename', minWidth: 100, align: 'left' },
+  { id: 'display', label: 'Display', minWidth: 100, align: 'left' },
   { id: 'actions', label: 'Actions', minWidth: 170, align: 'center' }
 ];

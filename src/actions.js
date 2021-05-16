@@ -19,6 +19,7 @@ import {
   SUBMIT_PROFILE_REQUEST,
   RESETID_SUCCESS,
   RESETPASSWORD_SUCCESS,
+  CHANGE_PROFILE_PIC_REQUEST,
   PROFILE_SUCCESS,
   RESET_PASSWORD_REQUEST,
   FORGOT_PASSWORD_REQUEST,
@@ -32,6 +33,7 @@ import {
   DELETE_CARD_REQUEST,
   CHANGE_PASSWORD_LOADER,
   WISHLIST_REQUEST,
+  UPDATE_HEADER_PIC,
   CHANGE_PASSWORD_REQUEST,
   PROFILE_LOADER,
   DASHBOARD_LOADER,
@@ -52,6 +54,7 @@ export const forgotPasswordSuccess = createAction(
   'data'
 );
 export const cardsLoaded = createAction(CARDS_DATA, 'data');
+export const updateHeaderPic = createAction(UPDATE_HEADER_PIC, 'data');
 export const toggleDialog = createAction(TOGGLE_DIALOG, 'mode', 'data');
 export const resetPasswordLoader = createAction(RESETPASSWORD_LOADER, 'value');
 export const checkResetIDSunccess = createAction(RESETID_SUCCESS, 'data');
@@ -96,6 +99,10 @@ export const submitProfileRequest = createAction(
 export const changePasswordRequest = createAction(
   CHANGE_PASSWORD_REQUEST,
   'data'
+);
+export const changeProfilePicRequest = createAction(
+  CHANGE_PROFILE_PIC_REQUEST,
+  'file'
 );
 export const verifyResetID = createAction(
   VERIFY_RESETID_REQUEST,

@@ -11,23 +11,19 @@ const styles = makeStyles(theme => ({
     fontSize: '1.5rem',
     transition: 'all 0.3s ease-in-out',
     '&:hover': {
-      transform: 'translateY(-5px)',
       boxShadow: `'0 1rem 2rem ${theme.colors.black2}`,
       background: theme.colors.buttonColor,
       '&::after': {
-        transform: 'scale(1.5)',
         opacity: 0
       }
     },
     '&:active': {
       backgroundColor: theme.colors.buttonColor,
-      transform: 'translateY(0px)',
       boxShadow: `0 .5rem 1rem ${theme.colors.black2}`,
       outline: 'none'
     },
     '&:focus': {
       backgroundColor: theme.colors.buttonColor,
-      transform: 'translateY(0px)',
       boxShadow: `0 .5rem 1rem ${theme.colors.black2}`,
       outline: 'none'
     }
@@ -41,6 +37,8 @@ const ButtonKH = props => {
     <Button
       className={classNames(classes.buttonStyle, className)}
       disableFocusRipple
+      // disableTouchRipple
+      disableElevation
       onClick={onClick}
       variant={variant}
       color="primary"

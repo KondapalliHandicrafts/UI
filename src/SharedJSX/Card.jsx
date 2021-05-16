@@ -39,6 +39,7 @@ const CardKH = props => {
     isActionsArea,
     children,
     isRow,
+    isActionButton,
     onClick
   } = props;
   const classes = useStyles(props);
@@ -61,7 +62,7 @@ const CardKH = props => {
       </CardActionArea>
       <CardContent className={classes.cardContent}>
         {title && (
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h6" component="h2">
             {title}
           </Typography>
         )}
@@ -74,7 +75,11 @@ const CardKH = props => {
       </CardContent>
       {isRow && buttons.length > 0 && buttons.some(item => item) && (
         <CardActions disableSpacing>
-          <ActionButtons buttons={buttons} />
+          {!isActionButton ? (
+            buttons.map(button => button)
+          ) : (
+            <ActionButtons buttons={buttons} />
+          )}
         </CardActions>
       )}
     </Card>
@@ -86,6 +91,7 @@ CardKH.propTypes = {
   className: PropTypes.string,
   children: PropTypes.OneofType(PropTypes.string, PropTypes.node).isRequired,
   isActionsArea: PropTypes.bool,
+  isActionButton: PropTypes.bool,
   isRow: PropTypes.bool,
   imageProps: PropTypes.shapeOf({
     alt: PropTypes.string.isRequired,
@@ -101,6 +107,7 @@ CardKH.defaultProps = {
   buttons: [],
   className: null,
   isActionsArea: false,
+  isActionButton: false,
   isRow: true,
   imageProps: null,
   onClick: null,

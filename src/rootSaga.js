@@ -19,7 +19,8 @@ import {
   WISHLIST_REQUEST,
   CURRENT_PASSWORD_REQUEST,
   DELETE_ADDRESS_REQUEST,
-  DEFAULT_ADDRESS_REQUEST
+  DEFAULT_ADDRESS_REQUEST,
+  CHANGE_PROFILE_PIC_REQUEST
 } from '__GLOBAL__/constants';
 import {
   login,
@@ -41,7 +42,8 @@ import {
   getUserDetails,
   editCard,
   deleteCard,
-  defaultAddress
+  defaultAddress,
+  changeProfilePic
 } from './ApiCalls';
 
 export function* publicRouteSaga() {
@@ -64,6 +66,7 @@ export function* publicRouteSaga() {
   yield takeEvery(DEFAULT_ADDRESS_REQUEST, defaultAddress);
   yield takeEvery(ADD_WISHLIST_REQUEST, addWishlist);
   yield takeEvery(WISHLIST_REQUEST, getWishlist);
+  yield takeEvery(CHANGE_PROFILE_PIC_REQUEST, changeProfilePic);
   yield takeEvery(DELETE_CARD_REQUEST, deleteCard);
 }
 

@@ -4,8 +4,10 @@ import classNames from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 
-const styles = makeStyles(() => ({
-  iconButton: {}
+const styles = makeStyles(theme => ({
+  iconButton: {
+    color: theme.colors.iconColor
+  }
 }));
 
 const IconButtonKH = props => {
@@ -14,7 +16,6 @@ const IconButtonKH = props => {
   return (
     <IconButton
       className={classNames(classes.iconButton, className)}
-      disableFocusRipple
       onClick={onClick}
       size="small"
       {...others}

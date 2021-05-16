@@ -7,6 +7,7 @@ import {
   forgotPasswordSuccess,
   cardsLoaded,
   resetPasswordLoader,
+  updateHeaderPic,
   resetPasswordSuccess,
   getWishlistSuccess,
   getWishlistDataRequest,
@@ -200,6 +201,21 @@ export function* getUserDetails() {
     if (res) yield put(profileSuccess(res.data));
   } catch (err) {
     yield put(profileLoader(true));
+  }
+}
+
+export function* changeProfilePic(file) {
+  const data = new FormData();
+  data.append('file', file.file[0]);
+  try {
+    const res = yield call(postCall, {
+      url: `/user/profilePic`,
+      inputs: data,
+      showSnack: true
+    });
+    yield put(updateHeaderPic(res.data));
+  } catch (err) {
+    console.log(err);
   }
 }
 

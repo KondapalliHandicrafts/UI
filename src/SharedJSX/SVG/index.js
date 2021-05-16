@@ -30,3 +30,5 @@ export { default as FirstPageIcon } from './FirstPage';
 export { default as ArrowLeftIcon } from './ArrowLeft';
 export { default as ArrowRightIcon } from './ArrowRight';
 export { default as DashboardIcon } from './Dashboard';
+export { default as ShareIcon } from './Share';
+export { default as OrdersIcon } from './Orders';

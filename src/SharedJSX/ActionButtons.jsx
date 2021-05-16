@@ -10,8 +10,9 @@ const styles = makeStyles(() => ({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
+    marginRight: '1rem',
     '& button': {
-      marginRight: '1rem'
+      // marginRight: '1rem'
     }
   }
 }));

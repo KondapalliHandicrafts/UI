@@ -25,24 +25,24 @@ import {
   KeyIcon,
   HomeIcon,
   DashboardIcon,
+  CartIcon,
+  OrdersIcon,
   LogoutIcon,
   LoginIcon
 } from '__SHARED__/SVG';
 import Button from '__SHARED__/Button';
+import ActionButtons from '__SHARED__/ActionButtons';
+import Badge from '__SHARED__/Badge';
 
 const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1
   },
-  logo: {
-    marginLeft: '1rem'
+  icon: {
+    color: theme.colors.iconColor
   },
   list: {
     width: 250
-  },
-  loginBtn: {
-    marginLeft: 'auto',
-    marginRight: '2rem'
   },
   search: {
     position: 'relative',
@@ -71,8 +71,10 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center'
   },
   menuIcon: {
-    marginLeft: '1rem',
     marginRight: '1rem'
+  },
+  popoverPaper: {
+    width: 225
   },
   sectionMobile: {
     display: 'flex',
@@ -101,10 +103,12 @@ ElevationScroll.propTypes = {
 
 export default function ElevateAppBar(props) {
   const classes = useStyles();
-  const { isLoggedIn, logoutRequest, isAdmin } = props;
+  const { isLoggedIn, logoutRequest, isAdmin, cartCount, profilePic } = props;
   const history = useHistory();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const iOS =
+    typeof window === 'undefined' &&
+    /iPad|iPhone|iPod/.test(navigator.userAgent);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   useEffect(() => {}, [history.location.pathname]);
@@ -135,12 +139,18 @@ export default function ElevateAppBar(props) {
     },
     {
       id: 2,
+      displayName: 'My Orders',
+      path: '/myOrders',
+      icon: <OrdersIcon className={classes.menuIcon} />
+    },
+    {
+      id: 3,
       displayName: 'My Wishlist',
       path: '/myWishlist',
       icon: <HeartIcon className={classes.menuIcon} />
     },
     {
-      id: 3,
+      id: 4,
       displayName: 'Change Password',
       path: '/changePassword',
       icon: <KeyIcon className={classes.menuIcon} />
@@ -162,6 +172,9 @@ export default function ElevateAppBar(props) {
       getContentAnchorEl={null}
       open={Boolean(anchorEl)}
       onClose={handleMenuClose}
+      PopoverClasses={{
+        paper: classes.popoverPaper
+      }}
     >
       {headerMenu.map(item => (
         <MenuItem
@@ -191,7 +204,7 @@ export default function ElevateAppBar(props) {
     <React.Fragment>
       <ElevationScroll {...props}>
         <AppBar color="secondary">
-          <Toolbar variant="dense" disableGutters>
+          <Toolbar variant="dense">
             {isLoggedIn && (
               <IconButton
                 className={classes.menuIcon}
@@ -199,42 +212,53 @@ export default function ElevateAppBar(props) {
                 icon={<MenuIcon />}
               />
             )}
-            <Typography className={classes.logo} variant="h6" component="h6">
+            <Typography variant="h6" component="h6">
               Kondapalli Handicafts
             </Typography>
-            {history.location.pathname.includes('/home') && (
-              <div className={classes.search}>
-                <TextField
-                  id="search"
-                  placeholder="Search"
-                  fullWidth
-                  InputProps={{
-                    startAdornment: <SearchIcon />,
-                    disableUnderline: true
-                  }}
-                />
-              </div>
-            )}
-            {!isLoggedIn && history.location.pathname !== '/login' && (
-              <Button
-                startIcon={<LoginIcon />}
-                className={classes.loginBtn}
-                onClick={() => history.push('/login')}
-              >
-                Login
-              </Button>
-            )}
-            {isLoggedIn && (
-              <IconButton
-                className={classes.loginBtn}
-                onClick={handleProfileMenuOpen}
-                icon={
-                  <Avatar>
-                    <ProfileIcon />
-                  </Avatar>
-                }
+            {/* {history.location.pathname.includes('/home') && ( */}
+            <div className={classes.search}>
+              <TextField
+                id="search"
+                placeholder="Search"
+                fullWidth
+                InputProps={{
+                  startAdornment: <SearchIcon />,
+                  disableUnderline: true
+                }}
               />
-            )}
+            </div>
+            {/* )} */}
+            <ActionButtons
+              buttons={[
+                !isLoggedIn ? (
+                  <Button
+                    key={1}
+                    startIcon={<LoginIcon />}
+                    onClick={() => history.push('/login')}
+                  >
+                    Login
+                  </Button>
+                ) : (
+                  <Badge key={1} max={9} badgeContent={cartCount}>
+                    <IconButton
+                      onClick={() => history.push('/myCart')}
+                      icon={<CartIcon />}
+                    />
+                  </Badge>
+                ),
+                isLoggedIn && (
+                  <IconButton
+                    key={2}
+                    onClick={handleProfileMenuOpen}
+                    icon={
+                      <Avatar src={`data:image/webp;base64,${profilePic}`}>
+                        <ProfileIcon />
+                      </Avatar>
+                    }
+                  />
+                )
+              ]}
+            />
           </Toolbar>
         </AppBar>
       </ElevationScroll>
@@ -252,14 +276,18 @@ export default function ElevateAppBar(props) {
         <Divider />
         <List>
           {[
-            { icon: <HomeIcon />, text: 'Home', path: '/home' },
+            {
+              icon: <HomeIcon className={classes.icon} />,
+              text: 'Home',
+              path: '/home'
+            },
             isAdmin && {
-              icon: <DashboardIcon />,
+              icon: <DashboardIcon className={classes.icon} />,
               text: 'Admin Dashboard',
               path: '/adminDashboard'
             },
-            { icon: <KeyIcon />, text: 'Send email' },
-            { icon: <KeyIcon />, text: 'Drafts' }
+            { icon: <KeyIcon className={classes.icon} />, text: 'Send email' },
+            { icon: <KeyIcon className={classes.icon} />, text: 'Drafts' }
           ].map(
             item =>
               item && (
@@ -284,7 +312,9 @@ export default function ElevateAppBar(props) {
 }
 
 ElevateAppBar.propTypes = {
+  cartCount: PropTypes.number.isRequired,
   isAdmin: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  logoutRequest: PropTypes.func.isRequired
+  logoutRequest: PropTypes.func.isRequired,
+  profilePic: PropTypes.string.isRequired
 };

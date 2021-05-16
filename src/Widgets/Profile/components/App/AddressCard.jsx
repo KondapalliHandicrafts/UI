@@ -12,7 +12,8 @@ import { ADD_ADDRESS, EDIT_ADDRESS } from '__GLOBAL__/constants';
 
 const styles = makeStyles(() => ({
   buttons: {
-    textTransform: 'none'
+    textTransform: 'none',
+    margin: '0 1rem'
   }
 }));
 
@@ -43,6 +44,7 @@ const AddressCards = props => {
         <Grid key={item._id} item xs={12} sm={6} md={4} lg={3} xl={2}>
           <Card
             title={item.fullName}
+            isActionButton
             buttons={[
               <Button
                 className={classes.buttons}
