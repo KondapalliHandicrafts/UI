@@ -34,7 +34,7 @@ const FileUploadField = props => {
         setValue(name, acceptedFiles, { shouldValidate: true });
         onChange(acceptedFiles);
       },
-      [setValue, name]
+      [setValue, onChange, name]
     ),
     accept,
     multiple,

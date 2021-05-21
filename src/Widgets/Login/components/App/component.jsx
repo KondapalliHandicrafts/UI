@@ -9,6 +9,7 @@ import Button from '__SHARED__/Button';
 import RouteLink from '__SHARED__/RouteLink';
 import { TextField } from '__SHARED__/ReactHookForm';
 import { LoginIcon, SignupIcon } from '__SHARED__/SVG';
+import { paths } from '__GLOBAL__/constants';
 
 const styles = makeStyles(() => ({
   container: {
@@ -24,7 +25,7 @@ const styles = makeStyles(() => ({
     marginLeft: 'auto',
     marginRight: '2rem'
   },
-  forogtPassword: {
+  forgotPassword: {
     marginLeft: '2rem'
   },
   actionButtons: {
@@ -77,8 +78,8 @@ const Login = props => {
               </Grid>
               <Grid item className={classes.actionButtons} xs={12}>
                 <RouteLink
-                  className={classes.forogtPassword}
-                  to="/forgotPassword"
+                  className={classes.forgotPassword}
+                  to={paths.forgotPassword}
                 >
                   Forgot password?
                 </RouteLink>
@@ -92,7 +93,7 @@ const Login = props => {
                 </Button>
                 <Button
                   startIcon={<SignupIcon />}
-                  onClick={() => history.push('/signup')}
+                  onClick={() => history.push(paths.register)}
                 >
                   Signup
                 </Button>

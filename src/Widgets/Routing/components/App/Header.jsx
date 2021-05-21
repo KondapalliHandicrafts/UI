@@ -12,17 +12,20 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Divider from '@material-ui/core/Divider';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
+// import CircularProgress from '@material-ui/core/CircularProgress';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '__SHARED__/IconButton';
 import Avatar from '__SHARED__/Avatar';
 import {
   MenuIcon,
-  SearchIcon,
+  // SearchIcon,
+  PhoneIcon,
   HeartIcon,
-  ProfileIcon,
   KeyIcon,
+  ProfileIcon,
+  BulkOrderIcon,
   HomeIcon,
   DashboardIcon,
   CartIcon,
@@ -33,38 +36,29 @@ import {
 import Button from '__SHARED__/Button';
 import ActionButtons from '__SHARED__/ActionButtons';
 import Badge from '__SHARED__/Badge';
+import { paths } from '__GLOBAL__/constants';
 
 const useStyles = makeStyles(theme => ({
-  grow: {
-    flexGrow: 1
-  },
   icon: {
     color: theme.colors.iconColor
   },
-  list: {
-    width: 250
+  loading: {
+    marginRight: '1rem'
   },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '50%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3)
-    }
-  },
-  sectionDesktop: {
-    display: 'none',
-    marginLeft: 'auto',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex'
-    }
-  },
+  // search: {
+  //   position: 'relative',
+  //   borderRadius: theme.shape.borderRadius,
+  //   backgroundColor: fade(theme.palette.common.white, 0.15),
+  //   '&:hover': {
+  //     backgroundColor: fade(theme.palette.common.white, 0.25)
+  //   },
+  //   marginRight: theme.spacing(2),
+  //   marginLeft: 0,
+  //   width: '50%',
+  //   [theme.breakpoints.up('sm')]: {
+  //     marginLeft: theme.spacing(3)
+  //   }
+  // },
   itemWrap: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -75,13 +69,6 @@ const useStyles = makeStyles(theme => ({
   },
   popoverPaper: {
     width: 225
-  },
-  sectionMobile: {
-    display: 'flex',
-    marginLeft: 'auto',
-    [theme.breakpoints.up('md')]: {
-      display: 'none'
-    }
   }
 }));
 
@@ -134,25 +121,25 @@ export default function ElevateAppBar(props) {
     {
       id: 1,
       displayName: 'Profile',
-      path: '/profile',
+      path: paths.profile,
       icon: <ProfileIcon className={classes.menuIcon} />
     },
     {
       id: 2,
       displayName: 'My Orders',
-      path: '/myOrders',
+      path: paths.myOrders,
       icon: <OrdersIcon className={classes.menuIcon} />
     },
     {
       id: 3,
       displayName: 'My Wishlist',
-      path: '/myWishlist',
+      path: paths.myWishlist,
       icon: <HeartIcon className={classes.menuIcon} />
     },
     {
       id: 4,
       displayName: 'Change Password',
-      path: '/changePassword',
+      path: paths.changePassword,
       icon: <KeyIcon className={classes.menuIcon} />
     }
   ];
@@ -215,33 +202,38 @@ export default function ElevateAppBar(props) {
             <Typography variant="h6" component="h6">
               Kondapalli Handicafts
             </Typography>
-            {/* {history.location.pathname.includes('/home') && ( */}
-            <div className={classes.search}>
+            {/* <div className={classes.search}>
               <TextField
                 id="search"
                 placeholder="Search"
                 fullWidth
                 InputProps={{
                   startAdornment: <SearchIcon />,
+                  endAdornment: (
+                    <CircularProgress
+                      className={classes.loading}
+                      size={20}
+                      thickness={3}
+                    />
+                  ),
                   disableUnderline: true
                 }}
               />
-            </div>
-            {/* )} */}
+            </div> */}
             <ActionButtons
               buttons={[
                 !isLoggedIn ? (
                   <Button
                     key={1}
                     startIcon={<LoginIcon />}
-                    onClick={() => history.push('/login')}
+                    onClick={() => history.push(paths.login)}
                   >
                     Login
                   </Button>
                 ) : (
                   <Badge key={1} max={9} badgeContent={cartCount}>
                     <IconButton
-                      onClick={() => history.push('/myCart')}
+                      onClick={() => history.push(paths.myCart)}
                       icon={<CartIcon />}
                     />
                   </Badge>
@@ -279,15 +271,23 @@ export default function ElevateAppBar(props) {
             {
               icon: <HomeIcon className={classes.icon} />,
               text: 'Home',
-              path: '/home'
+              path: paths.home
             },
             isAdmin && {
               icon: <DashboardIcon className={classes.icon} />,
               text: 'Admin Dashboard',
-              path: '/adminDashboard'
+              path: paths.adminDashboard
             },
-            { icon: <KeyIcon className={classes.icon} />, text: 'Send email' },
-            { icon: <KeyIcon className={classes.icon} />, text: 'Drafts' }
+            {
+              icon: <BulkOrderIcon className={classes.icon} />,
+              text: 'Bulk Orders',
+              path: paths.bulkOrders
+            },
+            {
+              icon: <PhoneIcon className={classes.icon} />,
+              text: 'Contact Us',
+              path: paths.contactUs
+            }
           ].map(
             item =>
               item && (

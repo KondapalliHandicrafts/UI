@@ -65,7 +65,9 @@ module.exports = env => {
       new ESLintPlugin({
         extensions: ['js', 'jsx'],
         fix: true,
-        emitWarning: JSON.stringify(env.NODE_ENV) !== 'production'
+        emitWarning: JSON.stringify(env.NODE_ENV) !== 'production',
+        // emitWarning: false,
+        failOnWarning: false
       })
     ]
   };

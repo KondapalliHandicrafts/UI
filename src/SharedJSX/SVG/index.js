@@ -32,3 +32,6 @@ export { default as ArrowRightIcon } from './ArrowRight';
 export { default as DashboardIcon } from './Dashboard';
 export { default as ShareIcon } from './Share';
 export { default as OrdersIcon } from './Orders';
+export { default as SubIcon } from './Sub';
+export { default as AddOutlinedIcon } from './AddOutlined';
+export { default as BulkOrderIcon } from './BulkOrder';

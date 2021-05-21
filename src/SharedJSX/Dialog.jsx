@@ -35,6 +35,11 @@ const styles = makeStyles(theme => ({
     [theme.breakpoints.down('xs')]: {
       minWidth: '100vw'
     }
+  },
+  actionButtons: {
+    '& button': {
+      marginRight: '1rem'
+    }
   }
 }));
 
@@ -99,7 +104,7 @@ const DialogKH = props => {
       </DialogTitleCustom>
       <DialogContent>{children}</DialogContent>
       <DialogActions>
-        <ActionButtons buttons={buttons} />
+        <ActionButtons className={classes.actionButtons} buttons={buttons} />
       </DialogActions>
     </Dialog>
   );

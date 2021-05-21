@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Paper from '__SHARED__/Paper';
 import { useForm, FormProvider } from 'react-hook-form';
-import { securityQuestions } from '__GLOBAL__/constants';
+import { securityQuestions, paths } from '__GLOBAL__/constants';
 import Loading from '__SHARED__/Loading';
 import Button from '__SHARED__/Button';
 import RouteLink from '__SHARED__/RouteLink';
@@ -36,7 +36,7 @@ const styles = makeStyles(() => ({
 }));
 
 const Register = props => {
-  const { dataLoaded, registerUserRequest } = props;
+  const { dataLoaded, registerUserRequest, registerLoader } = props;
   const { handleSubmit, watch, ...methods } = useForm({
     mode: 'onTouched',
     defaultValues: {
@@ -50,6 +50,10 @@ const Register = props => {
       secQue2: ''
     }
   });
+
+  useEffect(() => {
+    registerLoader(true);
+  }, [registerLoader]);
 
   const classes = styles(props);
   return (
@@ -86,6 +90,12 @@ const Register = props => {
                   label="Username"
                   name="username"
                   id="username"
+                  rules={{
+                    validate: {
+                      NoSP: value =>
+                        !/[^A-Za-z0-9]+/.test(value) || 'No special character'
+                    }
+                  }}
                   required
                 />
               </Grid>
@@ -191,7 +201,7 @@ const Register = props => {
               </Grid>
 
               <Grid className={classes.actionButtons} item xs={12}>
-                <RouteLink className={classes.signinBtn} to="/login">
+                <RouteLink className={classes.signinBtn} to={paths.login}>
                   Already have account? Signin here!
                 </RouteLink>
                 <Button
@@ -213,6 +223,7 @@ const Register = props => {
 
 Register.propTypes = {
   dataLoaded: PropTypes.bool.isRequired,
+  registerLoader: PropTypes.func.isRequired,
   registerUserRequest: PropTypes.func.isRequired
 };
 Register.defaultProps = {};

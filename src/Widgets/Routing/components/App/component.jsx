@@ -6,9 +6,10 @@ import {
   Redirect
 } from 'react-router-dom';
 import Loading from '__SHARED__/Loading';
+import { paths } from '__GLOBAL__/constants';
 import Header from './Header';
-import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
+import PrivateRoute from './PrivateRoute';
 
 const HomePage = lazy(() => import('__WIDGETS__/Home/components/App'));
 const LoginPage = lazy(() => import('__WIDGETS__/Login/components/App'));
@@ -18,6 +19,8 @@ const AdminDashboard = lazy(() =>
 const Register = lazy(() => import('__WIDGETS__/Register/components/App'));
 const Profile = lazy(() => import('__WIDGETS__/Profile/components/App'));
 const Wishlist = lazy(() => import('__WIDGETS__/Wishlist/components/App'));
+const MyCart = lazy(() => import('__WIDGETS__/Cart/components/App'));
+const MyOrders = lazy(() => import('__WIDGETS__/Orders/components/App'));
 const ChangePassword = lazy(() =>
   import('__WIDGETS__/ChangePassword/components/App')
 );
@@ -35,48 +38,58 @@ const routing = props => {
       <Suspense fallback={<Loading open />}>
         <Header {...props} />
         <Switch>
+          <Route path={paths.home} component={HomePage} />
           <Route path="/" exact>
-            <Redirect to="/home" />
+            <Redirect to={paths.home} />
           </Route>
-          <Route path="/home" component={HomePage} />
           <PublicRoute
-            path="/login"
+            path={paths.login}
             component={LoginPage}
             isLoggedIn={isLoggedIn}
           />
           <PublicRoute
-            path="/forgotPassword"
+            path={paths.forgotPassword}
             component={ForgotPassword}
             isLoggedIn={isLoggedIn}
           />
           <PublicRoute
-            path="/resetPassword/:id"
+            path={paths.register}
+            component={Register}
+            isLoggedIn={isLoggedIn}
+          />
+          <PublicRoute
+            path={paths.resetPassword}
             component={ResetPassword}
             isLoggedIn={isLoggedIn}
           />
           <PrivateRoute
-            path="/adminDashboard"
+            path={paths.adminDashboard}
             component={AdminDashboard}
             isLoggedIn={isLoggedIn}
           />
           <PrivateRoute
-            path="/myWishlist"
+            path={paths.myCart}
+            component={MyCart}
+            isLoggedIn={isLoggedIn}
+          />
+          <PrivateRoute
+            path={paths.myWishlist}
             component={Wishlist}
             isLoggedIn={isLoggedIn}
           />
           <PrivateRoute
-            path="/changePassword"
+            path={paths.changePassword}
             component={ChangePassword}
             isLoggedIn={isLoggedIn}
           />
           <PrivateRoute
-            path="/profile"
+            path={paths.profile}
             component={Profile}
             isLoggedIn={isLoggedIn}
           />
-          <PublicRoute
-            path="/signup"
-            component={Register}
+          <PrivateRoute
+            path={paths.myOrders}
+            component={MyOrders}
             isLoggedIn={isLoggedIn}
           />
         </Switch>

@@ -3,7 +3,8 @@ import { createReducer } from '__GLOBAL__/redux';
 import {
   UNMOUNT,
   LOGIN_SUCCESS,
-  UPDATE_HEADER_PIC
+  UPDATE_HEADER_PIC,
+  UPDATE_CART_COUNT
 } from '__GLOBAL__/constants';
 
 const defaultState = {
@@ -31,6 +32,10 @@ const loginReducer = {
   [UPDATE_HEADER_PIC]: (state, action) => ({
     ...state,
     profilePic: action.data.profilePic || state.profilePic
+  }),
+  [UPDATE_CART_COUNT]: (state, action) => ({
+    ...state,
+    cartCount: action.data.cartCount
   }),
   [UNMOUNT]: state => ({
     ...state,

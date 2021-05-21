@@ -11,7 +11,7 @@ const SnackbarAPI = props => {
 
   useEffect(() => {
     if (open) setOpen(true);
-  }, [apiResult]);
+  }, [apiResult, open]);
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {

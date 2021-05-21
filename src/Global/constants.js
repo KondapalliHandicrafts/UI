@@ -1,3 +1,19 @@
+export const paths = {
+  myCart: '/my-cart',
+  home: '/home',
+  adminDashboard: '/admin-dashboard',
+  changePassword: '/change-password',
+  resetPassword: '/reset-password/:id',
+  forgotPassword: '/forgot-password',
+  login: '/login',
+  myWishlist: '/my-wishlist',
+  register: '/signup',
+  myOrders: '/my-orders',
+  profile: '/profile',
+  bulkOrders: '/bulk-order',
+  contactUs: '/contact-us'
+};
+
 export const securityQuestions = [
   "What are the last five digits of your driver's license number?",
   "What is your grandmother's (on your mother's side) maiden name?",
@@ -94,3 +110,13 @@ export const CHANGE_PROFILE_PIC_REQUEST = 'CHANGE_PROFILE_PIC_REQUEST';
 export const ADD_CARD = 'ADD_CARD';
 export const EDIT_CARD = 'EDIT_CARD';
 export const UPDATE_HEADER_PIC = 'UPDATE_HEADER_PIC';
+export const HOME_LOADER = 'HOME_LOADER';
+export const ADD_TO_CART_REQUEST = 'ADD_TO_CART_REQUEST';
+export const UPDATE_CART_COUNT = 'UPDATE_CART_COUNT';
+export const CART_LOADER = 'CART_LOADER';
+export const CART_REQUEST = 'CART_REQUEST';
+export const CART_SUCCESS = 'CART_SUCCESS';
+export const DELETE_CART_REQUEST = 'DELETE_CART_REQUEST';
+export const MOVE_TO_WISHLIST = 'MOVE_TO_WISHLIST';
+export const ORDERS_LOADER = 'ORDERS_LOADER';
+export const UPDATE_CART_REQUEST = 'UPDATE_CART_REQUEST';

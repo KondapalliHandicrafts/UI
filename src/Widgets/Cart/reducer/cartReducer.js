@@ -1,19 +1,24 @@
 import { PURGE } from 'redux-persist';
 import { createReducer } from '__GLOBAL__/redux';
-import { UNMOUNT, REGISTER_LOADER } from '__GLOBAL__/constants';
+import { UNMOUNT, CART_LOADER, CART_SUCCESS } from '__GLOBAL__/constants';
 
 const defaultState = {
   data: [],
   dataLoaded: false
 };
 
-const registerReducer = {
+const cartReducer = {
   [PURGE]: () => {
     return defaultState;
   },
-  [REGISTER_LOADER]: (state, action) => ({
+  [CART_LOADER]: (state, action) => ({
     ...state,
     dataLoaded: action.value
+  }),
+  [CART_SUCCESS]: (state, action) => ({
+    ...state,
+    data: action.data,
+    dataLoaded: true
   }),
   [UNMOUNT]: state => ({
     ...state,
@@ -22,4 +27,4 @@ const registerReducer = {
   })
 };
 
-export default createReducer(defaultState, registerReducer);
+export default createReducer(defaultState, cartReducer);

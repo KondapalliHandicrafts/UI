@@ -38,7 +38,7 @@ const AddEditCard = props => {
 
   useEffect(() => {
     if (!isAdd) reset(item);
-  }, []);
+  }, [isAdd, item, reset]);
 
   const onClose = () => {
     if (isAdd) toggleDialog(ADD_CARD, false);
@@ -75,7 +75,18 @@ const AddEditCard = props => {
           spacing={2}
         >
           <Grid item xs={12}>
-            <TextField label="Title" name="title" id="title" required />
+            <TextField
+              label="Title"
+              name="title"
+              id="title"
+              required
+              rules={{
+                validate: {
+                  length: value =>
+                    value.length <= 20 || 'less than 20 charcters'
+                }
+              }}
+            />
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -93,13 +104,41 @@ const AddEditCard = props => {
               name="height"
               id="height"
               required
+              rules={{
+                validate: {
+                  onlyDigit: value => /^\d/.test(value) || 'Only numbers'
+                }
+              }}
             />
           </Grid>
           <Grid item xs={4}>
-            <TextField label="Price" name="price" id="price" required />
+            <TextField
+              label="Price"
+              InputProps={{
+                startAdornment: <Grid>Rs. </Grid>
+              }}
+              name="price"
+              id="price"
+              required
+              rules={{
+                validate: {
+                  onlyDigit: value => /^\d/.test(value) || 'Only numbers'
+                }
+              }}
+            />
           </Grid>
           <Grid item xs={4}>
-            <TextField label="Quntity" name="quantity" id="quantity" required />
+            <TextField
+              label="Quntity"
+              name="quantity"
+              id="quantity"
+              required
+              rules={{
+                validate: {
+                  onlyDigit: value => /^\d/.test(value) || 'Only numbers'
+                }
+              }}
+            />
           </Grid>
           <Grid item xs={6}>
             <TextField

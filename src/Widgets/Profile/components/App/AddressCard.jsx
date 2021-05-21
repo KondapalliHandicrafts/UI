@@ -18,12 +18,8 @@ const styles = makeStyles(() => ({
 }));
 
 const AddressCards = props => {
-  const {
-    data,
-    toggleDialog,
-    deleteAddressRequest,
-    defaultAddressRequest
-  } = props;
+  const { data, toggleDialog, deleteAddressRequest, defaultAddressRequest } =
+    props;
   const classes = styles(props);
   return (
     <React.Fragment>

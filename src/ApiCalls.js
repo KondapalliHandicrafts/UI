@@ -1,5 +1,7 @@
 import { postCall, getCall, deleteCall, putCall } from '__GLOBAL__/webAPI';
 import { call, put } from 'redux-saga/effects';
+import { renderSnackbar } from '__GLOBAL__/helpers';
+import { paths } from '__GLOBAL__/constants';
 import { persistor } from './store';
 import {
   loginSuccessful,
@@ -8,9 +10,13 @@ import {
   cardsLoaded,
   resetPasswordLoader,
   updateHeaderPic,
+  homeLoader,
   resetPasswordSuccess,
   getWishlistSuccess,
+  cartLoader,
+  getCartItemsSuccess,
   getWishlistDataRequest,
+  updateCartCount,
   wishlistLoader,
   registerLoader,
   adminDashboardLoader,
@@ -20,6 +26,7 @@ import {
   checkResetIDSunccess,
   changePasswordLoader,
   profileLoader,
+  getCartItemsRequest,
   profileSuccess
 } from './actions';
 
@@ -31,7 +38,7 @@ export function* login(action) {
     });
     yield put(loginSuccessful(res.data));
   } catch (error) {
-    console.log(error);
+    renderSnackbar({ data: { message: error.message, status: -1 } });
   }
 }
 
@@ -39,9 +46,9 @@ export function* logout(action) {
   try {
     yield call(getCall, { url: '/user/logout' });
     persistor.purge();
-    action.history.push('/login');
+    action.history.push(paths.login);
   } catch (error) {
-    console.log(error);
+    renderSnackbar({ data: { message: error.message, status: -1 } });
   }
 }
 
@@ -63,7 +70,7 @@ export function* fetchCards() {
     const res = yield call(getCall, { url: '/cards' });
     yield put(cardsLoaded(res.data));
   } catch (err) {
-    console.log(err);
+    yield put(homeLoader(true));
   }
 }
 
@@ -75,7 +82,7 @@ export function* registerUser(action) {
       inputs: action.values,
       showSnack: true
     });
-    if (res) action.history.push('/login');
+    if (res) action.history.push(paths.login);
   } catch (err) {
     yield put(registerLoader(true));
   }
@@ -215,7 +222,7 @@ export function* changeProfilePic(file) {
     });
     yield put(updateHeaderPic(res.data));
   } catch (err) {
-    console.log(err);
+    yield put(updateHeaderPic({ data: {} }));
   }
 }
 
@@ -296,7 +303,8 @@ export function* addWishlist(action) {
     if (action.apiType === 2) yield put(getWishlistDataRequest());
     else yield put(getCardsData());
   } catch (err) {
-    console.log(err);
+    if (action.apiType === 2) yield put(wishlistLoader(true));
+    else yield put(homeLoader(true));
   }
 }
 
@@ -309,5 +317,80 @@ export function* getWishlist() {
     yield put(getWishlistSuccess(res.data));
   } catch (err) {
     yield put(wishlistLoader(true));
+  }
+}
+
+export function* addToCart(action) {
+  if (action.cType === 2) yield put(wishlistLoader(false));
+  yield put(homeLoader(false));
+  try {
+    const res = yield call(postCall, {
+      url: `/cart`,
+      inputs: { cardId: action.id },
+      showSnack: true
+    });
+    yield put(updateCartCount(res.data));
+    if (action.cType === 2) yield put(getWishlistDataRequest());
+    yield put(homeLoader(true));
+  } catch (err) {
+    if (action.cType === 2) yield put(wishlistLoader(true));
+    yield put(homeLoader(true));
+  }
+}
+
+export function* getCartItems(action) {
+  yield put(cartLoader(false));
+  try {
+    const res = yield call(getCall, {
+      url: `/cart`,
+      inputs: { cardId: action.id },
+      showSnack: true
+    });
+    if (res) yield put(getCartItemsSuccess(res.data));
+  } catch (err) {
+    yield put(cartLoader(true));
+  }
+}
+
+export function* updateCart(action) {
+  yield put(cartLoader(false));
+  try {
+    const res = yield call(putCall, {
+      url: `/cart/${action.id}`,
+      showSnack: true,
+      inputs: { quantity: action.value }
+    });
+    yield put(updateCartCount(res.data));
+    if (res) yield put(getCartItemsRequest());
+  } catch (err) {
+    yield put(cartLoader(true));
+  }
+}
+
+export function* deleteCartItem(action) {
+  yield put(cartLoader(false));
+  try {
+    const res = yield call(deleteCall, {
+      url: `/cart/${action.id}`,
+      showSnack: true
+    });
+    yield put(updateCartCount(res.data));
+    if (res) yield put(getCartItemsRequest());
+  } catch (err) {
+    yield put(cartLoader(true));
+  }
+}
+
+export function* moveToWishlist(action) {
+  yield put(cartLoader(false));
+  try {
+    const res = yield call(putCall, {
+      url: `/cart/wishlist/${action.id}`,
+      showSnack: true
+    });
+    yield put(updateCartCount(res.data));
+    if (res) yield put(getCartItemsRequest());
+  } catch (err) {
+    yield put(cartLoader(true));
   }
 }

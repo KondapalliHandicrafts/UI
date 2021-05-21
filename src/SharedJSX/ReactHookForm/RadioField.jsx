@@ -9,16 +9,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 
 const RadioField = props => {
-  const {
-    className,
-    required,
-    name,
-    id,
-    groupLabel,
-    rules,
-    options,
-    row
-  } = props;
+  const { className, required, name, id, groupLabel, rules, options, row } =
+    props;
   const { errors, control } = useFormContext();
 
   return (

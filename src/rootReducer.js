@@ -9,6 +9,8 @@ import resetPasswordReducer from './Widgets/ResetPassword/reducer/resetPasswordR
 import changePasswordReducer from './Widgets/ChangePassword/reducer/changePasswordReducer';
 import profileReducer from './Widgets/Profile/reducer/profileReducer';
 import wishlistReducer from './Widgets/Wishlist/reducer/wishlistReducer';
+import cartReducer from './Widgets/Cart/reducer/cartReducer';
+import ordersReducer from './Widgets/Orders/reducer/ordersReducer';
 
 export default combineReducers({
   homeReducer,
@@ -17,8 +19,10 @@ export default combineReducers({
   adminDashboardReducer,
   registerReducer,
   forgotPasswordReducer,
+  cartReducer,
   resetPasswordReducer,
   changePasswordReducer,
   profileReducer,
+  ordersReducer,
   wishlistReducer
 });

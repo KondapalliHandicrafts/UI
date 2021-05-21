@@ -10,6 +10,7 @@ import IconButton from '__SHARED__/IconButton';
 import RouteLink from '__SHARED__/RouteLink';
 import { AddCartIcon, DeleteIcon } from '__SHARED__/SVG';
 import { imageLoader } from '__GLOBAL__/helpers';
+import { paths } from '__GLOBAL__/constants';
 
 const styles = makeStyles(() => ({
   container: {
@@ -35,13 +36,14 @@ const Wishlist = props => {
     dataLoaded,
     getWishlistDataRequest,
     addToWishlistRequest,
+    addToCartRequest,
     data
   } = props;
   const classes = styles(props);
 
   useEffect(() => {
     getWishlistDataRequest();
-  }, []);
+  }, [getWishlistDataRequest]);
 
   return (
     <React.Fragment>
@@ -50,7 +52,7 @@ const Wishlist = props => {
         {data.length === 0 && (
           <Grid item xs={12}>
             No wishlisted items to display. Add items from{' '}
-            <RouteLink to="/home">here</RouteLink>
+            <RouteLink to={paths.home}>here</RouteLink>
           </Grid>
         )}
         {data.map(card => (
@@ -67,7 +69,11 @@ const Wishlist = props => {
                 imageURL: imageLoader(card.filename)
               }}
               buttons={[
-                <Button key={1} startIcon={<AddCartIcon />} onClick={() => {}}>
+                <Button
+                  key={1}
+                  startIcon={<AddCartIcon />}
+                  onClick={() => addToCartRequest(card._id, 2)}
+                >
                   Add to Cart
                 </Button>
               ]}
@@ -77,13 +83,13 @@ const Wishlist = props => {
                 icon={<DeleteIcon />}
                 onClick={() => addToWishlistRequest(card._id, 2)}
               />
-              <Typography gutterBottom variant="h5" component="h5">
+              <Typography gutterBottom variant="h6" component="h5">
                 Height: {card.height}&quot;
               </Typography>
               <Typography
                 className={classes.price}
                 gutterBottom
-                variant="body2"
+                variant="h6"
                 component="p"
               >
                 &#8377; {card.price}/-
@@ -97,6 +103,7 @@ const Wishlist = props => {
 };
 
 Wishlist.propTypes = {
+  addToCartRequest: PropTypes.func.isRequired,
   addToWishlistRequest: PropTypes.func.isRequired,
   data: PropTypes.array.isRequired,
   dataLoaded: PropTypes.bool.isRequired,

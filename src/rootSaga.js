@@ -12,14 +12,19 @@ import {
   EDIT_CARD_REQUEST,
   DELETE_CARD_REQUEST,
   CHANGE_PASSWORD_REQUEST,
+  ADD_TO_CART_REQUEST,
   USER_DETAILS_REQUEST,
   ADD_WISHLIST_REQUEST,
   ADD_ADDRESS_REQUEST,
   EDIT_ADDRESS_REQUEST,
   WISHLIST_REQUEST,
   CURRENT_PASSWORD_REQUEST,
+  CART_REQUEST,
   DELETE_ADDRESS_REQUEST,
+  DELETE_CART_REQUEST,
+  MOVE_TO_WISHLIST,
   DEFAULT_ADDRESS_REQUEST,
+  UPDATE_CART_REQUEST,
   CHANGE_PROFILE_PIC_REQUEST
 } from '__GLOBAL__/constants';
 import {
@@ -43,7 +48,12 @@ import {
   editCard,
   deleteCard,
   defaultAddress,
-  changeProfilePic
+  changeProfilePic,
+  addToCart,
+  getCartItems,
+  deleteCartItem,
+  moveToWishlist,
+  updateCart
 } from './ApiCalls';
 
 export function* publicRouteSaga() {
@@ -68,6 +78,11 @@ export function* publicRouteSaga() {
   yield takeEvery(WISHLIST_REQUEST, getWishlist);
   yield takeEvery(CHANGE_PROFILE_PIC_REQUEST, changeProfilePic);
   yield takeEvery(DELETE_CARD_REQUEST, deleteCard);
+  yield takeEvery(ADD_TO_CART_REQUEST, addToCart);
+  yield takeEvery(CART_REQUEST, getCartItems);
+  yield takeEvery(DELETE_CART_REQUEST, deleteCartItem);
+  yield takeEvery(MOVE_TO_WISHLIST, moveToWishlist);
+  yield takeEvery(UPDATE_CART_REQUEST, updateCart);
 }
 
 export default function* rootSaga() {

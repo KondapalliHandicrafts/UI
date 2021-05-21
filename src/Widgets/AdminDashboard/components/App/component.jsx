@@ -5,9 +5,10 @@ import Grid from '@material-ui/core/Grid';
 import Loading from '__SHARED__/Loading';
 import Table from '__SHARED__/Table';
 import Button from '__SHARED__/Button';
+import IconButton from '__SHARED__/IconButton';
 import ActionButtons from '__SHARED__/ActionButtons';
 import Confirmation from '__SHARED__/Confirmation';
-import { AddIcon } from '__SHARED__/SVG';
+import { AddIcon, EditIcon, DeleteIcon } from '__SHARED__/SVG';
 import { ADD_CARD, EDIT_CARD } from '__GLOBAL__/constants';
 import { headers } from '../../_helpers/constants';
 import AddEditCard from '../Modals/AddEditCard';
@@ -39,7 +40,7 @@ const AdminDashboard = props => {
   const classes = styles(props);
   useEffect(() => {
     getCardsData();
-  }, []);
+  }, [getCardsData]);
 
   return (
     <React.Fragment>
@@ -65,19 +66,21 @@ const AdminDashboard = props => {
             uniqueId="id"
             defaultOrderBy="itemName"
             actionButtons={row => [
-              <Button
+              <IconButton
                 key={1}
                 className={classes.editBtn}
                 onClick={() =>
                   toggleDialog(EDIT_CARD, { value: true, item: row })
                 }
-              >
-                Edit
-              </Button>,
+                icon={<EditIcon />}
+              />,
               <Confirmation
                 key={2}
-                buttonProps={{ variant: 'outlined', size: 'small' }}
-                buttonText="Remove"
+                isIcon
+                buttonProps={{
+                  size: 'small',
+                  icon: <DeleteIcon />
+                }}
                 message="Are you sure to delete address?"
                 okOnClick={() => deleteCardRequest(row._id)}
               />

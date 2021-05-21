@@ -1,17 +1,17 @@
 import { PURGE } from 'redux-persist';
 import { createReducer } from '__GLOBAL__/redux';
-import { UNMOUNT, REGISTER_LOADER } from '__GLOBAL__/constants';
+import { UNMOUNT, ORDERS_LOADER } from '__GLOBAL__/constants';
 
 const defaultState = {
   data: [],
   dataLoaded: false
 };
 
-const registerReducer = {
+const ordersReducer = {
   [PURGE]: () => {
     return defaultState;
   },
-  [REGISTER_LOADER]: (state, action) => ({
+  [ORDERS_LOADER]: (state, action) => ({
     ...state,
     dataLoaded: action.value
   }),
@@ -22,4 +22,4 @@ const registerReducer = {
   })
 };
 
-export default createReducer(defaultState, registerReducer);
+export default createReducer(defaultState, ordersReducer);

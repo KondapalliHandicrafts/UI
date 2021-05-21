@@ -18,7 +18,7 @@ const Home = props => {
 
   useEffect(() => {
     getCardsData();
-  }, []);
+  }, [getCardsData]);
 
   return (
     <React.Fragment>

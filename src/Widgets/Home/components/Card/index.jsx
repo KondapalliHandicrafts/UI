@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ImgMediaCard(props) {
   const classes = useStyles();
-  const { isLoggedIn, item, addToWishlistRequest } = props;
+  const { isLoggedIn, item, addToWishlistRequest, addToCartRequest } = props;
   return (
     <Grid item xs={12} sm={4} md={3} lg={2} xl={1}>
       <Card
@@ -56,7 +56,7 @@ export default function ImgMediaCard(props) {
               size="small"
               key={1}
               startIcon={<AddCartIcon />}
-              onClick={() => {}}
+              onClick={() => addToCartRequest(item._id)}
             >
               Add to Cart
             </Button>
@@ -97,6 +97,7 @@ export default function ImgMediaCard(props) {
 }
 
 ImgMediaCard.propTypes = {
+  addToCartRequest: PropTypes.func.isRequired,
   addToWishlistRequest: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired

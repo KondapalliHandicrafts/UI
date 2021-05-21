@@ -5,16 +5,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 
 const RadioField = props => {
-  const {
-    className,
-    required,
-    name,
-    id,
-    label,
-    rules,
-    options,
-    ...others
-  } = props;
+  const { className, required, name, id, label, rules, options, ...others } =
+    props;
   const { errors, control } = useFormContext();
 
   return (

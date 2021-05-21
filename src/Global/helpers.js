@@ -6,7 +6,16 @@ import themeCSS from './theme';
 
 const images = require.context('__ASSETS__/Images', true);
 
-export const imageLoader = imageName => images(`./${imageName}`).default;
+export const imageLoader = imageName => {
+  let image;
+  try {
+    image = images(`./${imageName}`);
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log(err.message);
+  }
+  return image ? image.default : null;
+};
 
 export function renderSnackbar(apiResult) {
   ReactDOM.render(

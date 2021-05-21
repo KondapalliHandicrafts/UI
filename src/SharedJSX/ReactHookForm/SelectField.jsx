@@ -7,16 +7,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
 const SelectField = props => {
-  const {
-    className,
-    required,
-    name,
-    id,
-    label,
-    rules,
-    options,
-    ...others
-  } = props;
+  const { className, required, name, id, label, rules, options, ...others } =
+    props;
   const { errors, control } = useFormContext();
   const { validate, ...restRules } = rules;
 

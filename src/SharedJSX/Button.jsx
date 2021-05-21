@@ -31,7 +31,7 @@ const styles = makeStyles(theme => ({
 }));
 
 const ButtonKH = props => {
-  const { children, onClick, icon, className, variant, ...other } = props;
+  const { children, onClick, icon, className, size, variant, ...other } = props;
   const classes = styles(props);
   return (
     <Button
@@ -41,6 +41,7 @@ const ButtonKH = props => {
       disableElevation
       onClick={onClick}
       variant={variant}
+      size={size}
       color="primary"
       {...other}
     >
@@ -54,12 +55,14 @@ ButtonKH.propTypes = {
   children: PropTypes.node,
   icon: PropTypes.node,
   onClick: PropTypes.func.isRequired,
+  size: PropTypes.string,
   variant: PropTypes.string
 };
 ButtonKH.defaultProps = {
   icon: null,
   className: null,
   children: null,
+  size: 'small',
   variant: 'contained'
 };
 

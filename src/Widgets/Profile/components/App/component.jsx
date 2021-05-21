@@ -80,7 +80,6 @@ const Profile = props => {
   const {
     dataLoaded,
     data,
-    // updateHeaderPic,
     getUserDetailsRequest,
     submitProfileRequest,
     changeProfilePicRequest,
@@ -104,7 +103,7 @@ const Profile = props => {
 
   useEffect(() => {
     getUserDetailsRequest();
-  }, []);
+  }, [getUserDetailsRequest]);
 
   useEffect(() => {
     if (data) {
@@ -113,7 +112,7 @@ const Profile = props => {
         reset({ ...data, profilePic: [res] })
       );
     }
-  }, [data]);
+  }, [data, reset]);
 
   return (
     <React.Fragment>
@@ -195,7 +194,6 @@ const Profile = props => {
                 </Grid>
               </Grid>
             </Grid>
-
             <Grid item xs={6}>
               <DateField
                 id="dob"
@@ -267,7 +265,6 @@ Profile.propTypes = {
   dataLoaded: PropTypes.bool.isRequired,
   getUserDetailsRequest: PropTypes.func.isRequired,
   submitProfileRequest: PropTypes.func.isRequired
-  // updateHeaderPic: PropTypes.func.isRequired
 };
 Profile.defaultProps = {};
 

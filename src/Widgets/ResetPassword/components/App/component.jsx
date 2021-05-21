@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { securityQuestions } from '__GLOBAL__/constants';
+import { securityQuestions, paths } from '__GLOBAL__/constants';
 import Loading from '__SHARED__/Loading';
 import Button from '__SHARED__/Button';
 import RouteLink from '__SHARED__/RouteLink';
@@ -51,20 +51,20 @@ const ResetPassword = props => {
 
   useEffect(() => {
     verifyResetID(id);
-  }, [id]);
+  }, [id, verifyResetID]);
 
   useEffect(() => {
     if (userdata) {
       setValue('secQue1', userdata.secQue1);
       setValue('secQue2', userdata.secQue2);
     }
-  }, [userdata]);
+  }, [userdata, setValue]);
 
   const classes = styles(props);
   const message = showSuccessMessage ? (
     <Grid>
       Password has been updated Successfully. Please{' '}
-      <RouteLink href="/login">click here</RouteLink> to Login
+      <RouteLink href={paths.login}>click here</RouteLink> to Login
     </Grid>
   ) : (
     <Grid>

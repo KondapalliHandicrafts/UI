@@ -11,7 +11,7 @@ const axiosAPI = axios.create({
     process.env.NODE_ENV === 'production' ||
     (process.env.NODE_ENV === 'development' && process.env.API_URL === 'prod')
       ? 'https://kondapalli-handicrafts.herokuapp.com/'
-      : 'http://localhost:3000'
+      : 'http://localhost:9229'
 });
 
 export const renderAPIResult = (apiPostResult, status) => {

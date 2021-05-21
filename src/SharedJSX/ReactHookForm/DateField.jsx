@@ -6,16 +6,8 @@ import { CalenderIcon } from '__SHARED__/SVG';
 import IconButton from '__SHARED__/IconButton';
 
 const DateField = props => {
-  const {
-    required,
-    name,
-    id,
-    label,
-    rules,
-    InputProps,
-    className,
-    ...others
-  } = props;
+  const { required, name, id, label, rules, InputProps, className, ...others } =
+    props;
 
   const { errors, control } = useFormContext();
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -26,7 +26,8 @@ const styles = makeStyles(() => ({
 }));
 
 const ForgotPassword = props => {
-  const { dataLoaded, forgotPasswordRequest, message } = props;
+  const { dataLoaded, forgotPasswordRequest, message, forgotPasswordLoader } =
+    props;
   const classes = styles(props);
   const { handleSubmit, ...methods } = useForm({
     mode: 'onTouched',
@@ -34,6 +35,11 @@ const ForgotPassword = props => {
       username: ''
     }
   });
+
+  useEffect(() => {
+    forgotPasswordLoader(true);
+  }, [forgotPasswordLoader]);
+
   return (
     <React.Fragment>
       <Loading open={!dataLoaded} />
@@ -72,6 +78,7 @@ const ForgotPassword = props => {
 ForgotPassword.propTypes = {
   dataLoaded: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired,
+  forgotPasswordLoader: PropTypes.func.isRequired,
   forgotPasswordRequest: PropTypes.func.isRequired
 };
 ForgotPassword.defaultProps = {};

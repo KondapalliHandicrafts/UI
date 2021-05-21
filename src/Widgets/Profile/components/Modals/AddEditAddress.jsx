@@ -34,7 +34,7 @@ const AddEditAddress = props => {
 
   useEffect(() => {
     if (!isAdd) reset(item);
-  }, []);
+  }, [isAdd, item, reset]);
 
   const onClose = () => {
     if (isAdd) toggleDialog(ADD_ADDRESS, false);
@@ -138,6 +138,11 @@ const AddEditAddress = props => {
               name="pincode"
               id="pincode"
               type="number"
+              rules={{
+                validate: {
+                  maxLength: value => value.length === 6 || 'Not valid pincode'
+                }
+              }}
               required
             />
           </Grid>

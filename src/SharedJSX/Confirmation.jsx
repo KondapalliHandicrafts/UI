@@ -8,12 +8,18 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import ActionButtons from './ActionButtons';
 import Button from './Button';
+import IconButton from './IconButton';
 
 const styles = makeStyles(theme => ({
   paperRoot: {
     minWidth: 600,
     [theme.breakpoints.down('xs')]: {
       minWidth: '100vw'
+    }
+  },
+  actionButtons: {
+    '& button': {
+      marginRight: '1rem'
     }
   }
 }));
@@ -34,6 +40,7 @@ const Confirmation = props => {
     oKText,
     cancelText,
     buttonProps,
+    isIcon,
     ...others
   } = props;
   const classes = styles();
@@ -42,9 +49,13 @@ const Confirmation = props => {
 
   return (
     <React.Fragment>
-      <Button onClick={handleOpen} {...buttonProps}>
-        {buttonText}
-      </Button>
+      {isIcon ? (
+        <IconButton onClick={handleOpen} {...buttonProps} />
+      ) : (
+        <Button onClick={handleOpen} {...buttonProps}>
+          {buttonText}
+        </Button>
+      )}
       <Dialog
         fullScreen={fullScreen || smallFullScreen}
         open={stateOpen}
@@ -62,6 +73,7 @@ const Confirmation = props => {
         <DialogContent>{message}</DialogContent>
         <DialogActions>
           <ActionButtons
+            className={classes.actionButtons}
             buttons={[
               <Button key={1} onClick={okOnClick}>
                 {oKText}
@@ -80,7 +92,7 @@ const Confirmation = props => {
 Confirmation.propTypes = {
   buttonProps: PropTypes.object,
   buttonText: PropTypes.string.isRequired,
-  //   buttonType: PropTypes.number.isRequired,
+  isIcon: PropTypes.bool,
   cancelText: PropTypes.string,
   fullScreen: PropTypes.bool,
   message: PropTypes.string.isRequired,
@@ -92,6 +104,7 @@ Confirmation.propTypes = {
 Confirmation.defaultProps = {
   buttonProps: {},
   cancelText: 'No',
+  isIcon: false,
   oKText: 'Yes',
   fullScreen: false
 };

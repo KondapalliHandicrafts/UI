@@ -8,7 +8,7 @@ import {
 
 const defaultState = {
   data: [],
-  dataLoaded: true,
+  dataLoaded: false,
   message: null
 };
 
