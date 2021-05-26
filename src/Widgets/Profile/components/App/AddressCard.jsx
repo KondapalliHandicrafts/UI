@@ -73,16 +73,16 @@ const AddressCards = props => {
               )
             ]}
           >
-            <Typography component="p" variant="caption">
+            <Typography component="p" variant="body2">
               {item.houseNo}, {item.area}
             </Typography>
-            <Typography component="p" variant="caption">
+            <Typography component="p" variant="body2">
               {item.city}, {item.state} - {item.pincode}
             </Typography>
-            <Typography component="p" variant="caption">
+            <Typography component="p" variant="body2">
               India
             </Typography>
-            <Typography component="p" variant="caption">
+            <Typography component="p" variant="body2">
               Phone Number: {item.mobile}
             </Typography>
           </Card>

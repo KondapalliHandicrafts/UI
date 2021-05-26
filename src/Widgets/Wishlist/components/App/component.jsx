@@ -64,7 +64,7 @@ const Wishlist = props => {
               title={card.title}
               imageProps={{
                 alt: card.title,
-                width: '250px',
+                width: '235px',
                 height: 'auto',
                 imageURL: imageLoader(card.filename)
               }}
@@ -83,13 +83,13 @@ const Wishlist = props => {
                 icon={<DeleteIcon />}
                 onClick={() => addToWishlistRequest(card._id, 2)}
               />
-              <Typography gutterBottom variant="h6" component="h5">
+              <Typography gutterBottom variant="body1" component="p">
                 Height: {card.height}&quot;
               </Typography>
               <Typography
                 className={classes.price}
                 gutterBottom
-                variant="h6"
+                variant="body1"
                 component="p"
               >
                 &#8377; {card.price}/-

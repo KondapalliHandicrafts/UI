@@ -34,6 +34,11 @@ const styles = makeStyles(theme => ({
   price: {
     textAlign: 'right'
   },
+  textField: {
+    '& input': {
+      textAlign: 'center'
+    }
+  },
   addBtn: {
     marginLeft: '0.5rem',
     marginRight: '2rem',
@@ -97,7 +102,7 @@ const Cart = props => {
           )}
           {data.map(cart => {
             const { cardId: card, quantity } = cart;
-            itemsAmount += card.price * card.quantity;
+            itemsAmount += card.price * quantity;
             totalAmount =
               itemsAmount + deliveryCharge + (itemsAmount * 18) / 100;
             return (
@@ -108,10 +113,10 @@ const Cart = props => {
                 isRow={false}
                 title={
                   <Grid className={classes.titlePriceWrap}>
-                    <Typography gutterBottom variant="h6" component="h5">
+                    <Typography gutterBottom variant="subtitle2" component="h5">
                       {card.title}
                     </Typography>
-                    <Typography gutterBottom variant="h6" component="p">
+                    <Typography gutterBottom variant="body1" component="p">
                       &#8377; {card.price}/-
                     </Typography>
                   </Grid>
@@ -123,7 +128,7 @@ const Cart = props => {
                   imageURL: imageLoader(card.filename)
                 }}
               >
-                <Typography gutterBottom variant="h5" component="h5">
+                <Typography gutterBottom variant="body1" component="p">
                   Height: {card.height}&quot;
                 </Typography>
                 <Grid className={classes.btnWrap}>
@@ -137,7 +142,9 @@ const Cart = props => {
                     style={{ width: '10%' }}
                     value={quantity}
                     onBlur={e => updateCart(card._id, e.target.value, quantity)}
-                    InputProps={{ readOnly: true }}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                   <IconButton
                     className={classes.addBtn}

@@ -12,8 +12,8 @@ import { imageLoader } from '__GLOBAL__/helpers';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    // maxWidth: 300,
-    position: 'relative'
+    position: 'relative',
+    height: '100%'
   },
   priceWrap: {
     display: 'flex',
@@ -32,6 +32,11 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     top: 10,
     right: 10
+  },
+  outOfStock: {
+    color: theme.colors.error,
+    textAlign: 'center',
+    width: '100%'
   }
 }));
 
@@ -39,7 +44,7 @@ export default function ImgMediaCard(props) {
   const classes = useStyles();
   const { isLoggedIn, item, addToWishlistRequest, addToCartRequest } = props;
   return (
-    <Grid item xs={12} sm={4} md={3} lg={2} xl={1}>
+    <Grid item xs={6} sm={4} md={3} lg={2} xl={1}>
       <Card
         className={classes.root}
         isActionsArea
@@ -50,7 +55,7 @@ export default function ImgMediaCard(props) {
         }}
         title={item.title}
         buttons={[
-          isLoggedIn && (
+          isLoggedIn && item.quantity ? (
             <Button
               className={classes.addIcon}
               size="small"
@@ -60,6 +65,8 @@ export default function ImgMediaCard(props) {
             >
               Add to Cart
             </Button>
+          ) : (
+            <Grid className={classes.outOfStock}> Out of stock</Grid>
           )
         ]}
       >
@@ -78,13 +85,13 @@ export default function ImgMediaCard(props) {
                 }}
               />
             )}
-            <Typography gutterBottom variant="h5" component="h5">
+            <Typography gutterBottom variant="body1" component="p">
               Height: {item.height}&quot;
             </Typography>
             <Typography
               className={classes.price}
               gutterBottom
-              variant="body2"
+              variant="body1"
               component="p"
             >
               &#8377; {item.price}/-

@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
       display: 'flex'
     },
   cardContent: {
-    flex: '1 0 auto',
+    flex: '1 1 auto',
     paddingBottom: 0
   },
   cardActionArea: {
@@ -62,7 +62,7 @@ const CardKH = props => {
       </CardActionArea>
       <CardContent className={classes.cardContent}>
         {title && (
-          <Typography gutterBottom variant="h6" component="h2">
+          <Typography gutterBottom variant="subtitle2" component="h2">
             {title}
           </Typography>
         )}
