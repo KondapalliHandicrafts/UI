@@ -18,7 +18,8 @@ const useStyles = makeStyles(theme => ({
     width: '100%'
   },
   container: {
-    maxHeight: 440
+    // maxHeight: 600
+    flex: 1
   },
   tableRow: {
     '&:nth-of-type(odd)': {
@@ -142,6 +143,33 @@ export default function TableKH(props) {
                     <TableRow className={classes.tableRow} key={row[uniqueId]}>
                       {headers.map(header => {
                         const value = row[header.id];
+                        let data;
+                        if (typeof value === 'object' && Array.isArray(value))
+                          data = row[header.id].map(item => {
+                            if (typeof item === 'object') {
+                              const keys = Object.keys(item);
+                              return keys.map((k, i) => (
+                                <div key={k}>{`${i === 0 ? '' : '--'} ${k} : ${
+                                  item[k]
+                                }`}</div>
+                              ));
+                            }
+                            return (
+                              <div key={JSON.stringify(item)}>
+                                {JSON.stringify(item, null, 2)}
+                              </div>
+                            );
+                          });
+                        else if (typeof value !== 'object')
+                          data = `${row[header.id]}`;
+                        else {
+                          const keys = Object.keys(row[header.id]);
+                          return keys.map((k, i) => (
+                            <div key={k}>{`${i === 0 ? '' : '--'} ${k} : ${
+                              row[header.id][k]
+                            }`}</div>
+                          ));
+                        }
                         if (header.id === 'actions')
                           return (
                             <TableCell
@@ -158,11 +186,7 @@ export default function TableKH(props) {
                             key={header.id}
                             align={header.align}
                           >
-                            {Array.isArray(value)
-                              ? row[header.id].map(item => (
-                                  <div key={item}>{item}</div>
-                                ))
-                              : `${row[header.id]}`}
+                            {data}
                           </TableCell>
                         );
                       })}

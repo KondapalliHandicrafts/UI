@@ -1,4 +1,4 @@
-import { all, takeEvery } from 'redux-saga/effects';
+import { all, takeEvery, takeLatest } from 'redux-saga/effects';
 import {
   LOGIN_REQUEST,
   LOGOUT_REQUEST,
@@ -25,7 +25,8 @@ import {
   MOVE_TO_WISHLIST,
   DEFAULT_ADDRESS_REQUEST,
   UPDATE_CART_REQUEST,
-  CHANGE_PROFILE_PIC_REQUEST
+  CHANGE_PROFILE_PIC_REQUEST,
+  CARD_DETAILS_REQUEST
 } from '__GLOBAL__/constants';
 import {
   login,
@@ -53,7 +54,8 @@ import {
   getCartItems,
   deleteCartItem,
   moveToWishlist,
-  updateCart
+  updateCart,
+  getCardData
 } from './ApiCalls';
 
 export function* publicRouteSaga() {
@@ -83,6 +85,7 @@ export function* publicRouteSaga() {
   yield takeEvery(DELETE_CART_REQUEST, deleteCartItem);
   yield takeEvery(MOVE_TO_WISHLIST, moveToWishlist);
   yield takeEvery(UPDATE_CART_REQUEST, updateCart);
+  yield takeLatest(CARD_DETAILS_REQUEST, getCardData);
 }
 
 export default function* rootSaga() {

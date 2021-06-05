@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '__SHARED__/Button';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(() => ({
   buttonGroup: {
@@ -26,7 +26,12 @@ export default function BasicButtonGroup(props) {
       {...others}
     >
       {buttons.map(button => (
-        <Button key={button.key} variant={variant} size="small" {...button}>
+        <Button
+          key={button.key}
+          variant={button.variant || variant}
+          size="small"
+          {...button}
+        >
           {button.label}
         </Button>
       ))}

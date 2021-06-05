@@ -55,7 +55,7 @@ SnackbarAPI.propTypes = {
 };
 
 SnackbarAPI.defaultProps = {
-  autoHideDuration: 50000
+  autoHideDuration: 3000
 };
 
 export default SnackbarAPI;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -14,11 +14,16 @@ const styles = makeStyles(() => ({
 }));
 
 const Orders = props => {
-  const { dataLoaded } = props;
+  const { dataLoaded, commonLoader } = props;
   const classes = styles(props);
+
+  useEffect(() => {
+    commonLoader(true);
+  }, [commonLoader]);
+
   return (
     <React.Fragment>
-      <Loading open={dataLoaded} />
+      <Loading open={!dataLoaded} />
       <Grid container className={classes.container}>
         My orders is under development.Please check out after few days
       </Grid>
@@ -27,6 +32,7 @@ const Orders = props => {
 };
 
 Orders.propTypes = {
+  commonLoader: PropTypes.func.isRequired,
   dataLoaded: PropTypes.bool.isRequired
 };
 Orders.defaultProps = {};

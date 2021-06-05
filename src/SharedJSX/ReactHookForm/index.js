@@ -5,4 +5,3 @@ export { default as AutoCompleteField } from './AutoCompleteField';
 export { default as CheckField } from './CheckField';
 export { default as RadioField } from './RadioField';
 export { default as DateField } from './DateField';
-export { default as NewFileUploadField } from './NewFileUploadField';

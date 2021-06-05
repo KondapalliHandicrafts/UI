@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -36,7 +36,7 @@ const styles = makeStyles(() => ({
 }));
 
 const Login = props => {
-  const { dataLoaded, loginRequest, history } = props;
+  const { dataLoaded, loginRequest, commonLoader, history } = props;
   const { handleSubmit, ...methods } = useForm({
     mode: 'onTouched',
     defaultValues: {
@@ -46,9 +46,13 @@ const Login = props => {
   });
   const classes = styles(props);
 
+  useEffect(() => {
+    commonLoader(true);
+  }, [commonLoader]);
+
   return (
     <React.Fragment>
-      <Loading open={dataLoaded} />
+      <Loading open={!dataLoaded} />
       <Grid className={classes.container}>
         <Paper elevation={4}>
           <FormProvider {...methods}>
@@ -107,6 +111,7 @@ const Login = props => {
 };
 
 Login.propTypes = {
+  commonLoader: PropTypes.func.isRequired,
   dataLoaded: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired,
   loginRequest: PropTypes.func.isRequired

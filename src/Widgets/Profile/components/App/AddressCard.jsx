@@ -14,6 +14,11 @@ const styles = makeStyles(() => ({
   buttons: {
     textTransform: 'none',
     margin: '0 1rem'
+  },
+  addressCard: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column'
   }
 }));
 
@@ -39,6 +44,7 @@ const AddressCards = props => {
       {data.addresses.map(item => (
         <Grid key={item._id} item xs={12} sm={6} md={4} lg={3} xl={2}>
           <Card
+            className={classes.addressCard}
             title={item.fullName}
             isActionButton
             buttons={[

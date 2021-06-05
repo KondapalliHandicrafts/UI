@@ -26,8 +26,13 @@ const styles = makeStyles(() => ({
 }));
 
 const ForgotPassword = props => {
-  const { dataLoaded, forgotPasswordRequest, message, forgotPasswordLoader } =
-    props;
+  const {
+    dataLoaded,
+    forgotPasswordRequest,
+    message,
+    commonLoader,
+    forgotPasswordUnmount
+  } = props;
   const classes = styles(props);
   const { handleSubmit, ...methods } = useForm({
     mode: 'onTouched',
@@ -37,8 +42,9 @@ const ForgotPassword = props => {
   });
 
   useEffect(() => {
-    forgotPasswordLoader(true);
-  }, [forgotPasswordLoader]);
+    commonLoader(true);
+    return () => forgotPasswordUnmount();
+  }, [commonLoader, forgotPasswordUnmount]);
 
   return (
     <React.Fragment>
@@ -78,8 +84,9 @@ const ForgotPassword = props => {
 ForgotPassword.propTypes = {
   dataLoaded: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired,
-  forgotPasswordLoader: PropTypes.func.isRequired,
-  forgotPasswordRequest: PropTypes.func.isRequired
+  commonLoader: PropTypes.func.isRequired,
+  forgotPasswordRequest: PropTypes.func.isRequired,
+  forgotPasswordUnmount: PropTypes.func.isRequired
 };
 ForgotPassword.defaultProps = {};
 

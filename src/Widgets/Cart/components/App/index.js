@@ -4,7 +4,8 @@ import * as cartAction from '__SRC__/actions';
 import Cart from './component';
 
 const mapStatetoProps = state => ({
-  ...state.cartReducer
+  ...state.cartReducer,
+  dataLoaded: state.routingReducer.dataLoaded
 });
 
 const mapDispatchtoProps = dispatch => bindActionCreators(cartAction, dispatch);

@@ -1,8 +1,6 @@
 import { PURGE } from 'redux-persist';
 import { createReducer } from '__GLOBAL__/redux';
 import {
-  UNMOUNT,
-  PROFILE_LOADER,
   PROFILE_SUCCESS,
   TOGGLE_DIALOG,
   ADD_ADDRESS,
@@ -11,7 +9,6 @@ import {
 
 const defaultState = {
   data: null,
-  dataLoaded: false,
   addPanelOpen: false,
   editPanelOpen: false
 };
@@ -20,10 +17,6 @@ const profileReducer = {
   [PURGE]: () => {
     return defaultState;
   },
-  [PROFILE_LOADER]: (state, action) => ({
-    ...state,
-    dataLoaded: action.value
-  }),
   [PROFILE_SUCCESS]: (state, action) => ({
     ...state,
     data: action.data
@@ -38,14 +31,7 @@ const profileReducer = {
         item: action.data.item
       };
     return { ...state };
-  },
-  [UNMOUNT]: state => ({
-    ...state,
-    dataLoaded: false,
-    data: null,
-    addPanelOpen: false,
-    editPanelOpen: false
-  })
+  }
 };
 
 export default createReducer(defaultState, profileReducer);

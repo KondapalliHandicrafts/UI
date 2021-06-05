@@ -36,7 +36,7 @@ const styles = makeStyles(() => ({
 }));
 
 const Register = props => {
-  const { dataLoaded, registerUserRequest, registerLoader } = props;
+  const { dataLoaded, registerUserRequest, commonLoader, history } = props;
   const { handleSubmit, watch, ...methods } = useForm({
     mode: 'onTouched',
     defaultValues: {
@@ -52,8 +52,8 @@ const Register = props => {
   });
 
   useEffect(() => {
-    registerLoader(true);
-  }, [registerLoader]);
+    commonLoader(true);
+  }, [commonLoader]);
 
   const classes = styles(props);
   return (
@@ -65,7 +65,9 @@ const Register = props => {
             <Grid
               className={classes.registerWrap}
               component="form"
-              onSubmit={handleSubmit(registerUserRequest)}
+              onSubmit={handleSubmit(values =>
+                registerUserRequest(values, history)
+              )}
               container
               spacing={2}
             >
@@ -208,7 +210,9 @@ const Register = props => {
                   startIcon={<SubmitIcon />}
                   className={classes.signupBtn}
                   type="submit"
-                  onClick={handleSubmit(registerUserRequest)}
+                  onClick={handleSubmit(values =>
+                    registerUserRequest(values, history)
+                  )}
                 >
                   Signup
                 </Button>
@@ -223,7 +227,8 @@ const Register = props => {
 
 Register.propTypes = {
   dataLoaded: PropTypes.bool.isRequired,
-  registerLoader: PropTypes.func.isRequired,
+  commonLoader: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   registerUserRequest: PropTypes.func.isRequired
 };
 Register.defaultProps = {};

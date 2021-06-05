@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormProvider, useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
@@ -36,7 +36,9 @@ const ChangePassword = props => {
     changePasswordRequest,
     checkCurPasswordRequest,
     curPasswordStatus,
-    curPasswordmessage
+    curPasswordmessage,
+    changePasswordUnmount,
+    commonLoader
   } = props;
   const { handleSubmit, watch, setValue, reset, ...methods } = useForm({
     mode: 'onTouched',
@@ -48,16 +50,29 @@ const ChangePassword = props => {
   });
 
   const classes = styles(props);
+
+  useEffect(() => {
+    commonLoader(true);
+    return () => changePasswordUnmount();
+  }, [commonLoader, changePasswordUnmount]);
+
   return (
     <React.Fragment>
-      <Loading open={dataLoaded} />
+      <Loading open={!dataLoaded} />
       <Grid container className={classes.container}>
         <Paper elevation={4}>
           <FormProvider {...methods}>
             <Grid
               className={classes.changePasswordWrap}
               component="form"
-              onSubmit={handleSubmit(changePasswordRequest)}
+              onSubmit={handleSubmit(values => {
+                changePasswordRequest(values);
+                reset({
+                  curPassword: '',
+                  password: '',
+                  confirmPassword: ''
+                });
+              })}
               container
               spacing={2}
             >
@@ -105,7 +120,14 @@ const ChangePassword = props => {
                 <Button
                   startIcon={<SubmitIcon />}
                   type="submit"
-                  onClick={handleSubmit(changePasswordRequest)}
+                  onClick={handleSubmit(values => {
+                    changePasswordRequest(values);
+                    reset({
+                      curPassword: '',
+                      password: '',
+                      confirmPassword: ''
+                    });
+                  })}
                 >
                   Submit
                 </Button>
@@ -121,7 +143,9 @@ const ChangePassword = props => {
 ChangePassword.propTypes = {
   dataLoaded: PropTypes.bool.isRequired,
   changePasswordRequest: PropTypes.func.isRequired,
+  changePasswordUnmount: PropTypes.func.isRequired,
   checkCurPasswordRequest: PropTypes.func.isRequired,
+  commonLoader: PropTypes.func.isRequired,
   curPasswordmessage: PropTypes.string.isRequired,
   curPasswordStatus: PropTypes.number.isRequired
 };

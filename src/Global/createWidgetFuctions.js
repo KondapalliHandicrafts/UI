@@ -1,24 +1,18 @@
 const getReducerData = widgetName => {
   return `import { PURGE } from 'redux-persist';
 import { createReducer } from '__GLOBAL__/redux';
-import { UNMOUNT, ${widgetName.toUpperCase()}_LOADER } from '__GLOBAL__/constants';
+import { ${widgetName.toUpperCase()}_UNMOUNT } from '__GLOBAL__/constants';
 
 const defaultState = {
-  data: [],
-  dataLoaded: false
+  data: []
 };
 
 const ${widgetName}Reducer = {
   [PURGE]: () => {
     return defaultState;
   },
-  [${widgetName.toUpperCase()}_LOADER]: (state, action) => ({
+  [${widgetName.toUpperCase()}_UNMOUNT]: (state, action) => ({
     ...state,
-    dataLoaded: action.value
-  }),
-  [UNMOUNT]: state => ({
-    ...state,
-    dataLoaded: false,
     data: []
   })
 };
@@ -34,7 +28,8 @@ import * as ${camelCaseName}Action from '__SRC__/actions';
 import ${widgetName} from './component';
 
 const mapStatetoProps = state => ({
-  ...state.${camelCaseName}Reducer
+  ...state.${camelCaseName}Reducer,
+  dataLoaded: state.routingReducer.dataLoaded
 });
 
 const mapDispatchtoProps = dispatch =>
@@ -48,13 +43,13 @@ const getReadMeData = (widgetName, camelCaseName) => {
   return `1. Add routing path in /src/Global/constants.js.
   2. Add ${widgetName}Reducer in /src/rootReducer.js.
   3. Create Routing component reference in /src/Routing/App/Component.jsx. Choose publicRoute if pages dont require login otherwise choose privateRoute.
-  4. export const ${widgetName.toUpperCase()}_LOADER = '${widgetName.toUpperCase()}_LOADER';
-  5. export const ${camelCaseName}Loader = createAction(${widgetName.toUpperCase()}_LOADER, 'value');
+  4. export const ${widgetName.toUpperCase()}_UNMOUNT = '${widgetName.toUpperCase()}_UNMOUNT';
+  5. export const ${camelCaseName}Unmount = createAction(${widgetName.toUpperCase()}_UNMOUNT);
   `;
 };
 
 const getAppComponentData = widgetName => {
-  return `import React from 'react';
+  return `import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -70,11 +65,17 @@ const styles = makeStyles(() => ({
 }));
 
 const ${widgetName} = props => {
-  const { dataLoaded } = props;
+  const { dataLoaded, commonLoader, ${widgetName}Unmount() } = props;
   const classes = styles(props);
+  
+  useEffect(() => {
+    commonLoader(true);
+    return () => ${widgetName}Unmount();
+  }, [commonLoader, ${widgetName}Unmount]);
+
   return (
     <React.Fragment>
-      <Loading open={dataLoaded} />
+      <Loading open={!dataLoaded} />
       <Grid container className={classes.container}>
         ${widgetName} widget is created and ready to use.
       </Grid>
@@ -83,7 +84,9 @@ const ${widgetName} = props => {
 };
 
 ${widgetName}.propTypes = {
-  dataLoaded: PropTypes.bool.isRequired
+  commonLoader: PropTypes.func.isRequired,
+  dataLoaded: PropTypes.bool.isRequired,
+  ${widgetName}Unmount: PropTypes.func.isRequired,
 };
 ${widgetName}.defaultProps = {};
 

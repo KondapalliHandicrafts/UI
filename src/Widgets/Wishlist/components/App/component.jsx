@@ -10,14 +10,14 @@ import IconButton from '__SHARED__/IconButton';
 import RouteLink from '__SHARED__/RouteLink';
 import { AddCartIcon, DeleteIcon } from '__SHARED__/SVG';
 import { imageLoader } from '__GLOBAL__/helpers';
-import { paths } from '__GLOBAL__/constants';
+import { paths, types } from '__GLOBAL__/constants';
 
 const styles = makeStyles(() => ({
   container: {
     display: 'flex',
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    flex: 1,
+    alignItems: props => (props.data.length === 0 ? 'center' : 'flex-start'),
+    textAlign: props => props.data.length === 0 && 'center',
     padding: '2rem',
     paddingTop: '8rem'
   },
@@ -72,7 +72,9 @@ const Wishlist = props => {
                 <Button
                   key={1}
                   startIcon={<AddCartIcon />}
-                  onClick={() => addToCartRequest(card._id, 2)}
+                  onClick={() =>
+                    addToCartRequest(card._id, card.size, types.WISHLIST)
+                  }
                 >
                   Add to Cart
                 </Button>
@@ -81,18 +83,20 @@ const Wishlist = props => {
               <IconButton
                 className={classes.wishlist}
                 icon={<DeleteIcon />}
-                onClick={() => addToWishlistRequest(card._id, 2)}
+                onClick={() =>
+                  addToWishlistRequest(card._id, card.size, types.WISHLIST)
+                }
               />
-              <Typography gutterBottom variant="body1" component="p">
-                Height: {card.height}&quot;
-              </Typography>
               <Typography
                 className={classes.price}
                 gutterBottom
                 variant="body1"
                 component="p"
               >
-                &#8377; {card.price}/-
+                M.R.P: &#8377; {card.price}/-
+              </Typography>
+              <Typography gutterBottom variant="body1" component="p">
+                Size: {card.size}
               </Typography>
             </Card>
           </Grid>

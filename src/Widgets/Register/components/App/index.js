@@ -4,7 +4,8 @@ import * as registerAction from '__SRC__/actions';
 import Register from './component';
 
 const mapStatetoProps = state => ({
-  ...state.registerReducer
+  ...state.registerReducer,
+  dataLoaded: state.routingReducer.dataLoaded
 });
 
 const mapDispatchtoProps = dispatch =>

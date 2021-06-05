@@ -4,7 +4,8 @@ import * as profileAction from '__SRC__/actions';
 import Profile from './component';
 
 const mapStatetoProps = state => ({
-  ...state.profileReducer
+  ...state.profileReducer,
+  dataLoaded: state.routingReducer.dataLoaded
 });
 
 const mapDispatchtoProps = dispatch =>

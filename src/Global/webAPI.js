@@ -37,7 +37,7 @@ export const postCall = ({ url, inputs, showSnack, headers }) =>
       return res.data;
     })
     .catch(err => {
-      if (err.response) {
+      if (err && err.response) {
         renderAPIResult(err.response.data, err.response.status);
         throw new Error(err);
       }
@@ -54,7 +54,11 @@ export const getCall = ({ url, headers }) =>
     })
     .then(res => res.data)
     .catch(err => {
-      throw new Error(err);
+      if (err && err.response) {
+        renderAPIResult(err.response.data, err.response.status);
+        throw new Error(err);
+      }
+      return err.response.data;
     });
 
 export const deleteCall = ({ url, showSnack = true, headers }) =>
@@ -70,7 +74,7 @@ export const deleteCall = ({ url, showSnack = true, headers }) =>
       return res.data;
     })
     .catch(err => {
-      if (err.response) {
+      if (err && err.response) {
         renderAPIResult(err.response.data, err.response.status);
         throw new Error(err);
       }
@@ -90,7 +94,7 @@ export const putCall = ({ url, inputs, showSnack = true, headers }) =>
       return res.data;
     })
     .catch(err => {
-      if (err.response) {
+      if (err && err.response) {
         renderAPIResult(err.response.data, err.response.status);
         throw new Error(err);
       }

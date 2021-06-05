@@ -13,30 +13,33 @@ const styles = makeStyles(() => ({
 }));
 
 const Home = props => {
-  const { dataLoaded, data, getCardsData } = props;
+  const { dataLoaded, data, getCardsData, cardsUnmount } = props;
   const classes = styles(props);
 
   useEffect(() => {
     getCardsData();
-  }, [getCardsData]);
+    return () => cardsUnmount();
+  }, [getCardsData, cardsUnmount]);
 
   return (
     <React.Fragment>
       <Loading open={!dataLoaded} />
       <Grid container className={classes.container} spacing={2}>
-        {data.map(item => (
-          <Card {...props} item={item} key={item._id} />
-        ))}
+        {data.length === 0 ? (
+          <Grid>No Items on stock. Sorry for inconvenience</Grid>
+        ) : (
+          <Card data={data} {...props} />
+        )}
       </Grid>
     </React.Fragment>
   );
 };
 
 Home.propTypes = {
+  cardsUnmount: PropTypes.func.isRequired,
   dataLoaded: PropTypes.bool.isRequired,
   data: PropTypes.array.isRequired,
-  getCardsData: PropTypes.func.isRequired,
-  unmount: PropTypes.func.isRequired
+  getCardsData: PropTypes.func.isRequired
 };
 Home.defaultProps = {};
 

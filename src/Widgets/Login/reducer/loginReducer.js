@@ -1,7 +1,6 @@
 import { PURGE } from 'redux-persist';
 import { createReducer } from '__GLOBAL__/redux';
 import {
-  UNMOUNT,
   LOGIN_SUCCESS,
   UPDATE_HEADER_PIC,
   UPDATE_CART_COUNT
@@ -11,7 +10,6 @@ const defaultState = {
   data: [],
   token: null,
   isAdmin: false,
-  dataLoaded: false,
   isLoggedIn: false,
   cartCount: 0,
   profilePic: null
@@ -36,12 +34,6 @@ const loginReducer = {
   [UPDATE_CART_COUNT]: (state, action) => ({
     ...state,
     cartCount: action.data.cartCount
-  }),
-  [UNMOUNT]: state => ({
-    ...state,
-    dataLoaded: false,
-    data: [],
-    token: null
   })
 };
 

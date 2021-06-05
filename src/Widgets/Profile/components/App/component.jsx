@@ -11,7 +11,7 @@ import {
   TextField,
   RadioField,
   DateField,
-  NewFileUploadField
+  FileUploadField
 } from '__SHARED__/ReactHookForm';
 import { urltoFile } from '__GLOBAL__/helpers';
 import AddressCards from './AddressCard';
@@ -123,13 +123,17 @@ const Profile = props => {
             className={classes.profileWrap}
             component="form"
             onSubmit={handleSubmit(values =>
-              submitProfileRequest({ ...values, id: data._id })
+              submitProfileRequest({
+                ...values,
+                id: data._id,
+                profilePic: undefined
+              })
             )}
             container
             spacing={2}
           >
             <Grid item xs={6} className={classes.picWrap}>
-              <NewFileUploadField
+              <FileUploadField
                 className={classes.profilePic}
                 message="Upload Pic"
                 accept="image/png,image/jpg,image/jpeg,image/webp"
@@ -240,7 +244,11 @@ const Profile = props => {
                   <Button
                     key={1}
                     onClick={handleSubmit(values =>
-                      submitProfileRequest({ ...values, id: data._id })
+                      submitProfileRequest({
+                        ...values,
+                        id: data._id,
+                        profilePic: undefined
+                      })
                     )}
                   >
                     Submit

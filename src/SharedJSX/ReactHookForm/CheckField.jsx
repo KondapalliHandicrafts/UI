@@ -15,6 +15,7 @@ const CheckField = props => {
     label,
     rules,
     options,
+    defaultValue,
     disabled,
     ...others
   } = props;
@@ -54,7 +55,7 @@ const CheckField = props => {
       }}
       name={name}
       control={control}
-      defaultValue={false}
+      defaultValue={defaultValue}
       rules={{
         required: { value: required, message: 'Required' },
         ...rules
@@ -65,6 +66,7 @@ const CheckField = props => {
 
 CheckField.propTypes = {
   className: PropTypes.string,
+  defaultValue: PropTypes.bool,
   disabled: PropTypes.bool,
   id: PropTypes.string.isRequired,
   label: PropTypes.string,
@@ -77,6 +79,7 @@ CheckField.propTypes = {
 
 CheckField.defaultProps = {
   className: null,
+  defaultValue: false,
   disabled: false,
   label: null,
   rules: {},

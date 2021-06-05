@@ -4,7 +4,8 @@ import * as forgotPasswordAction from '__SRC__/actions';
 import ForgotPassword from './component';
 
 const mapStatetoProps = state => ({
-  ...state.forgotPasswordReducer
+  ...state.forgotPasswordReducer,
+  dataLoaded: state.routingReducer.dataLoaded
 });
 
 const mapDispatchtoProps = dispatch =>

@@ -7,8 +7,17 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
 const SelectField = props => {
-  const { className, required, name, id, label, rules, options, ...others } =
-    props;
+  const {
+    className,
+    required,
+    name,
+    id,
+    label,
+    rules,
+    options,
+    defaultValue,
+    ...others
+  } = props;
   const { errors, control } = useFormContext();
   const { validate, ...restRules } = rules;
 
@@ -37,11 +46,14 @@ const SelectField = props => {
               {...others}
             >
               <option value="Select">Select</option>
-              {options.map(item => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
+              {options.map(
+                item =>
+                  item && (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  )
+              )}
             </Select>
             {errors[name] && (
               <FormHelperText error>{errors[name].message}</FormHelperText>
@@ -50,7 +62,7 @@ const SelectField = props => {
         );
       }}
       name={name}
-      defaultValue="Select"
+      defaultValue={defaultValue}
       control={control}
       rules={{
         required: { value: required, message: 'Required' },
@@ -63,6 +75,7 @@ const SelectField = props => {
 
 SelectField.propTypes = {
   className: PropTypes.string,
+  defaultValue: PropTypes.string,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
@@ -74,6 +87,7 @@ SelectField.propTypes = {
 
 SelectField.defaultProps = {
   className: null,
+  defaultValue: 'Select',
   rules: {},
   required: false
 };

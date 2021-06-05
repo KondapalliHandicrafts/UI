@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 import Loading from '__SHARED__/Loading';
 import Table from '__SHARED__/Table';
 import Button from '__SHARED__/Button';
@@ -23,6 +24,9 @@ const styles = makeStyles(() => ({
   editBtn: {
     padding: '0.2rem',
     marginRight: '1rem'
+  },
+  textField: {
+    marginLeft: '2rem'
   }
 }));
 
@@ -34,19 +38,33 @@ const AdminDashboard = props => {
     getCardsData,
     addPanelOpen,
     deleteCardRequest,
-    editPanelOpen
+    editPanelOpen,
+    isAdmin
   } = props;
+  const [searchValue, setSearchValue] = useState('');
 
   const classes = styles(props);
   useEffect(() => {
-    getCardsData();
-  }, [getCardsData]);
+    getCardsData(isAdmin);
+  }, [getCardsData, isAdmin]);
 
   return (
     <React.Fragment>
       <Loading open={!dataLoaded} />
       <Grid container className={classes.container} spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={4}>
+          <TextField
+            className={classes.textField}
+            variant="outlined"
+            type="text"
+            label="Search Title"
+            id="search"
+            size="small"
+            onChange={e => setSearchValue(e.target.value.toLowerCase())}
+            value={searchValue}
+          />
+        </Grid>
+        <Grid item xs={8}>
           <ActionButtons
             buttons={[
               <Button
@@ -62,7 +80,9 @@ const AdminDashboard = props => {
         <Grid item xs={12}>
           <Table
             headers={headers}
-            rows={data}
+            rows={data.filter(item =>
+              item.title.toLowerCase().includes(searchValue)
+            )}
             uniqueId="id"
             defaultOrderBy="itemName"
             actionButtons={row => [
@@ -82,7 +102,7 @@ const AdminDashboard = props => {
                   icon: <DeleteIcon />
                 }}
                 message="Are you sure to delete address?"
-                okOnClick={() => deleteCardRequest(row._id)}
+                okOnClick={() => deleteCardRequest(row._id, isAdmin)}
               />
             ]}
           />
@@ -96,12 +116,12 @@ const AdminDashboard = props => {
 
 AdminDashboard.propTypes = {
   addPanelOpen: PropTypes.bool.isRequired,
-  adminDashboardLoader: PropTypes.func.isRequired,
   data: PropTypes.array.isRequired,
   dataLoaded: PropTypes.bool.isRequired,
   deleteCardRequest: PropTypes.func.isRequired,
   editPanelOpen: PropTypes.bool.isRequired,
   getCardsData: PropTypes.func.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
   toggleDialog: PropTypes.func.isRequired
 };
 AdminDashboard.defaultProps = {};

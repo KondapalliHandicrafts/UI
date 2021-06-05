@@ -53,7 +53,7 @@ SimpleSnackbar.propTypes = {
 };
 
 SimpleSnackbar.defaultProps = {
-  autoHideDuration: 5000
+  autoHideDuration: 3000
 };
 
 export default SimpleSnackbar;

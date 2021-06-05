@@ -1,28 +1,21 @@
 import { PURGE } from 'redux-persist';
 import { createReducer } from '__GLOBAL__/redux';
-import { UNMOUNT, CARDS_DATA, HOME_LOADER } from '__GLOBAL__/constants';
+import { CARDS_UNMOUNT, CARDS_DATA } from '__GLOBAL__/constants';
 
 const defaultState = {
-  data: [],
-  dataLoaded: false
+  data: []
 };
 
 const homeReducer = {
   [PURGE]: () => {
     return defaultState;
   },
-  [HOME_LOADER]: (state, action) => ({
-    ...state,
-    dataLoaded: action.value
-  }),
   [CARDS_DATA]: (state, action) => ({
     ...state,
-    data: action.data,
-    dataLoaded: true
+    data: action.data
   }),
-  [UNMOUNT]: state => ({
+  [CARDS_UNMOUNT]: state => ({
     ...state,
-    dataLoaded: false,
     data: []
   })
 };

@@ -4,7 +4,8 @@ import * as changePasswordAction from '__SRC__/actions';
 import ChangePassword from './component';
 
 const mapStatetoProps = state => ({
-  ...state.changePasswordReducer
+  ...state.changePasswordReducer,
+  dataLoaded: state.routingReducer.dataLoaded
 });
 
 const mapDispatchtoProps = dispatch =>

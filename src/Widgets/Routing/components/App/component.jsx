@@ -1,10 +1,11 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect
 } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Loading from '__SHARED__/Loading';
 import { paths } from '__GLOBAL__/constants';
 import Header from './Header';
@@ -19,8 +20,10 @@ const AdminDashboard = lazy(() =>
 const Register = lazy(() => import('__WIDGETS__/Register/components/App'));
 const Profile = lazy(() => import('__WIDGETS__/Profile/components/App'));
 const Wishlist = lazy(() => import('__WIDGETS__/Wishlist/components/App'));
+const CardItem = lazy(() => import('__WIDGETS__/CardItem/components/App'));
 const MyCart = lazy(() => import('__WIDGETS__/Cart/components/App'));
 const MyOrders = lazy(() => import('__WIDGETS__/Orders/components/App'));
+const NoPage = lazy(() => import('./NoPage'));
 const ChangePassword = lazy(() =>
   import('__WIDGETS__/ChangePassword/components/App')
 );
@@ -31,8 +34,12 @@ const ResetPassword = lazy(() =>
   import('__WIDGETS__/ResetPassword/components/App')
 );
 
-const routing = props => {
-  const { isLoggedIn } = props;
+const Routing = props => {
+  const { isLoggedIn, unmount } = props;
+  useEffect(() => {
+    return () => unmount();
+  }, [unmount]);
+
   return (
     <Router>
       <Suspense fallback={<Loading open />}>
@@ -92,13 +99,22 @@ const routing = props => {
             component={MyOrders}
             isLoggedIn={isLoggedIn}
           />
+          <PrivateRoute
+            path={paths.cardItem}
+            component={CardItem}
+            isLoggedIn={isLoggedIn}
+          />
+          <Route component={NoPage} />
         </Switch>
       </Suspense>
     </Router>
   );
 };
 
-routing.propTypes = {};
-routing.defaultProps = {};
+Routing.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+  unmount: PropTypes.func.isRequired
+};
+Routing.defaultProps = {};
 
-export default routing;
+export default Routing;

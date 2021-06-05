@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Grid from '@material-ui/core/Grid';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List';
@@ -21,11 +22,11 @@ import Avatar from '__SHARED__/Avatar';
 import {
   MenuIcon,
   // SearchIcon,
-  PhoneIcon,
+  // PhoneIcon,
   HeartIcon,
   KeyIcon,
   ProfileIcon,
-  BulkOrderIcon,
+  // BulkOrderIcon,
   HomeIcon,
   DashboardIcon,
   CartIcon,
@@ -59,6 +60,13 @@ const useStyles = makeStyles(theme => ({
   //     marginLeft: theme.spacing(3)
   //   }
   // },
+  logoWrap: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    height: '15%'
+  },
   itemWrap: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -262,9 +270,14 @@ export default function ElevateAppBar(props) {
         onClose={e => toggleDrawer(e, false)}
         onOpen={e => toggleDrawer(e, true)}
       >
-        <Typography className={classes.logo} variant="h6" component="h6">
-          Kondapalli Handicafts
-        </Typography>
+        <Grid className={classes.logoWrap}>
+          <Typography className={classes.logo} variant="h6" component="h6">
+            Kondapalli
+          </Typography>
+          <Typography className={classes.logo} variant="h6" component="h6">
+            Handicafts
+          </Typography>
+        </Grid>
         <Divider />
         <List>
           {[
@@ -277,17 +290,17 @@ export default function ElevateAppBar(props) {
               icon: <DashboardIcon className={classes.icon} />,
               text: 'Admin Dashboard',
               path: paths.adminDashboard
-            },
-            {
-              icon: <BulkOrderIcon className={classes.icon} />,
-              text: 'Bulk Orders',
-              path: paths.bulkOrders
-            },
-            {
-              icon: <PhoneIcon className={classes.icon} />,
-              text: 'Contact Us',
-              path: paths.contactUs
             }
+            // {
+            //   icon: <BulkOrderIcon className={classes.icon} />,
+            //   text: 'Bulk Orders',
+            //   path: paths.bulkOrders
+            // },
+            // {
+            //   icon: <PhoneIcon className={classes.icon} />,
+            //   text: 'Contact Us',
+            //   path: paths.contactUs
+            // }
           ].map(
             item =>
               item && (

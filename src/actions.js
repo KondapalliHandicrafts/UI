@@ -6,16 +6,13 @@ import {
   CARDS_REQUEST,
   TOGGLE_DIALOG,
   LOGOUT_REQUEST,
-  FORGOTPASSWORD_LOADER,
   FORGOTPASSWORD_SUCCESS,
   CARDS_DATA,
-  REGISTER_LOADER,
   ADD_ADDRESS_REQUEST,
   EDIT_ADDRESS_REQUEST,
   DELETE_ADDRESS_REQUEST,
   DEFAULT_ADDRESS_REQUEST,
   CURRENT_PASSWORD_SUCCESS,
-  RESETPASSWORD_LOADER,
   SUBMIT_PROFILE_REQUEST,
   RESETID_SUCCESS,
   CART_REQUEST,
@@ -29,23 +26,22 @@ import {
   VERIFY_RESETID_REQUEST,
   REGISTER_USER_REQUEST,
   ADD_WISHLIST_REQUEST,
-  WISHLIST_LOADER,
+  LOADER,
   ADD_TO_CART_REQUEST,
+  CHANGE_PASSWORD_UNMOUNT,
+  CARD_DETAILS_REQUEST,
+  CARD_DETAILS_SUCCESS,
+  CARDS_UNMOUNT,
   WISHLIST_SUCCESS,
   ADD_CARD_REQUEST,
-  CART_LOADER,
   DELETE_CARD_REQUEST,
-  CHANGE_PASSWORD_LOADER,
   WISHLIST_REQUEST,
   UPDATE_HEADER_PIC,
   DELETE_CART_REQUEST,
   CHANGE_PASSWORD_REQUEST,
   UPDATE_CART_REQUEST,
-  HOME_LOADER,
+  FORGOT_PASSWORD_UNMOUNT,
   UPDATE_CART_COUNT,
-  PROFILE_LOADER,
-  ORDERS_LOADER,
-  DASHBOARD_LOADER,
   USER_DETAILS_REQUEST,
   EDIT_CARD_REQUEST,
   MOVE_TO_WISHLIST
@@ -55,10 +51,6 @@ export const loginSuccessful = createAction(LOGIN_SUCCESS, 'data');
 export const loginRequest = createAction(LOGIN_REQUEST, 'values');
 export const logoutRequest = createAction(LOGOUT_REQUEST, 'history');
 export const unmount = createAction(UNMOUNT);
-export const forgotPasswordLoader = createAction(
-  FORGOTPASSWORD_LOADER,
-  'value'
-);
 export const forgotPasswordSuccess = createAction(
   FORGOTPASSWORD_SUCCESS,
   'data'
@@ -67,46 +59,57 @@ export const cardsLoaded = createAction(CARDS_DATA, 'data');
 export const updateCartCount = createAction(UPDATE_CART_COUNT, 'data');
 export const updateHeaderPic = createAction(UPDATE_HEADER_PIC, 'data');
 export const toggleDialog = createAction(TOGGLE_DIALOG, 'mode', 'data');
-export const resetPasswordLoader = createAction(RESETPASSWORD_LOADER, 'value');
 export const checkResetIDSunccess = createAction(RESETID_SUCCESS, 'data');
 export const resetPasswordSuccess = createAction(RESETPASSWORD_SUCCESS, 'data');
 export const profileSuccess = createAction(PROFILE_SUCCESS, 'data');
-export const registerLoader = createAction(REGISTER_LOADER, 'value');
-export const ordersLoader = createAction(ORDERS_LOADER, 'value');
-export const homeLoader = createAction(HOME_LOADER, 'value');
-export const registerUserSuccess = createAction(REGISTER_LOADER);
-export const adminDashboardLoader = createAction(DASHBOARD_LOADER, 'value');
 export const checkCurrentPasswordSuccess = createAction(
   CURRENT_PASSWORD_SUCCESS,
   'message',
   'status'
 );
-export const getCardsData = createAction(CARDS_REQUEST);
+export const getCardsData = createAction(CARDS_REQUEST, 'isAdmin');
 export const getUserDetailsRequest = createAction(USER_DETAILS_REQUEST);
 export const addToCartRequest = createAction(
   ADD_TO_CART_REQUEST,
   'id',
+  'size',
   'cType'
 );
 export const checkCurPasswordRequest = createAction(
   CURRENT_PASSWORD_REQUEST,
   'value'
 );
-export const addCardRequest = createAction(ADD_CARD_REQUEST, 'data');
+export const addCardRequest = createAction(ADD_CARD_REQUEST, 'data', 'isAdmin');
 export const updateCartRequest = createAction(
   UPDATE_CART_REQUEST,
   'id',
-  'value'
+  'value',
+  'size'
 );
-export const editCardRequest = createAction(EDIT_CARD_REQUEST, 'data');
-export const deleteCardRequest = createAction(DELETE_CARD_REQUEST, 'id');
+export const editCardRequest = createAction(
+  EDIT_CARD_REQUEST,
+  'data',
+  'isAdmin'
+);
+export const deleteCardRequest = createAction(
+  DELETE_CARD_REQUEST,
+  'id',
+  'isAdmin'
+);
 export const addAddressRequest = createAction(ADD_ADDRESS_REQUEST, 'data');
 export const editAddressRequest = createAction(EDIT_ADDRESS_REQUEST, 'data');
 export const deleteAddressRequest = createAction(DELETE_ADDRESS_REQUEST, 'id');
-export const moveToWishlistRequest = createAction(MOVE_TO_WISHLIST, 'id');
+export const moveToWishlistRequest = createAction(
+  MOVE_TO_WISHLIST,
+  'id',
+  'size'
+);
+export const getCardDetails = createAction(CARD_DETAILS_REQUEST, 'id');
+export const getCardDetailsSuccess = createAction(CARD_DETAILS_SUCCESS, 'data');
 export const addToWishlistRequest = createAction(
   ADD_WISHLIST_REQUEST,
   'id',
+  'size',
   'apiType'
 );
 export const getWishlistDataRequest = createAction(WISHLIST_REQUEST);
@@ -114,8 +117,10 @@ export const deleteCartRequest = createAction(DELETE_CART_REQUEST, 'id');
 export const getCartItemsRequest = createAction(CART_REQUEST);
 export const getCartItemsSuccess = createAction(CART_SUCCESS, 'data');
 export const getWishlistSuccess = createAction(WISHLIST_SUCCESS, 'data');
-export const wishlistLoader = createAction(WISHLIST_LOADER, 'value');
-export const cartLoader = createAction(CART_LOADER, 'value');
+export const commonLoader = createAction(LOADER, 'value');
+export const cardsUnmount = createAction(CARDS_UNMOUNT);
+export const changePasswordUnmount = createAction(CHANGE_PASSWORD_UNMOUNT);
+export const forgotPasswordUnmount = createAction(FORGOT_PASSWORD_UNMOUNT);
 export const defaultAddressRequest = createAction(
   DEFAULT_ADDRESS_REQUEST,
   'id'
@@ -150,8 +155,3 @@ export const registerUserRequest = createAction(
   'values',
   'history'
 );
-export const changePasswordLoader = createAction(
-  CHANGE_PASSWORD_LOADER,
-  'value'
-);
-export const profileLoader = createAction(PROFILE_LOADER, 'value');

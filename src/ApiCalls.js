@@ -1,32 +1,26 @@
 import { postCall, getCall, deleteCall, putCall } from '__GLOBAL__/webAPI';
 import { call, put } from 'redux-saga/effects';
 import { renderSnackbar } from '__GLOBAL__/helpers';
-import { paths } from '__GLOBAL__/constants';
+import { paths, types } from '__GLOBAL__/constants';
 import { persistor } from './store';
 import {
   loginSuccessful,
-  forgotPasswordLoader,
   forgotPasswordSuccess,
   cardsLoaded,
-  resetPasswordLoader,
   updateHeaderPic,
-  homeLoader,
+  commonLoader,
   resetPasswordSuccess,
   getWishlistSuccess,
-  cartLoader,
   getCartItemsSuccess,
+  getCardDetails,
   getWishlistDataRequest,
   updateCartCount,
-  wishlistLoader,
-  registerLoader,
-  adminDashboardLoader,
   getCardsData,
   getUserDetailsRequest,
   checkCurrentPasswordSuccess,
   checkResetIDSunccess,
-  changePasswordLoader,
-  profileLoader,
   getCartItemsRequest,
+  getCardDetailsSuccess,
   profileSuccess
 } from './actions';
 
@@ -53,29 +47,34 @@ export function* logout(action) {
 }
 
 export function* forgotPassword(action) {
-  yield put(forgotPasswordLoader(false));
+  yield put(commonLoader(false));
   try {
     const res = yield call(postCall, {
       url: '/user/forgotPassword',
       inputs: action.values
     });
     yield put(forgotPasswordSuccess(res.data));
+    yield put(commonLoader(true));
   } catch (err) {
-    yield put(forgotPasswordLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
-export function* fetchCards() {
+export function* fetchCards(action) {
+  yield put(commonLoader(false));
   try {
-    const res = yield call(getCall, { url: '/cards' });
+    const res = yield call(getCall, {
+      url: action.isAdmin ? '/cards/admin' : '/cards'
+    });
     yield put(cardsLoaded(res.data));
+    yield put(commonLoader(true));
   } catch (err) {
-    yield put(homeLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* registerUser(action) {
-  yield put(registerLoader(false));
+  yield put(commonLoader(false));
   try {
     const res = yield call(postCall, {
       url: '/user',
@@ -84,7 +83,7 @@ export function* registerUser(action) {
     });
     if (res) action.history.push(paths.login);
   } catch (err) {
-    yield put(registerLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
@@ -96,14 +95,15 @@ export function* checkResetID(action) {
     });
     if (res) {
       yield put(checkResetIDSunccess(res.data));
+      yield put(commonLoader(true));
     }
   } catch (err) {
-    yield put(resetPasswordLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* resetPassword(action) {
-  yield put(resetPasswordLoader(false));
+  yield put(commonLoader(false));
   try {
     const res = yield call(postCall, {
       url: '/user/resetPassword',
@@ -117,14 +117,15 @@ export function* resetPassword(action) {
     });
     if (res) {
       yield put(resetPasswordSuccess(res.data));
+      yield put(commonLoader(true));
     }
   } catch (err) {
-    yield put(resetPasswordLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* changePassword(action) {
-  yield put(changePasswordLoader(false));
+  yield put(commonLoader(false));
   try {
     yield call(postCall, {
       url: '/user/changePassword',
@@ -134,13 +135,14 @@ export function* changePassword(action) {
       },
       showSnack: true
     });
+    yield put(commonLoader(true));
   } catch (err) {
-    yield put(changePasswordLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* checkCurrentPassword(action) {
-  yield put(changePasswordLoader(false));
+  yield put(commonLoader(false));
   try {
     const res = yield call(postCall, {
       url: '/user/checkCurrentPassword',
@@ -149,65 +151,66 @@ export function* checkCurrentPassword(action) {
       }
     });
     yield put(checkCurrentPasswordSuccess(res.data.message, res.data.status));
+    yield put(commonLoader(true));
   } catch (err) {
-    yield put(changePasswordLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* addNewCard(action) {
-  yield put(adminDashboardLoader(false));
+  yield put(commonLoader(false));
   try {
     const res = yield call(postCall, {
       url: '/card',
       inputs: action.data,
       showSnack: true
     });
-    if (res) yield put(getCardsData());
-    else yield put(adminDashboardLoader(true));
+    if (res) yield put(getCardsData(action.isAdmin));
+    yield put(commonLoader(true));
   } catch (err) {
-    yield put(adminDashboardLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* editCard(action) {
-  yield put(adminDashboardLoader(false));
+  yield put(commonLoader(false));
   try {
     const res = yield call(putCall, {
       url: `/card/${action.data.id}`,
       inputs: action.data,
       showSnack: true
     });
-    if (res) yield put(getCardsData());
-    else yield put(adminDashboardLoader(true));
+    if (res) yield put(getCardsData(action.isAdmin));
+    yield put(commonLoader(true));
   } catch (err) {
-    yield put(adminDashboardLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* deleteCard(action) {
-  yield put(adminDashboardLoader(false));
+  yield put(commonLoader(false));
   try {
     const res = yield call(deleteCall, {
       url: `/card/${action.id}`,
       showSnack: true
     });
-    if (res) yield put(getCardsData());
-    else yield put(adminDashboardLoader(true));
+    if (res) yield put(getCardsData(action.isAdmin));
+    yield put(commonLoader(true));
   } catch (err) {
-    yield put(adminDashboardLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* getUserDetails() {
-  yield put(profileLoader(false));
+  yield put(commonLoader(false));
   try {
     const res = yield call(getCall, {
       url: '/user'
     });
-    yield put(profileLoader(true));
     if (res) yield put(profileSuccess(res.data));
+    yield put(commonLoader(true));
   } catch (err) {
-    yield put(profileLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
@@ -227,7 +230,7 @@ export function* changeProfilePic(file) {
 }
 
 export function* submitProfile(action) {
-  yield put(profileLoader(false));
+  yield put(commonLoader(false));
   try {
     yield call(putCall, {
       url: `/user/${action.data.id}`,
@@ -236,12 +239,12 @@ export function* submitProfile(action) {
     });
     yield put(getUserDetailsRequest());
   } catch (err) {
-    yield put(profileLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* addAddress(action) {
-  yield put(profileLoader(false));
+  yield put(commonLoader(false));
   try {
     yield call(postCall, {
       url: '/user/address',
@@ -250,12 +253,12 @@ export function* addAddress(action) {
     });
     yield put(getUserDetailsRequest());
   } catch (err) {
-    yield put(profileLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* editAddress(action) {
-  yield put(profileLoader(false));
+  yield put(commonLoader(false));
   try {
     yield call(putCall, {
       url: `/user/address/${action.data.id}`,
@@ -264,12 +267,12 @@ export function* editAddress(action) {
     });
     yield put(getUserDetailsRequest());
   } catch (err) {
-    yield put(profileLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* deleteAddress(action) {
-  yield put(profileLoader(false));
+  yield put(commonLoader(false));
   try {
     yield call(deleteCall, {
       url: `/user/address/${action.id}`,
@@ -277,12 +280,12 @@ export function* deleteAddress(action) {
     });
     yield put(getUserDetailsRequest());
   } catch (err) {
-    yield put(profileLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* defaultAddress(action) {
-  yield put(profileLoader(false));
+  yield put(commonLoader(false));
   try {
     yield call(putCall, {
       url: `/user/address/default/${action.id}`,
@@ -290,56 +293,59 @@ export function* defaultAddress(action) {
     });
     yield put(getUserDetailsRequest());
   } catch (err) {
-    yield put(profileLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* addWishlist(action) {
+  yield put(commonLoader(false));
   try {
     yield call(putCall, {
       url: `/user/wishlist/${action.id}`,
+      inputs: { size: action.size },
       showSnack: true
     });
-    if (action.apiType === 2) yield put(getWishlistDataRequest());
-    else yield put(getCardsData());
+    if (action.apiType === types.WISHLIST) yield put(getWishlistDataRequest());
+    else if (action.apiType === types.HOME) yield put(getCardsData());
+    else if (action.apiType === types.CARDITEM)
+      yield put(getCardDetails(action.id));
+    yield put(commonLoader(true));
   } catch (err) {
-    if (action.apiType === 2) yield put(wishlistLoader(true));
-    else yield put(homeLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* getWishlist() {
-  yield put(wishlistLoader(false));
+  yield put(commonLoader(false));
   try {
     const res = yield call(getCall, {
       url: `/user/wishlist`
     });
     yield put(getWishlistSuccess(res.data));
+    yield put(commonLoader(true));
   } catch (err) {
-    yield put(wishlistLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* addToCart(action) {
-  if (action.cType === 2) yield put(wishlistLoader(false));
-  yield put(homeLoader(false));
+  yield put(commonLoader(false));
   try {
     const res = yield call(postCall, {
       url: `/cart`,
-      inputs: { cardId: action.id },
+      inputs: { cardId: action.id, size: action.size },
       showSnack: true
     });
     yield put(updateCartCount(res.data));
-    if (action.cType === 2) yield put(getWishlistDataRequest());
-    yield put(homeLoader(true));
+    if (action.cType === types.WISHLIST) yield put(getWishlistDataRequest());
+    yield put(commonLoader(true));
   } catch (err) {
-    if (action.cType === 2) yield put(wishlistLoader(true));
-    yield put(homeLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* getCartItems(action) {
-  yield put(cartLoader(false));
+  yield put(commonLoader(false));
   try {
     const res = yield call(getCall, {
       url: `/cart`,
@@ -347,28 +353,29 @@ export function* getCartItems(action) {
       showSnack: true
     });
     if (res) yield put(getCartItemsSuccess(res.data));
+    yield put(commonLoader(true));
   } catch (err) {
-    yield put(cartLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* updateCart(action) {
-  yield put(cartLoader(false));
+  yield put(commonLoader(false));
   try {
     const res = yield call(putCall, {
       url: `/cart/${action.id}`,
       showSnack: true,
-      inputs: { quantity: action.value }
+      inputs: { quantity: action.value, size: action.size }
     });
     yield put(updateCartCount(res.data));
     if (res) yield put(getCartItemsRequest());
   } catch (err) {
-    yield put(cartLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* deleteCartItem(action) {
-  yield put(cartLoader(false));
+  yield put(commonLoader(false));
   try {
     const res = yield call(deleteCall, {
       url: `/cart/${action.id}`,
@@ -377,20 +384,34 @@ export function* deleteCartItem(action) {
     yield put(updateCartCount(res.data));
     if (res) yield put(getCartItemsRequest());
   } catch (err) {
-    yield put(cartLoader(true));
+    yield put(commonLoader(true));
   }
 }
 
 export function* moveToWishlist(action) {
-  yield put(cartLoader(false));
+  yield put(commonLoader(false));
   try {
     const res = yield call(putCall, {
       url: `/cart/wishlist/${action.id}`,
+      inputs: { size: action.size },
       showSnack: true
     });
     yield put(updateCartCount(res.data));
     if (res) yield put(getCartItemsRequest());
   } catch (err) {
-    yield put(cartLoader(true));
+    yield put(commonLoader(true));
+  }
+}
+
+export function* getCardData(action) {
+  yield put(commonLoader(false));
+  try {
+    const res = yield call(getCall, {
+      url: `/card/${action.id}`
+    });
+    if (res) yield put(getCardDetailsSuccess(res.data));
+    yield put(commonLoader(true));
+  } catch (err) {
+    yield put(commonLoader(true));
   }
 }

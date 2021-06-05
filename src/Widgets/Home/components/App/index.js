@@ -5,7 +5,8 @@ import Home from './component';
 
 const mapStatetoProps = state => ({
   ...state.homeReducer,
-  isLoggedIn: state.loginReducer.isLoggedIn
+  isLoggedIn: state.loginReducer.isLoggedIn,
+  dataLoaded: state.routingReducer.dataLoaded
 });
 
 const mapDispatchtoProps = dispatch => bindActionCreators(homeAction, dispatch);

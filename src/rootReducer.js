@@ -11,6 +11,7 @@ import profileReducer from './Widgets/Profile/reducer/profileReducer';
 import wishlistReducer from './Widgets/Wishlist/reducer/wishlistReducer';
 import cartReducer from './Widgets/Cart/reducer/cartReducer';
 import ordersReducer from './Widgets/Orders/reducer/ordersReducer';
+import cardItemReducer from './Widgets/CardItem/reducer/cardItemReducer';
 
 export default combineReducers({
   homeReducer,
@@ -24,5 +25,6 @@ export default combineReducers({
   changePasswordReducer,
   profileReducer,
   ordersReducer,
-  wishlistReducer
+  wishlistReducer,
+  cardItemReducer
 });

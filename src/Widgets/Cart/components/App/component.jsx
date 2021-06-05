@@ -85,8 +85,9 @@ const Cart = props => {
     getCartItemsRequest();
   }, [getCartItemsRequest, data.quantity]);
 
-  const updateCart = (cardId, value, quantity) => {
-    if (quantity !== Number(value)) updateCartRequest(cardId, Number(value));
+  const updateCart = (cardId, value, size, quantity) => {
+    if (quantity !== Number(value))
+      updateCartRequest(cardId, Number(value), size);
   };
 
   return (
@@ -101,13 +102,13 @@ const Cart = props => {
             </Grid>
           )}
           {data.map(cart => {
-            const { cardId: card, quantity } = cart;
+            const { cardId: card, quantity, size } = cart;
             itemsAmount += card.price * quantity;
             totalAmount =
               itemsAmount + deliveryCharge + (itemsAmount * 18) / 100;
             return (
               <Card
-                key={card._id}
+                key={card._id + size}
                 className={classes.card}
                 isActionsArea
                 isRow={false}
@@ -129,19 +130,21 @@ const Cart = props => {
                 }}
               >
                 <Typography gutterBottom variant="body1" component="p">
-                  Height: {card.height}&quot;
+                  Size: {size}
                 </Typography>
                 <Grid className={classes.btnWrap}>
                   <IconButton
                     className={classes.subBtn}
                     icon={<SubIcon />}
-                    onClick={() => updateCart(card._id, quantity - 1)}
+                    onClick={() => updateCart(card._id, quantity - 1, size)}
                   />
                   <TextField
                     className={classes.textField}
                     style={{ width: '10%' }}
                     value={quantity}
-                    onBlur={e => updateCart(card._id, e.target.value, quantity)}
+                    onBlur={e =>
+                      updateCart(card._id, e.target.value, size, quantity)
+                    }
                     InputProps={{
                       readOnly: true
                     }}
@@ -149,7 +152,7 @@ const Cart = props => {
                   <IconButton
                     className={classes.addBtn}
                     icon={<AddOutlinedIcon />}
-                    onClick={() => updateCart(card._id, quantity + 1)}
+                    onClick={() => updateCart(card._id, quantity + 1, size)}
                   />
                   <ButtonGroup
                     buttons={[
@@ -161,7 +164,7 @@ const Cart = props => {
                       {
                         key: 2,
                         label: 'Move to wishlist',
-                        onClick: () => moveToWishlistRequest(card._id)
+                        onClick: () => moveToWishlistRequest(card._id, size)
                       }
                     ]}
                   />

@@ -16,6 +16,7 @@ const TextFieldKH = props => {
     rules,
     InputProps,
     className,
+    defaultValue,
     ...others
   } = props;
 
@@ -55,7 +56,7 @@ const TextFieldKH = props => {
         );
       }}
       name={name}
-      defaultValue=""
+      defaultValue={defaultValue}
       control={control}
       rules={{
         required: { value: required, message: 'Required' },
@@ -68,6 +69,7 @@ const TextFieldKH = props => {
 
 TextFieldKH.propTypes = {
   className: PropTypes.string,
+  defaultValue: PropTypes.string,
   id: PropTypes.string.isRequired,
   InputProps: PropTypes.object,
   label: PropTypes.string.isRequired,
@@ -79,6 +81,7 @@ TextFieldKH.propTypes = {
 
 TextFieldKH.defaultProps = {
   className: null,
+  defaultValue: '',
   InputProps: {},
   required: false,
   rules: {},

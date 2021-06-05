@@ -6,8 +6,17 @@ import { CalenderIcon } from '__SHARED__/SVG';
 import IconButton from '__SHARED__/IconButton';
 
 const DateField = props => {
-  const { required, name, id, label, rules, InputProps, className, ...others } =
-    props;
+  const {
+    required,
+    name,
+    id,
+    label,
+    rules,
+    InputProps,
+    className,
+    defaultValue,
+    ...others
+  } = props;
 
   const { errors, control } = useFormContext();
 
@@ -37,7 +46,7 @@ const DateField = props => {
         );
       }}
       name={name}
-      defaultValue={null}
+      defaultValue={defaultValue}
       control={control}
       rules={{
         required: { value: required, message: 'Required' },
@@ -49,6 +58,7 @@ const DateField = props => {
 
 DateField.propTypes = {
   className: PropTypes.string,
+  defaultValue: PropTypes.string,
   id: PropTypes.string.isRequired,
   InputProps: PropTypes.object,
   label: PropTypes.string.isRequired,
@@ -59,6 +69,7 @@ DateField.propTypes = {
 
 DateField.defaultProps = {
   className: null,
+  defaultValue: null,
   InputProps: {},
   required: false,
   rules: {}

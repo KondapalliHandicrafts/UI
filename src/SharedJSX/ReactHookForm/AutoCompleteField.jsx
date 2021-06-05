@@ -5,8 +5,18 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 
 const RadioField = props => {
-  const { className, required, name, id, label, rules, options, ...others } =
-    props;
+  const {
+    className,
+    required,
+    name,
+    id,
+    label,
+    rules,
+    options,
+    defaultValue,
+    multiple,
+    ...others
+  } = props;
   const { errors, control } = useFormContext();
 
   return (
@@ -17,7 +27,7 @@ const RadioField = props => {
             className={className}
             id={id}
             options={options}
-            {...renderProps}
+            multiple={multiple}
             size="small"
             renderInput={params => (
               <TextField
@@ -34,11 +44,14 @@ const RadioField = props => {
               />
             )}
             {...others}
+            {...renderProps}
           />
         );
       }}
       name={name}
       control={control}
+      defaultValue={defaultValue || multiple ? [] : {}}
+      // onChange={([, data]) => data}
       rules={{
         required: { value: required, message: 'Required' },
         ...rules
@@ -49,8 +62,10 @@ const RadioField = props => {
 
 RadioField.propTypes = {
   className: PropTypes.string,
+  defaultValue: PropTypes.string,
   id: PropTypes.string.isRequired,
   label: PropTypes.string,
+  multiple: PropTypes.bool,
   options: PropTypes.array.isRequired,
   required: PropTypes.bool,
   rules: PropTypes.object,
@@ -60,7 +75,9 @@ RadioField.propTypes = {
 
 RadioField.defaultProps = {
   className: null,
+  defaultValue: null,
   label: null,
+  multiple: false,
   rules: {},
   required: false
 };

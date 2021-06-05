@@ -9,6 +9,7 @@ import Button from '__SHARED__/Button';
 import Card from '__SHARED__/Card';
 import IconButton from '__SHARED__/IconButton';
 import { imageLoader } from '__GLOBAL__/helpers';
+import { types } from '__GLOBAL__/constants';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,9 +43,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function ImgMediaCard(props) {
   const classes = useStyles();
-  const { isLoggedIn, item, addToWishlistRequest, addToCartRequest } = props;
-  return (
-    <Grid item xs={6} sm={4} md={3} lg={2} xl={1}>
+  const { data, isLoggedIn, addToWishlistRequest, addToCartRequest, history } =
+    props;
+  return data.map(item => (
+    <Grid key={item._id + item.size} item xs={6} sm={4} md={3} lg={2} xl={1}>
       <Card
         className={classes.root}
         isActionsArea
@@ -54,20 +56,26 @@ export default function ImgMediaCard(props) {
           imageURL: imageLoader(item.filename)
         }}
         title={item.title}
+        onClick={() => history.push(`/card/${item._id}`)}
         buttons={[
-          isLoggedIn && item.quantity ? (
-            <Button
-              className={classes.addIcon}
-              size="small"
-              key={1}
-              startIcon={<AddCartIcon />}
-              onClick={() => addToCartRequest(item._id)}
-            >
-              Add to Cart
-            </Button>
-          ) : (
-            <Grid className={classes.outOfStock}> Out of stock</Grid>
-          )
+          isLoggedIn &&
+            (item.quantity ? (
+              <Button
+                className={classes.addIcon}
+                size="small"
+                key={item._id + '1'}
+                startIcon={<AddCartIcon />}
+                onClick={() =>
+                  addToCartRequest(item._id, item.size, types.HOME)
+                }
+              >
+                Add to Cart
+              </Button>
+            ) : (
+              <Grid className={classes.outOfStock} key={item._id + '1'}>
+                Out of stock
+              </Grid>
+            ))
         ]}
       >
         <Grid container>
@@ -80,13 +88,13 @@ export default function ImgMediaCard(props) {
                 size="small"
                 icon={<HeartIcon />}
                 onClick={e => {
-                  addToWishlistRequest(item._id);
+                  addToWishlistRequest(item._id, item.size, types.HOME);
                   e.stopPropagation();
                 }}
               />
             )}
             <Typography gutterBottom variant="body1" component="p">
-              Height: {item.height}&quot;
+              Size: {item.size}
             </Typography>
             <Typography
               className={classes.price}
@@ -100,12 +108,12 @@ export default function ImgMediaCard(props) {
         </Grid>
       </Card>
     </Grid>
-  );
+  ));
 }
 
 ImgMediaCard.propTypes = {
   addToCartRequest: PropTypes.func.isRequired,
   addToWishlistRequest: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
-  item: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired
 };

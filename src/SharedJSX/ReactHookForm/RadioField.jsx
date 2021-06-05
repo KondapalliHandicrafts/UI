@@ -9,8 +9,17 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 
 const RadioField = props => {
-  const { className, required, name, id, groupLabel, rules, options, row } =
-    props;
+  const {
+    className,
+    required,
+    name,
+    id,
+    groupLabel,
+    rules,
+    options,
+    row,
+    defaultValue
+  } = props;
   const { errors, control } = useFormContext();
 
   return (
@@ -47,7 +56,7 @@ const RadioField = props => {
       }}
       name={name}
       control={control}
-      defaultValue=""
+      defaultValue={defaultValue}
       rules={{
         required: { value: required, message: 'Required' },
         ...rules
@@ -58,6 +67,7 @@ const RadioField = props => {
 
 RadioField.propTypes = {
   className: PropTypes.string,
+  defaultValue: PropTypes.string,
   id: PropTypes.string.isRequired,
   groupLabel: PropTypes.string,
   options: PropTypes.array.isRequired,
@@ -70,6 +80,7 @@ RadioField.propTypes = {
 
 RadioField.defaultProps = {
   className: null,
+  defaultValue: '',
   groupLabel: null,
   row: true,
   rules: {},
