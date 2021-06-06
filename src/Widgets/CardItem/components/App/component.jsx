@@ -8,7 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Loading from '__SHARED__/Loading';
 import Button from '__SHARED__/Button';
 import IconButton from '__SHARED__/IconButton';
-import ButtonGroup from '__SHARED__/ButtonGroup';
+// import ButtonGroup from '__SHARED__/ButtonGroup';
+import ToggleButton from '__SHARED__/ToggleButton';
 import { HeartIcon } from '__SHARED__/SVG';
 import ReactImageMagnify from 'react-image-magnify';
 import { types } from '__GLOBAL__/constants';
@@ -23,10 +24,16 @@ const styles = makeStyles(theme => ({
   ImageWrap: {
     position: 'relative'
   },
-  selected: {
-    backgroundColor: theme.colors.primary
+  smallButton: {
+    position: 'unset',
+    marginBottom: '1rem',
+    borderColor: theme.colors.buttonColor,
+    color: theme.colors.black,
+    '&$selected': {
+      backgroundColor: theme.colors.buttonColor
+    }
   },
-  smallButton: { position: 'unset', marginBottom: '1rem' },
+  selected: {},
   wishlist: {
     position: 'absolute',
     top: 20,
@@ -59,14 +66,14 @@ const CardItem = props => {
     getCardDetails
   } = props;
   const [sizeButtons, setSizeButtons] = useState([]);
-  const [size, setSize] = useState('S');
+  const [size, setSize] = useState('');
   const classes = styles(props);
   const params = useParams(history);
 
   useEffect(() => {
     getCardDetails(params.id);
-    setSize(data.size);
-  }, [getCardDetails, params.id, setSize, data.size]);
+    setSize(history.location.state.size);
+  }, [getCardDetails, params.id, setSize, history.location.state.size]);
 
   useEffect(() => {
     const tempButtons = [];
@@ -75,15 +82,14 @@ const CardItem = props => {
         tempButtons.push({
           key: index + 1,
           label: item,
-          variant: size === item && 'contained',
           className: classes.smallButton,
-          disableTouchRipple: true,
-          onClick: () => setSize(item)
+          classes: { selected: classes.selected },
+          disableTouchRipple: true
         });
       });
       setSizeButtons([...tempButtons]);
     }
-  }, [classes.smallButton, data.sizes, size]);
+  }, [classes, data.sizes, size]);
 
   return (
     <React.Fragment>
@@ -114,7 +120,8 @@ const CardItem = props => {
           />
           <IconButton
             className={classNames(classes.wishlist, {
-              [classes.wishlisted]: data.sizes[size].isWishlist
+              [classes.wishlisted]:
+                data.sizes && data.sizes[size] && data.sizes[size].isWishlist
             })}
             size="small"
             icon={<HeartIcon />}
@@ -164,7 +171,12 @@ const CardItem = props => {
             {data.sizes && data.sizes[size] && data.sizes[data.size].dimensions}
             )
           </Typography>
-          <ButtonGroup variant="outlined" buttons={sizeButtons || []} />
+          {/* <ButtonGroup variant="outlined" buttons={sizeButtons || []} /> */}
+          <ToggleButton
+            value={size}
+            buttons={sizeButtons}
+            onChange={(e, value) => setSize(value)}
+          />
           <Typography gutterBottom variant="body1" component="p">
             Color: color
           </Typography>

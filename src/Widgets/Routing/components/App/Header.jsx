@@ -60,6 +60,9 @@ const useStyles = makeStyles(theme => ({
   //     marginLeft: theme.spacing(3)
   //   }
   // },
+  mainLogo: {
+    cursor: 'pointer'
+  },
   logoWrap: {
     display: 'flex',
     justifyContent: 'center',
@@ -207,7 +210,12 @@ export default function ElevateAppBar(props) {
                 icon={<MenuIcon />}
               />
             )}
-            <Typography variant="h6" component="h6">
+            <Typography
+              variant="h6"
+              component="h6"
+              className={classes.mainLogo}
+              onClick={() => history.push(paths.home)}
+            >
               Kondapalli Handicafts
             </Typography>
             {/* <div className={classes.search}>

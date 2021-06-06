@@ -56,7 +56,7 @@ export default function ImgMediaCard(props) {
           imageURL: imageLoader(item.filename)
         }}
         title={item.title}
-        onClick={() => history.push(`/card/${item._id}`)}
+        onClick={() => history.push(`/card/${item._id}`, { size: item.size })}
         buttons={[
           isLoggedIn &&
             (item.quantity ? (
