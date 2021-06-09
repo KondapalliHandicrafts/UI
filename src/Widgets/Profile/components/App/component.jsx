@@ -65,6 +65,7 @@ const styles = makeStyles(theme => ({
     height: 150,
     clipPath: 'circle(50% at 50% 50%)',
     position: 'relative',
+    margin: 0,
     '&:hover $text': {
       opacity: 1,
       transform: 'translate(-50%,-50%)'

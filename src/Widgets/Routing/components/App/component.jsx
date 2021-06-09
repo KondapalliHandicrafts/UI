@@ -49,6 +49,11 @@ const Routing = props => {
           <Route path="/" exact>
             <Redirect to={paths.home} />
           </Route>
+          <Route
+            path={paths.cardItem}
+            component={CardItem}
+            isLoggedIn={isLoggedIn}
+          />
           <PublicRoute
             path={paths.login}
             component={LoginPage}
@@ -97,11 +102,6 @@ const Routing = props => {
           <PrivateRoute
             path={paths.myOrders}
             component={MyOrders}
-            isLoggedIn={isLoggedIn}
-          />
-          <PrivateRoute
-            path={paths.cardItem}
-            component={CardItem}
             isLoggedIn={isLoggedIn}
           />
           <Route component={NoPage} />

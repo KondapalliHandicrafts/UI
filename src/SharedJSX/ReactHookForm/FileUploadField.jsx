@@ -16,7 +16,6 @@ const FileUploadField = props => {
     name,
     rules,
     multiple,
-    gridStyle,
     displayImage,
     accept,
     maxSize,
@@ -49,7 +48,7 @@ const FileUploadField = props => {
       render={() => {
         return (
           <RootRef rootRef={ref}>
-            <Grid className={gridStyle} {...rootProps}>
+            <Grid {...rootProps}>
               <input required={required} {...getInputProps()} />
               {displayImage}
               <p className={classNames(classes.fileUploadContainer, className)}>
@@ -86,7 +85,6 @@ FileUploadField.propTypes = {
   defaultValue: PropTypes.string,
   displayImage: PropTypes.node,
   id: PropTypes.string.isRequired,
-  gridStyle: PropTypes.string,
   onChange: PropTypes.func,
   rules: PropTypes.object,
   required: PropTypes.bool,
@@ -100,7 +98,6 @@ FileUploadField.defaultProps = {
   className: null,
   defaultValue: null,
   displayImage: null,
-  gridStyle: null,
   onChange: null,
   required: false,
   maxSize: 1024 * 1024 * 1, // 1MB

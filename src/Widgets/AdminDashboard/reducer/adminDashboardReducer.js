@@ -3,7 +3,7 @@ import { createReducer } from '__GLOBAL__/redux';
 import {
   TOGGLE_DIALOG,
   ADD_CARD,
-  CARDS_DATA,
+  ADMIN_CARDS_DATA,
   EDIT_CARD
 } from '__GLOBAL__/constants';
 
@@ -28,7 +28,7 @@ const adminDashboardReducer = {
       };
     return { ...state };
   },
-  [CARDS_DATA]: (state, action) => ({
+  [ADMIN_CARDS_DATA]: (state, action) => ({
     ...state,
     data: action.data
   })

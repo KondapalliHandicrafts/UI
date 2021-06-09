@@ -23,6 +23,7 @@ import {
   RESET_PASSWORD_REQUEST,
   FORGOT_PASSWORD_REQUEST,
   CURRENT_PASSWORD_REQUEST,
+  ADMIN_CARDS_DATA,
   VERIFY_RESETID_REQUEST,
   REGISTER_USER_REQUEST,
   ADD_WISHLIST_REQUEST,
@@ -56,6 +57,7 @@ export const forgotPasswordSuccess = createAction(
   'data'
 );
 export const cardsLoaded = createAction(CARDS_DATA, 'data');
+export const adminCardsSuccess = createAction(ADMIN_CARDS_DATA, 'data');
 export const updateCartCount = createAction(UPDATE_CART_COUNT, 'data');
 export const updateHeaderPic = createAction(UPDATE_HEADER_PIC, 'data');
 export const toggleDialog = createAction(TOGGLE_DIALOG, 'mode', 'data');

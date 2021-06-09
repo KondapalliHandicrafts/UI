@@ -13,6 +13,7 @@ import {
   getWishlistSuccess,
   getCartItemsSuccess,
   getCardDetails,
+  adminCardsSuccess,
   getWishlistDataRequest,
   updateCartCount,
   getCardsData,
@@ -66,7 +67,8 @@ export function* fetchCards(action) {
     const res = yield call(getCall, {
       url: action.isAdmin ? '/cards/admin' : '/cards'
     });
-    yield put(cardsLoaded(res.data));
+    if (!action.isAdmin) yield put(cardsLoaded(res.data));
+    else yield put(adminCardsSuccess(res.data));
     yield put(commonLoader(true));
   } catch (err) {
     yield put(commonLoader(true));
