@@ -1,5 +1,4 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
@@ -10,6 +9,7 @@ module.exports = {
   output: {
     filename: `${commonPaths.jsFolder}/[name].[contenthash].js`,
     path: commonPaths.outputPath,
+    clean: true,
     chunkFilename: `${commonPaths.jsFolder}/[name].[chunkhash].js`,
     publicPath: '/'
   },
@@ -70,7 +70,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: `${commonPaths.cssFolder}/[name].css`,
       chunkFilename: `${commonPaths.cssFolder}/[name].css`

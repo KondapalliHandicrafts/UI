@@ -23,6 +23,7 @@ const Wishlist = lazy(() => import('__WIDGETS__/Wishlist/components/App'));
 const CardItem = lazy(() => import('__WIDGETS__/CardItem/components/App'));
 const MyCart = lazy(() => import('__WIDGETS__/Cart/components/App'));
 const MyOrders = lazy(() => import('__WIDGETS__/Orders/components/App'));
+const AboutUs = lazy(() => import('__WIDGETS__/AboutUs/components/App'));
 const NoPage = lazy(() => import('./NoPage'));
 const ChangePassword = lazy(() =>
   import('__WIDGETS__/ChangePassword/components/App')
@@ -49,11 +50,8 @@ const Routing = props => {
           <Route path="/" exact>
             <Redirect to={paths.home} />
           </Route>
-          <Route
-            path={paths.cardItem}
-            component={CardItem}
-            isLoggedIn={isLoggedIn}
-          />
+          <Route path={paths.cardItem} component={CardItem} />
+          <Route path={paths.aboutUs} component={AboutUs} />
           <PublicRoute
             path={paths.login}
             component={LoginPage}

@@ -12,6 +12,7 @@ import wishlistReducer from './Widgets/Wishlist/reducer/wishlistReducer';
 import cartReducer from './Widgets/Cart/reducer/cartReducer';
 import ordersReducer from './Widgets/Orders/reducer/ordersReducer';
 import cardItemReducer from './Widgets/CardItem/reducer/cardItemReducer';
+import aboutUsReducer from './Widgets/AboutUs/reducer/aboutUsReducer';
 
 export default combineReducers({
   homeReducer,
@@ -26,5 +27,6 @@ export default combineReducers({
   profileReducer,
   ordersReducer,
   wishlistReducer,
-  cardItemReducer
+  cardItemReducer,
+  aboutUsReducer
 });

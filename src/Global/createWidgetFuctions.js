@@ -11,7 +11,7 @@ const ${widgetName}Reducer = {
   [PURGE]: () => {
     return defaultState;
   },
-  [${widgetName.toUpperCase()}_UNMOUNT]: (state, action) => ({
+  [${widgetName.toUpperCase()}_UNMOUNT]: state => ({
     ...state,
     data: []
   })
@@ -41,10 +41,10 @@ export default connect(mapStatetoProps, mapDispatchtoProps)(${widgetName});
 
 const getReadMeData = (widgetName, camelCaseName) => {
   return `1. Add routing path in /src/Global/constants.js.
-  2. Add ${widgetName}Reducer in /src/rootReducer.js.
-  3. Create Routing component reference in /src/Routing/App/Component.jsx. Choose publicRoute if pages dont require login otherwise choose privateRoute.
-  4. export const ${widgetName.toUpperCase()}_UNMOUNT = '${widgetName.toUpperCase()}_UNMOUNT';
-  5. export const ${camelCaseName}Unmount = createAction(${widgetName.toUpperCase()}_UNMOUNT);
+2. Add ${widgetName}Reducer in /src/rootReducer.js.
+3. Create Routing component reference in /src/Routing/App/Component.jsx. Choose publicRoute if pages dont require login otherwise choose privateRoute.
+4. export const ${widgetName.toUpperCase()}_UNMOUNT = '${widgetName.toUpperCase()}_UNMOUNT';
+5. export const ${camelCaseName}Unmount = createAction(${widgetName.toUpperCase()}_UNMOUNT);
   `;
 };
 
@@ -65,7 +65,7 @@ const styles = makeStyles(() => ({
 }));
 
 const ${widgetName} = props => {
-  const { dataLoaded, commonLoader, ${widgetName}Unmount() } = props;
+  const { dataLoaded, commonLoader, ${widgetName}Unmount } = props;
   const classes = styles(props);
   
   useEffect(() => {

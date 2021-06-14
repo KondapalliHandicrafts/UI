@@ -22,7 +22,7 @@ import Avatar from '__SHARED__/Avatar';
 import {
   MenuIcon,
   // SearchIcon,
-  // PhoneIcon,
+  InfoIcon,
   HeartIcon,
   KeyIcon,
   ProfileIcon,
@@ -79,7 +79,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: '1rem'
   },
   popoverPaper: {
-    width: 225
+    minWidth: 225
   }
 }));
 
@@ -203,13 +203,11 @@ export default function ElevateAppBar(props) {
       <ElevationScroll {...props}>
         <AppBar color="secondary">
           <Toolbar variant="dense">
-            {isLoggedIn && (
-              <IconButton
-                className={classes.menuIcon}
-                onClick={e => toggleDrawer(e, true)}
-                icon={<MenuIcon />}
-              />
-            )}
+            <IconButton
+              className={classes.menuIcon}
+              onClick={e => toggleDrawer(e, true)}
+              icon={<MenuIcon />}
+            />
             <Typography
               variant="h6"
               component="h6"
@@ -271,7 +269,7 @@ export default function ElevateAppBar(props) {
         </AppBar>
       </ElevationScroll>
       <SwipeableDrawer
-        PaperProps={{ className: classes.paper }}
+        PaperProps={{ className: classes.popoverPaper }}
         open={drawerOpen}
         disableBackdropTransition={!iOS}
         disableDiscovery={iOS}
@@ -298,17 +296,17 @@ export default function ElevateAppBar(props) {
               icon: <DashboardIcon className={classes.icon} />,
               text: 'Admin Dashboard',
               path: paths.adminDashboard
-            }
+            },
             // {
             //   icon: <BulkOrderIcon className={classes.icon} />,
             //   text: 'Bulk Orders',
             //   path: paths.bulkOrders
             // },
-            // {
-            //   icon: <PhoneIcon className={classes.icon} />,
-            //   text: 'Contact Us',
-            //   path: paths.contactUs
-            // }
+            {
+              icon: <InfoIcon className={classes.icon} />,
+              text: 'About Us',
+              path: paths.aboutUs
+            }
           ].map(
             item =>
               item && (

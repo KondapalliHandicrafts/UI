@@ -17,6 +17,7 @@ import {
   RESETID_SUCCESS,
   CART_REQUEST,
   CART_SUCCESS,
+  ABOUTUS_UNMOUNT,
   RESETPASSWORD_SUCCESS,
   CHANGE_PROFILE_PIC_REQUEST,
   PROFILE_SUCCESS,
@@ -64,6 +65,7 @@ export const toggleDialog = createAction(TOGGLE_DIALOG, 'mode', 'data');
 export const checkResetIDSunccess = createAction(RESETID_SUCCESS, 'data');
 export const resetPasswordSuccess = createAction(RESETPASSWORD_SUCCESS, 'data');
 export const profileSuccess = createAction(PROFILE_SUCCESS, 'data');
+export const aboutUsUnmount = createAction(ABOUTUS_UNMOUNT);
 export const checkCurrentPasswordSuccess = createAction(
   CURRENT_PASSWORD_SUCCESS,
   'message',

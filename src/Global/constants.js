@@ -11,7 +11,7 @@ export const paths = {
   myOrders: '/my-orders',
   profile: '/profile',
   bulkOrders: '/bulk-order',
-  contactUs: '/contact-us',
+  aboutUs: '/about-us',
   cardItem: '/card/:id'
 };
 
@@ -75,6 +75,7 @@ export const types = {
 };
 
 export const UNMOUNT = 'UNMOUNT';
+export const ABOUTUS_UNMOUNT = 'ABOUTUS_UNMOUNT';
 export const TOGGLE_DIALOG = 'TOGGLE_DIALOG';
 export const ADD_ADDRESS = 'ADD_ADDRESS';
 export const EDIT_ADDRESS = 'EDIT_ADDRESS';

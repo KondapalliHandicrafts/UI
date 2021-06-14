@@ -35,3 +35,4 @@ export { default as OrdersIcon } from './Orders';
 export { default as SubIcon } from './Sub';
 export { default as AddOutlinedIcon } from './AddOutlined';
 export { default as BulkOrderIcon } from './BulkOrder';
+export { default as InfoIcon } from './Info';

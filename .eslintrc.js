@@ -1,13 +1,11 @@
 module.exports = {
-  parser: 'babel-eslint',
-  plugins: ['react', 'prettier', 'react-hooks', 'flowtype'],
+  parser: '@babel/eslint-parser',
+  plugins: ['react', 'prettier', 'react-hooks'],
   extends: [
     'airbnb',
     'plugin:prettier/recommended',
-    'prettier/react',
     'plugin:import/errors',
-    'plugin:react-hooks/recommended',
-    'plugin:flowtype/recommended'
+    'plugin:react-hooks/recommended'
   ],
   globals: {
     React: true,
