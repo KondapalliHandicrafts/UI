@@ -1,52 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DatePicker } from '@material-ui/pickers';
 import { Controller, useFormContext } from 'react-hook-form';
-import { CalenderIcon } from '__SHARED__/SVG';
-import IconButton from '__SHARED__/IconButton';
+import { DatePicker } from '@mui/x-date-pickers';
+import { DATE_FORMAT } from './helpers';
 
 const DateField = props => {
   const {
-    required,
+    required = false,
     name,
-    id,
-    label,
-    rules,
-    InputProps,
-    className,
-    ...others
+    label = '',
+    rules = {},
+    sx = {},
+    helperText = '',
+    ...rest
   } = props;
 
-  const { errors, control } = useFormContext();
+  const {
+    formState: { errors },
+    control
+  } = useFormContext();
 
   return (
     <Controller
-      render={({ ref, ...renderProps }) => {
-        return (
-          <DatePicker
-            className={className}
-            fullWidth
-            size="small"
-            inputVariant="outlined"
-            format="dd/MM/yyyy"
-            label={label}
-            required={required}
-            helperText={errors[name]?.message}
-            error={!!errors[name]}
-            InputProps={{
-              endAdornment: (
-                <IconButton onClick={() => {}} icon={<CalenderIcon />} />
-              ),
-              ...InputProps
-            }}
-            {...renderProps}
-            {...others}
-          />
-        );
-      }}
-      name={name}
-      defaultValue={null}
       control={control}
+      defaultValue={null}
+      name={name}
+      render={({ field: { ref, ...fieldRest } }) => (
+        <DatePicker
+          format={DATE_FORMAT}
+          formatDensity="dense"
+          label={label}
+          slotProps={{
+            textField: {
+              fullWidth: true,
+              helperText: errors[name]?.message || helperText,
+              required,
+              size: 'small',
+              error: !!errors[name],
+              variant: 'outlined'
+            }
+          }}
+          sx={[...(Array.isArray(sx) ? sx : [sx])]}
+          {...fieldRest}
+          {...rest}
+        />
+      )}
       rules={{
         required: { value: required, message: 'Required' },
         ...rules
@@ -56,19 +54,16 @@ const DateField = props => {
 };
 
 DateField.propTypes = {
-  className: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  InputProps: PropTypes.object,
-  label: PropTypes.string.isRequired,
+  helperText: PropTypes.string,
+  label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  required: PropTypes.oneOfType(PropTypes.bool, PropTypes.number),
   rules: PropTypes.object,
-  required: PropTypes.bool,
-  name: PropTypes.string.isRequired
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  )
 };
 
-DateField.defaultProps = {
-  className: null,
-  InputProps: {},
-  required: false,
-  rules: {}
-};
 export default DateField;

@@ -1,19 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import FormHelperText from '@material-ui/core/FormHelperText';
+import { FormHelperText, Grid, TextField } from '@mui/material';
 import { maxSizeMB } from './_helpers';
-import styles from './styles.css';
+
+const styles = {
+  fileUploadContainer: {
+    border: '1px solid',
+    padding: '2rem 1rem',
+    cursor: 'pointer',
+    color: props =>
+      props.errors && props.errors[props.name]
+        ? 'colors.error'
+        : 'colors.black',
+    borderColor: props =>
+      props.errors && props.errors[props.name]
+        ? 'colors.error'
+        : 'colors.black2',
+    borderRadius: '5px',
+    width: '100%',
+    textAlign: 'center'
+  }
+};
 
 const FileUploadField = props => {
-  const { required, name, id, rules, multiple, accept, maxSize } = props;
+  const {
+    required = false,
+    name,
+    id,
+    rules = {},
+    multiple = false,
+    accept,
+    maxSize = 1024 * 1034 * 1 // 1MB
+  } = props;
   const { errors, control, trigger } = useFormContext();
-  const classes = styles({ ...props, errors });
 
   return (
     <Controller
+      control={control}
+      name={name}
       render={({ onChange, ref }) => {
         return (
           <Grid
@@ -24,33 +49,31 @@ const FileUploadField = props => {
           >
             <TextField
               id={id}
-              style={{ display: 'none' }}
-              inputRef={ref}
-              type="file"
-              onChange={e => {
-                onChange(multiple ? e.target.files : e.target.files[0]);
-                trigger(name);
-              }}
               inputProps={{
                 tabIndex: '-1',
                 autoComplete: 'off',
                 multiple,
                 accept
               }}
+              inputRef={ref}
+              onChange={e => {
+                onChange(multiple ? e.target.files : e.target.files[0]);
+                trigger(name);
+              }}
               required={required}
+              style={{ display: 'none' }}
+              type="file"
             />
-            <p className={classes.fileUploadContainer}>
+            <Grid component="p" sx={styles.fileUploadContainer}>
               Drag &lsquo;n&rsquo; drop some files here, or click to select
               files
-            </p>
-            {errors[name] && (
+            </Grid>
+            {errors[name] ? (
               <FormHelperText error>{errors[name].message}</FormHelperText>
-            )}
+            ) : null}
           </Grid>
         );
       }}
-      name={name}
-      control={control}
       rules={{
         required: { value: required, message: 'Required' },
         validate: {
@@ -70,17 +93,11 @@ const FileUploadField = props => {
 FileUploadField.propTypes = {
   accept: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  rules: PropTypes.object,
-  required: PropTypes.bool,
   maxSize: PropTypes.number,
   multiple: PropTypes.bool,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  required: PropTypes.bool,
+  rules: PropTypes.object
 };
 
-FileUploadField.defaultProps = {
-  required: false,
-  maxSize: 1024 * 1034 * 1, // 1MB
-  multiple: false,
-  rules: {}
-};
 export default FileUploadField;

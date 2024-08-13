@@ -20,7 +20,6 @@ module.exports = {
             loader: 'css-loader',
             options: {
               sourceMap: true,
-              localsConvention: 'camelCase',
               modules: {
                 localIdentName: '[local]'
               }
@@ -32,10 +31,9 @@ module.exports = {
   },
   devServer: {
     compress: true,
-    hot: true,
-    host: 'localhost', // need to remove after fix is done https://github.com/webpack/webpack-dev-server/issues/2943
     historyApiFallback: true,
-    open: true
+    open: true,
+    port: 2412
   },
   plugins: [new webpack.HotModuleReplacementPlugin()]
 };

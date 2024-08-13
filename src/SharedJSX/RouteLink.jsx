@@ -1,37 +1,41 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import { Grid } from '@mui/material';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
-const styles = makeStyles(theme => ({
+const styles = {
   link: {
-    color: theme.colors.buttonColor,
+    color: 'colors.buttonColor',
     margin: '0.5rem'
     // '&:hover': {
     //   textDecoration: 'none'
     // }
   }
-}));
+};
 
 const RouteLink = props => {
-  const { className, to, children, ...others } = props;
-  const classes = styles();
+  const { sx = {}, to, children, ...others } = props;
+
   return (
-    <Link className={classNames(classes.link, className)} to={to} {...others}>
+    <Grid
+      component={Link}
+      sx={[styles.link, ...(Array.isArray(sx) ? sx : [sx])]}
+      to={to}
+      {...others}
+    >
       {children}
-    </Link>
+    </Grid>
   );
 };
 
 RouteLink.propTypes = {
   children: PropTypes.node.isRequired,
-  className: PropTypes.string,
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  ),
   to: PropTypes.string.isRequired
-};
-
-RouteLink.defaultProps = {
-  className: ''
 };
 
 export default RouteLink;

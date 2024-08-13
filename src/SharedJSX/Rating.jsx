@@ -1,45 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
-import Rating from '@material-ui/lab/Rating';
+import { Rating as MuiRating } from '@mui/material';
 
-const styles = makeStyles(() => ({
+const styles = {
   rating: {
     margin: '0 1rem'
   }
-}));
+};
 
-const RatingKH = props => {
-  const { value, onChange, size, className, readOnly, name, ...others } = props;
-  const classes = styles();
+const Rating = props => {
+  const {
+    value,
+    onChange = null,
+    size = 'small',
+    sx = {},
+    name,
+    ...others
+  } = props;
+
   return (
-    <Rating
+    <MuiRating
       name={name}
-      className={classNames(classes.rating, className)}
-      value={value}
       onChange={onChange}
       size={size}
-      readOnly={readOnly}
+      sx={[styles.rating, ...(Array.isArray(sx) ? sx : [sx])]}
+      value={value}
       {...others}
     />
   );
 };
 
-RatingKH.propTypes = {
-  className: PropTypes.string,
-  value: PropTypes.number.isRequired,
-  onChange: PropTypes.func,
+Rating.propTypes = {
   name: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
   size: PropTypes.string,
-  readOnly: PropTypes.bool
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  ),
+  value: PropTypes.number.isRequired
 };
 
-RatingKH.defaultProps = {
-  className: null,
-  size: 'small',
-  readOnly: false,
-  onChange: null
-};
-
-export default RatingKH;
+export default Rating;

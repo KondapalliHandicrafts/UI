@@ -1,37 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { makeStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
+import { IconButton as MuiIconButton } from '@mui/material';
 
-const styles = makeStyles(() => ({
-  iconButton: {}
-}));
-
-const IconButtonKH = props => {
-  const { className, icon, onClick, ...others } = props;
-  const classes = styles();
+const IconButton = props => {
+  const { children, onClick, id, sx = {}, ...others } = props;
   return (
-    <IconButton
-      className={classNames(classes.iconButton, className)}
+    <MuiIconButton
+      aria-label={id}
       disableFocusRipple
+      disableRipple
+      disableTouchRipple
       onClick={onClick}
-      size="small"
+      sx={[{ p: 0 }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...others}
     >
-      {icon}
-    </IconButton>
+      {children}
+    </MuiIconButton>
   );
 };
 
-IconButtonKH.propTypes = {
-  className: PropTypes.string,
-  icon: PropTypes.node.isRequired,
-  onClick: PropTypes.func.isRequired
+IconButton.propTypes = {
+  children: PropTypes.node.isRequired,
+  id: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  )
 };
 
-IconButtonKH.defaultProps = {
-  className: null
-};
-
-export default IconButtonKH;
+export default IconButton;

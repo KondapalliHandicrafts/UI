@@ -1,68 +1,78 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormControl, FormHelperText, InputLabel, Select } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 
 const SelectField = props => {
   const {
-    className,
-    required,
+    required = false,
     name,
-    id,
-    label,
-    rules,
+    label = '',
+    defaultValue = 'Select',
+    hasSelect = false,
     options,
-    ...others
+    rules = {},
+    helperText = '',
+    onChange = null,
+    ...rest
   } = props;
-  const { errors, control } = useFormContext();
+
   const { validate, ...restRules } = rules;
 
-  const allValidations = {
-    reqired: value => (required ? value !== 'Select' || 'Required' : true),
-    ...validate
-  };
-
+  const {
+    formState: { errors },
+    control
+  } = useFormContext();
   return (
     <Controller
-      render={renderProps => {
-        return (
-          <FormControl
-            fullWidth
-            variant="outlined"
-            size="small"
-            required={required}
-          >
-            {label && <InputLabel htmlFor={id}>{label}</InputLabel>}
-            <Select
-              native
-              label={label}
-              id={id}
-              name={name}
-              {...renderProps}
-              {...others}
-            >
-              <option value="Select">Select</option>
-              {options.map(item => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </Select>
-            {errors[name] && (
-              <FormHelperText error>{errors[name].message}</FormHelperText>
-            )}
-          </FormControl>
-        );
-      }}
-      name={name}
-      defaultValue="Select"
       control={control}
+      defaultValue={defaultValue}
+      name={name}
+      render={({ field }) => (
+        <FormControl
+          error={!!errors[name]}
+          fullWidth
+          required={required}
+          size="small"
+          variant="outlined"
+        >
+          <InputLabel>{label}</InputLabel>
+          <Select
+            {...field}
+            label={label}
+            name={name}
+            native
+            onChange={e => {
+              field.onChange(e);
+              if (onChange) onChange(e);
+            }}
+            {...rest}
+          >
+            {hasSelect ? <option value="Select">Select</option> : null}
+            {options.map(item => {
+              if (typeof item === 'string')
+                return (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                );
+              return (
+                <option key={item.key} value={item.key}>
+                  {item.value}
+                </option>
+              );
+            })}
+          </Select>
+          {errors[name] || helperText ? (
+            <FormHelperText error={Boolean(errors[name])}>
+              {errors[name] ? errors[name].message : helperText}
+            </FormHelperText>
+          ) : null}
+        </FormControl>
+      )}
       rules={{
         required: { value: required, message: 'Required' },
-        validate: allValidations,
+        validate,
         ...restRules
       }}
     />
@@ -70,20 +80,20 @@ const SelectField = props => {
 };
 
 SelectField.propTypes = {
-  className: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  defaultValue: PropTypes.string,
+  hasSelect: PropTypes.bool,
+  helperText: PropTypes.string,
+  label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
   options: PropTypes.array.isRequired,
-  required: PropTypes.bool,
+  required: PropTypes.oneOfType(PropTypes.bool, PropTypes.number),
   rules: PropTypes.object,
-  register: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired
-};
-
-SelectField.defaultProps = {
-  className: null,
-  rules: {},
-  required: false
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  )
 };
 
 export default SelectField;

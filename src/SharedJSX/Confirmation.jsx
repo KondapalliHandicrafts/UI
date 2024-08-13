@@ -1,76 +1,68 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import ActionButtons from './ActionButtons';
+import { Dialog, useTheme } from '@mui/material';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import Button from './Button';
-
-const styles = makeStyles(theme => ({
-  paperRoot: {
-    minWidth: 600,
-    [theme.breakpoints.down('xs')]: {
-      minWidth: '100vw'
-    }
-  }
-}));
+import IconButton from './IconButton';
 
 const Confirmation = props => {
-  const [stateOpen, setStateOpen] = useState(false);
-
-  const handleClose = () => setStateOpen(false);
-  const handleOpen = () => setStateOpen(true);
-
   const {
-    fullScreen,
+    buttonText = '',
+    isDisabled = false,
+    icon = null,
     title,
-    message,
-    // buttonType,
-    buttonText,
-    okOnClick,
-    oKText,
-    cancelText,
-    buttonProps,
-    ...others
+    content,
+    handleOk
   } = props;
-  const classes = styles();
+  const [open, setOpen] = React.useState(false);
   const theme = useTheme();
-  const smallFullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+
+  const handleClickOpen = e => {
+    e.stopPropagation();
+    setOpen(true);
+  };
+
+  const handleClose = e => {
+    e.stopPropagation();
+    setOpen(false);
+  };
 
   return (
     <React.Fragment>
-      <Button onClick={handleOpen} {...buttonProps}>
-        {buttonText}
-      </Button>
+      {buttonText ? (
+        <Button disabled={isDisabled} onClick={handleClickOpen}>
+          {buttonText}
+        </Button>
+      ) : null}
+      {icon ? (
+        <IconButton disabled={isDisabled} onClick={handleClickOpen}>
+          {icon}
+        </IconButton>
+      ) : null}
       <Dialog
-        fullScreen={fullScreen || smallFullScreen}
-        open={stateOpen}
+        aria-describedby="alert-dialog-slide-description"
+        keepMounted
+        maxWidth="sm"
         onClose={handleClose}
-        aria-labelledby="confirmation-dialog-title"
-        PaperProps={{
-          classes: {
-            root: classes.paperRoot
-          }
-        }}
-        maxWidth="xs"
-        {...others}
+        open={open}
       >
-        <DialogTitle id="confirmation-dialog-title">{title}</DialogTitle>
-        <DialogContent>{message}</DialogContent>
+        {title ? <DialogTitle>{title}</DialogTitle> : null}
+        <DialogContent sx={{ minWidth: theme.breakpoints.values.sm }}>
+          <DialogContentText>{content}</DialogContentText>
+        </DialogContent>
         <DialogActions>
-          <ActionButtons
-            buttons={[
-              <Button key={1} onClick={okOnClick}>
-                {oKText}
-              </Button>,
-              <Button key={2} onClick={handleClose}>
-                {cancelText}
-              </Button>
-            ]}
-          />
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button
+            onClick={e => {
+              handleClose(e);
+              if (handleOk) handleOk();
+            }}
+          >
+            Ok
+          </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
@@ -78,22 +70,12 @@ const Confirmation = props => {
 };
 
 Confirmation.propTypes = {
-  buttonProps: PropTypes.object,
-  buttonText: PropTypes.string.isRequired,
-  //   buttonType: PropTypes.number.isRequired,
-  cancelText: PropTypes.string,
-  fullScreen: PropTypes.bool,
-  message: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  oKText: PropTypes.string,
-  okOnClick: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired
-};
-Confirmation.defaultProps = {
-  buttonProps: {},
-  cancelText: 'No',
-  oKText: 'Yes',
-  fullScreen: false
+  buttonText: PropTypes.string,
+  content: PropTypes.string.isRequired,
+  handleOk: PropTypes.func.isRequired,
+  icon: PropTypes.node,
+  isDisabled: PropTypes.bool,
+  title: PropTypes.string.isRequired
 };
 
 export default Confirmation;

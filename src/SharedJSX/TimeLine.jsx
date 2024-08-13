@@ -1,24 +1,23 @@
 import React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Timeline from '@material-ui/lab/Timeline';
-import TimelineItem from '@material-ui/lab/TimelineItem';
-import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
-import TimelineConnector from '@material-ui/lab/TimelineConnector';
-import TimelineContent from '@material-ui/lab/TimelineContent';
-import TimelineDot from '@material-ui/lab/TimelineDot';
-import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Normal from './Fonts/Normal';
+import {
+  Timeline as MuiTimeline,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
+  TimelineItem,
+  TimelineOppositeContent,
+  TimelineSeparator
+} from '@mui/lab';
+import { Paper, Typography } from '@mui/material';
+import Normal from './Text';
 
-const useStyles = makeStyles(theme => ({
+const styles = {
   paper: {
     padding: '12px 16px'
   },
   transparentConnector: {
-    backgroundColor: theme.colors.transparent
+    backgroundColor: 'colors.transparent'
   },
   normalText: {
     textAlign: 'justify'
@@ -35,63 +34,53 @@ const useStyles = makeStyles(theme => ({
   icon: {
     margin: 0
   }
-}));
+};
 
-const TimeLineKH = props => {
-  const { className, align, data } = props;
-  const classes = useStyles();
+const TimeLine = props => {
+  const { sx = {}, position = 'alternate', data } = props;
 
   return (
-    <Timeline className={classNames(className)} align={align}>
+    <MuiTimeline position={position} sx={[...(Array.isArray(sx) ? sx : [sx])]}>
       {data.map((item, index) => {
         return (
           <TimelineItem key={item.id}>
-            <TimelineOppositeContent className={classes.verticallyCenter}>
+            <TimelineOppositeContent sx={styles.verticallyCenter}>
               {item.period}
             </TimelineOppositeContent>
             <TimelineSeparator>
               <TimelineConnector
-                className={classNames({
-                  [classes.transparentConnector]: index === 0
-                })}
+                sx={[index === 0 && styles.transparentConnector]}
               />
-              <TimelineDot variant="outlined" color="primary">
+              <TimelineDot color="primary" variant="outlined">
                 {item.icon}
               </TimelineDot>
               <TimelineConnector
-                className={classNames({
-                  [classes.transparentConnector]: data.length - 1 === index
-                })}
+                sx={[data.length - 1 === index && styles.transparentConnector]}
               />
             </TimelineSeparator>
             <TimelineContent>
-              <Paper elevation={3} className={classes.paper}>
-                <Typography
-                  className={classes.period}
-                  variant="h4"
-                  componeent="h4"
-                >
+              <Paper elevation={3} sx={styles.paper}>
+                <Typography component="div" sx={styles.period} variant="h6">
                   {item.title}
                 </Typography>
-                <Normal className={classes.normalText}>{item.context}</Normal>
+                <Normal sx={styles.normalText}>{item.context}</Normal>
               </Paper>
             </TimelineContent>
           </TimelineItem>
         );
       })}
-    </Timeline>
+    </MuiTimeline>
   );
 };
 
-TimeLineKH.propTypes = {
-  className: PropTypes.string,
+TimeLine.propTypes = {
   data: PropTypes.array.isRequired,
-  align: PropTypes.oneOf(['alternate', 'left', 'right'])
+  position: PropTypes.oneOf(['alternate', 'left', 'right']),
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  )
 };
 
-TimeLineKH.defaultProps = {
-  className: null,
-  align: 'alternate'
-};
-
-export default TimeLineKH;
+export default TimeLine;

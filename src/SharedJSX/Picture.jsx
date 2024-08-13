@@ -1,21 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { Grid } from '@mui/material';
 
 const Picture = props => {
-  const { images, pictureClass, imageClass } = props;
+  const { images, pictureClass = {}, imageClass = {} } = props;
   return (
-    <picture className={classNames(pictureClass)}>
+    <Grid component="picture" sx={pictureClass}>
       {images.map((image, index) => (
         // eslint-disable-next-line react/no-array-index-key
-        <source key={index} type={image.type} srcSet={image.src} />
+        <source key={index} srcSet={image.src} type={image.type} />
       ))}
-      <img
-        src={images[images.length - 1].src}
+      <Grid
         alt={images[images.length - 1].src}
-        className={classNames(imageClass)}
+        component="img"
+        src={images[images.length - 1].src}
+        sx={imageClass}
       />
-    </picture>
+    </Grid>
   );
 };
 
@@ -23,11 +24,6 @@ Picture.propTypes = {
   imageClass: PropTypes.string,
   images: PropTypes.array.isRequired,
   pictureClass: PropTypes.string
-};
-
-Picture.defaultProps = {
-  imageClass: null,
-  pictureClass: null
 };
 
 export default Picture;

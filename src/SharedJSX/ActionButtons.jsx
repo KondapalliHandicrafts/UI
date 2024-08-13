@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import { Grid } from '@mui/material';
 
-const styles = makeStyles(() => ({
+const styles = {
   actionButtons: {
     display: 'flex',
     flex: 1,
@@ -14,13 +12,12 @@ const styles = makeStyles(() => ({
       marginRight: '1rem'
     }
   }
-}));
+};
 
 const ActionButtons = props => {
-  const { className, buttons } = props;
-  const classes = styles();
+  const { sx = {}, buttons } = props;
   return (
-    <Grid className={classNames(className, classes.actionButtons)}>
+    <Grid sx={[styles.actionButtons, ...(Array.isArray(sx) ? sx : [sx])]}>
       {buttons.map(button => button)}
     </Grid>
   );
@@ -28,11 +25,11 @@ const ActionButtons = props => {
 
 ActionButtons.propTypes = {
   buttons: PropTypes.array.isRequired,
-  className: PropTypes.string
-};
-
-ActionButtons.defaultProps = {
-  className: null
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  )
 };
 
 export default ActionButtons;

@@ -1,21 +1,6 @@
-import React from 'react';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import ReactDOM from 'react-dom';
-import SnackBar from '../SharedJSX/SnackBar';
-import themeCSS from './theme';
-
 const images = require.context('__ASSETS__/Images', true);
 
 export const imageLoader = imageName => images(`./${imageName}`).default;
-
-export function renderSnackbar(apiResult) {
-  ReactDOM.render(
-    <MuiThemeProvider theme={themeCSS}>
-      <SnackBar apiResult={apiResult} open />
-    </MuiThemeProvider>,
-    document.getElementById('snackbar')
-  );
-}
 
 export const isMobile = () => {
   const a = navigator.userAgent || navigator.vendor || window.opera;
@@ -30,5 +15,3 @@ export const isMobile = () => {
     return true;
   return false;
 };
-
-export default renderSnackbar;

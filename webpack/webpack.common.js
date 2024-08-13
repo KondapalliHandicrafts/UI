@@ -1,10 +1,9 @@
 const webpack = require('webpack');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const commonPaths = require('./paths');
 
-module.exports = env => {
+module.exports = () => {
   return {
     entry: commonPaths.entryPath,
     module: {
@@ -31,6 +30,7 @@ module.exports = env => {
             {
               loader: 'file-loader',
               options: {
+                name: '[name].[ext]',
                 outputPath: commonPaths.fontsFolder
               }
             }
@@ -40,13 +40,11 @@ module.exports = env => {
     },
     resolve: {
       modules: ['src', 'node_modules'],
-      extensions: ['*', '.js', '.jsx', '.css', '.webp', '.jpeg', '.jpg'],
+      extensions: ['.*', '.js', '.jsx', '.css', '.webp', '.jpeg', '.jpg'],
       alias: {
         __GLOBAL__: commonPaths.globalPath,
         __SHARED__: commonPaths.sharedPath,
-        __ASSETS__: commonPaths.assetsPath,
-        __WIDGETS__: commonPaths.widgetsPath,
-        __SRC__: commonPaths.srcPath
+        __ASSETS__: commonPaths.assetsPath
       }
     },
     plugins: [
@@ -56,16 +54,13 @@ module.exports = env => {
         // favicon: commonPaths.faviconPath
       }),
       new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
-        'process.env.API_URL': JSON.stringify(env.API_URL)
-      }),
-      new ScriptExtHtmlWebpackPlugin({
-        defaultAttribute: 'async'
+        'process.env': JSON.stringify(process.env)
       }),
       new ESLintPlugin({
         extensions: ['js', 'jsx'],
         fix: true,
-        emitWarning: JSON.stringify(env.NODE_ENV) !== 'production'
+        emitWarning: false,
+        failOnWarning: false
       })
     ]
   };

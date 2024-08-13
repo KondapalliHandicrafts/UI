@@ -1,33 +1,33 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import { Paper as MuiPaper } from '@mui/material';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
-const styles = makeStyles(() => ({
+const styles = {
   paper: {
     padding: '3rem'
   }
-}));
+};
 
-const PaperKH = props => {
-  const { className, href, children, ...others } = props;
-  const classes = styles();
+const Paper = props => {
+  const { sx = {}, href, children, ...others } = props;
   return (
-    <Paper className={classNames(classes.paper, className)} {...others}>
+    <MuiPaper
+      sx={[styles.paper, ...(Array.isArray(sx) ? sx : [sx])]}
+      {...others}
+    >
       {children}
-    </Paper>
+    </MuiPaper>
   );
 };
 
-PaperKH.propTypes = {
+Paper.propTypes = {
   children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  href: PropTypes.string.isRequired
+  href: PropTypes.string.isRequired,
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  )
 };
 
-PaperKH.defaultProps = {
-  className: ''
-};
-
-export default PaperKH;
+export default Paper;

@@ -1,86 +1,93 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  FormLabel
+} from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 
 const CheckField = props => {
   const {
-    className,
-    required,
+    required = false,
     name,
-    id,
-    label,
-    rules,
-    options,
-    disabled,
-    ...others
+    label = '',
+    defaultValue = false,
+    rules = {},
+    helperText = '',
+    onChange = null,
+    sx = {},
+    ...rest
   } = props;
-  const { errors, control } = useFormContext();
 
+  const { validate, ...restRules } = rules;
+
+  const {
+    formState: { errors },
+    control
+  } = useFormContext();
   return (
     <Controller
-      render={({ value, onChange, onBlur }) => {
-        return (
-          <FormControl
-            className={className}
-            fullWidth
-            variant="outlined"
-            size="small"
-            required={required}
-          >
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name={name}
-                  id={id}
-                  color="primary"
-                  onBlur={onBlur}
-                  onChange={e => onChange(e.target.checked)}
-                  checked={Boolean(value)}
-                  {...others}
-                />
-              }
-              disabled={disabled}
-              label={label}
-            />
-            {errors[name] && (
-              <FormHelperText error>{errors[name].message}</FormHelperText>
-            )}
-          </FormControl>
-        );
-      }}
-      name={name}
       control={control}
-      defaultValue={false}
+      defaultValue={defaultValue}
+      name={name}
+      render={({ field }) => (
+        <FormControl
+          error={!!errors[name]}
+          fullWidth
+          required={required}
+          size="small"
+          sx={[...(Array.isArray(sx) ? sx : [sx])]}
+          variant="outlined"
+        >
+          <FormControlLabel
+            control={
+              <Checkbox
+                {...field}
+                checked={Boolean(field.value)}
+                color="primary"
+                disableRipple
+                onChange={e => {
+                  field.onChange(e);
+                  if (onChange) onChange(e);
+                }}
+                {...rest}
+              />
+            }
+            label={label ? <FormLabel>{label}</FormLabel> : null}
+            labelPlacement="end"
+          />
+          {errors[name] || helperText ? (
+            <FormHelperText error={Boolean(errors[name])}>
+              {errors[name] ? errors[name].message : helperText}
+            </FormHelperText>
+          ) : null}
+        </FormControl>
+      )}
       rules={{
         required: { value: required, message: 'Required' },
-        ...rules
+        validate,
+        ...restRules
       }}
     />
   );
 };
 
 CheckField.propTypes = {
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  id: PropTypes.string.isRequired,
+  defaultValue: PropTypes.string,
+  helperText: PropTypes.string,
   label: PropTypes.string,
-  options: PropTypes.array.isRequired,
-  required: PropTypes.bool,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  required: PropTypes.oneOfType(PropTypes.bool, PropTypes.number),
   rules: PropTypes.object,
-  register: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired
-};
-
-CheckField.defaultProps = {
-  className: null,
-  disabled: false,
-  label: null,
-  rules: {},
-  required: false
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  )
 };
 
 export default CheckField;

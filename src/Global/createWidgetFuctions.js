@@ -56,26 +56,26 @@ const getReadMeData = (widgetName, camelCaseName) => {
 const getAppComponentData = widgetName => {
   return `import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Loading from '__SHARED__/Loading';
+import { Grid } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { Loading } from '../../SharedJSX';
 
-const styles = makeStyles(() => ({
+const styles = {
   container: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1
   }
-}));
+};
 
 const ${widgetName} = props => {
-  const { dataLoaded } = props;
-  const classes = styles(props);
+  const dataLoading = useSelector(state => state.routing.dataLoading);
+  
   return (
     <React.Fragment>
       <Loading open={dataLoaded} />
-      <Grid container className={classes.container}>
+      <Grid container sx={styles.container}>
         ${widgetName} widget is created and ready to use.
       </Grid>
     </React.Fragment>
@@ -85,7 +85,6 @@ const ${widgetName} = props => {
 ${widgetName}.propTypes = {
   dataLoaded: PropTypes.bool.isRequired
 };
-${widgetName}.defaultProps = {};
 
 export default ${widgetName};
 `;

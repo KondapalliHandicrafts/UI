@@ -1,29 +1,31 @@
 import React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import SpeedDial from '@material-ui/lab/SpeedDial';
-import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
-import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
+import { Grid, SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
 
-const useStyles = makeStyles(theme => ({
+const styles = {
   root: {
-    // height: 380,
     flexGrow: 1
   },
   selected: {
-    color: theme.colors.mainAction
+    color: 'colors.mainAction'
   },
   speedDial: {
     position: 'absolute',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2)
+    bottom: theme => theme.spacing(2),
+    right: theme => theme.spacing(2)
   }
-}));
+};
 
-const SpeedDialKH = props => {
-  const { hidden, className, actions, icon, active, onOpen } = props;
-  const classes = useStyles();
+const SpeedDialJK = props => {
+  const {
+    isHidden = false,
+    sx = {},
+    actions,
+    icon = null,
+    active,
+    onOpen = false
+  } = props;
+
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -35,11 +37,13 @@ const SpeedDialKH = props => {
   };
 
   return (
-    <div className={classes.root}>
+    <Grid sx={styles.root}>
       <SpeedDial
         ariaLabel="SpeedDial Tab"
-        className={classNames(classes.speedDial, className)}
-        hidden={hidden}
+        FabProps={{
+          size: 'medium'
+        }}
+        hidden={isHidden}
         icon={<SpeedDialIcon icon={icon} />}
         onClose={handleClose}
         onOpen={() => {
@@ -47,48 +51,37 @@ const SpeedDialKH = props => {
           onOpen();
         }}
         open={open}
-        FabProps={{
-          size: 'medium'
-        }}
+        sx={[styles.speedDial, ...(Array.isArray(sx) ? sx : [sx])]}
       >
         {actions.map((action, index) => (
           <SpeedDialAction
-            classes={{
-              fab: classNames({ [classes.selected]: active === index }),
-              staticTooltipLabel: classNames({
-                [classes.selected]: active === index
-              })
-            }}
             key={action.name}
             icon={action.icon}
-            tooltipTitle={action.name}
-            // delay={10}
-            tooltipOpen
             onClick={() => {
               handleClose();
               action.onClick();
             }}
+            sx={[active === index && styles.selected]}
+            tooltipOpen
+            tooltipTitle={action.name}
           />
         ))}
       </SpeedDial>
-    </div>
+    </Grid>
   );
 };
 
-SpeedDialKH.propTypes = {
-  active: PropTypes.number.isRequired,
+SpeedDialJK.propTypes = {
   actions: PropTypes.array.isRequired,
-  className: PropTypes.string,
+  active: PropTypes.number.isRequired,
   icon: PropTypes.node,
+  isHidden: PropTypes.bool,
   onOpen: PropTypes.func,
-  hidden: PropTypes.bool
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  )
 };
 
-SpeedDialKH.defaultProps = {
-  className: null,
-  icon: null,
-  onOpen: false,
-  hidden: false
-};
-
-export default SpeedDialKH;
+export default SpeedDialJK;

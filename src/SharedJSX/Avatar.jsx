@@ -1,54 +1,36 @@
-import React from 'react';
-import classNames from 'classnames';
+import * as React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
+import { Avatar as MuiAvatar } from '@mui/material';
 
-const styles = makeStyles(theme => ({
-  small: {
-    width: theme.spacing(3),
-    height: theme.spacing(3)
-  },
-  large: {
-    width: theme.spacing(7),
-    height: theme.spacing(7)
+const styles = {
+  avatar: {
+    bgcolor: 'primary.main',
+    color: 'common.white'
   }
-}));
+};
 
-const AvatarKH = props => {
-  const { alt, src, children, className, size, ...others } = props;
-  const classes = styles();
+const Avatar = props => {
+  const { alt = '', src = '', children, sx } = props;
   return (
-    <Avatar
-      className={classNames(
-        {
-          [classes.small]: size === 'small',
-          [classes.large]: size === 'large'
-        },
-        className
-      )}
+    <MuiAvatar
       alt={alt}
       src={src}
-      {...others}
+      sx={[styles.avatar, ...(Array.isArray(sx) ? sx : [sx])]}
     >
       {children}
-    </Avatar>
+    </MuiAvatar>
   );
 };
 
-AvatarKH.propTypes = {
-  className: PropTypes.string,
-  alt: PropTypes.string.isRequired,
+Avatar.propTypes = {
+  alt: PropTypes.string,
+  children: PropTypes.oneOfType(PropTypes.string, PropTypes.node).isRequired,
   src: PropTypes.string,
-  size: PropTypes.oneOf('small', 'large', 'medium'),
-  children: PropTypes.node
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  )
 };
 
-AvatarKH.defaultProps = {
-  className: '',
-  children: null,
-  size: 'medium',
-  src: null
-};
-
-export default AvatarKH;
+export default Avatar;

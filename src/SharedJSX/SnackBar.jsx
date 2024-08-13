@@ -1,59 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Alert from '@material-ui/lab/Alert';
-import Snackbar from '@material-ui/core/Snackbar';
+import { Alert, Snackbar as MuiSnackbar } from '@mui/material';
 
-const SimpleSnackbar = props => {
-  const [messageOpen, setOpen] = useState(false);
-  const { apiResult, autoHideDuration, open } = props;
+const Snackbar = props => {
+  const [messageOpen, setMessageOpen] = useState(false);
+  const { apiResult, autoHideDuration = 5000, isOpen, onClose } = props;
   let severity;
-  const { message, status } = apiResult.data;
+  const { message, status } = apiResult;
 
   useEffect(() => {
-    if (open) setOpen(true);
-  }, [apiResult]);
+    if (isOpen) setMessageOpen(true);
+  }, [apiResult, isOpen]);
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-    setOpen(false);
+    setMessageOpen(false);
+    onClose();
   };
-
-  if (status === 1) severity = 'success';
-  else if (status === -1) severity = 'Error';
+  if (status >= 200 && status <= 299) severity = 'success';
+  else if (status >= 400 && status <= 599) severity = 'error';
   else severity = 'info';
 
   return (
-    <Snackbar
+    <MuiSnackbar
       anchorOrigin={{
         vertical: 'top',
         horizontal: 'center'
       }}
-      open={messageOpen}
       autoHideDuration={autoHideDuration}
       onClose={handleClose}
+      open={messageOpen}
     >
       <Alert
         elevation={6}
-        variant="filled"
         onClose={handleClose}
         severity={severity}
+        variant="filled"
       >
         {message}
       </Alert>
-    </Snackbar>
+    </MuiSnackbar>
   );
 };
 
-SimpleSnackbar.propTypes = {
-  autoHideDuration: PropTypes.number,
+Snackbar.propTypes = {
   apiResult: PropTypes.object.isRequired,
-  open: PropTypes.bool.isRequired
+  autoHideDuration: PropTypes.number,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired
 };
 
-SimpleSnackbar.defaultProps = {
-  autoHideDuration: 5000
-};
-
-export default SimpleSnackbar;
+export default Snackbar;

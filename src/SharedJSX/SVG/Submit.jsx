@@ -1,20 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import SvgIcon from '@material-ui/core/SvgIcon';
+import SvgIcon from '@mui/material/SvgIcon';
 import styles from './styles.css';
 
-const SubmitIcon = props => {
-  const { className } = props;
-  const classes = styles(props);
+const Submit = props => {
+  const { sx = {}, width = 18, height = 18 } = props;
+
   return (
-    <SvgIcon classes={{ root: classNames(classes.icon, className) }} {...props}>
+    <SvgIcon
+      sx={[styles.icon, { width, height }, ...(Array.isArray(sx) ? sx : [sx])]}
+      {...props}
+    >
       <path d="M0 0l20 10-20 10v-20zM0 8v4l10-2-10-2z" />
     </SvgIcon>
   );
 };
 
-SubmitIcon.propTypes = { className: PropTypes.string };
-SubmitIcon.defaultProps = { className: null };
+Submit.propTypes = {
+  height: PropTypes.oneOfType(PropTypes.number, PropTypes.string),
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  ),
+  width: PropTypes.oneOfType(PropTypes.number, PropTypes.string)
+};
 
-export default SubmitIcon;
+export default Submit;

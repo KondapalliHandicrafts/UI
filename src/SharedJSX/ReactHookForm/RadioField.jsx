@@ -1,87 +1,93 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  FormLabel,
+  Radio,
+  RadioGroup
+} from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormLabel from '@material-ui/core/FormLabel';
-import Radio from '@material-ui/core/Radio';
 
 const RadioField = props => {
   const {
-    className,
-    required,
+    required = false,
     name,
-    id,
-    groupLabel,
-    rules,
+    defaultValue = null,
+    rules = {},
+    row = true,
     options,
-    row
+    groupLabel = '',
+    helperText = '',
+    ...rest
   } = props;
-  const { errors, control } = useFormContext();
 
+  const { validate, ...restRules } = rules;
+
+  const {
+    formState: { errors },
+    control
+  } = useFormContext();
   return (
     <Controller
-      render={renderProps => {
-        return (
-          <FormControl
-            className={className}
-            fullWidth
-            variant="outlined"
-            size="small"
-            required={required}
-            component="fieldset"
-          >
-            {groupLabel && (
-              <FormLabel component="legend">{groupLabel}</FormLabel>
-            )}
-            <RadioGroup id={id} row={row} {...renderProps}>
-              {options.map(item => (
-                <FormControlLabel
-                  disabled={item.disabled}
-                  value={item.value}
-                  key={item.label}
-                  control={<Radio />}
-                  label={item.label}
-                />
-              ))}
-            </RadioGroup>
-            {errors[name] && (
-              <FormHelperText error>{errors[name].message}</FormHelperText>
-            )}
-          </FormControl>
-        );
-      }}
-      name={name}
       control={control}
-      defaultValue=""
+      defaultValue={defaultValue}
+      name={name}
+      render={({ field }) => (
+        <FormControl
+          error={!!errors[name]}
+          fullWidth
+          required={required}
+          size="small"
+          variant="outlined"
+        >
+          {groupLabel ? (
+            <FormLabel id="demo-radio-buttons-group-label">
+              {groupLabel}
+            </FormLabel>
+          ) : null}
+          <RadioGroup row={row} {...field} {...rest}>
+            {options.map(item => (
+              <FormControlLabel
+                key={item.label}
+                control={<Radio color="primary" size="small" />}
+                disabled={item.disabled}
+                label={item.label}
+                value={item.value}
+              />
+            ))}
+          </RadioGroup>
+          {errors[name] || helperText ? (
+            <FormHelperText error={Boolean(errors[name])}>
+              {errors[name] ? errors[name].message : helperText}
+            </FormHelperText>
+          ) : null}
+        </FormControl>
+      )}
       rules={{
         required: { value: required, message: 'Required' },
-        ...rules
+        validate,
+        ...restRules
       }}
     />
   );
 };
 
 RadioField.propTypes = {
-  className: PropTypes.string,
-  id: PropTypes.string.isRequired,
+  defaultValue: PropTypes.string,
   groupLabel: PropTypes.string,
+  helperText: PropTypes.string,
+  name: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
-  required: PropTypes.bool,
+  required: PropTypes.oneOfType(PropTypes.bool, PropTypes.number),
+  row: PropTypes.oneOfType(PropTypes.bool, PropTypes.number),
   rules: PropTypes.object,
-  row: PropTypes.bool,
-  register: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired
-};
-
-RadioField.defaultProps = {
-  className: null,
-  groupLabel: null,
-  row: true,
-  rules: {},
-  required: false
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  )
 };
 
 export default RadioField;

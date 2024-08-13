@@ -1,14 +1,20 @@
-import { makeStyles } from '@material-ui/core/styles';
-
-export const styles = makeStyles(theme => ({
+export const styles = {
   icon: {
-    margin: '0 .75rem',
-    width: props => props.width || 20,
-    height: props => props.height || '100%',
+    margin: '0 1rem',
     verticalAlign: 'middle'
   },
   heartIcon: {
-    fill: theme.colors.primary
+    color: 'colors.primary'
+  },
+  left: {
+    transform: 'rotate(90deg)'
+  },
+  right: {
+    transform: 'rotate(-90deg)'
+  },
+  up: {
+    transform: 'rotate(180deg)'
   }
-}));
+};
+
 export default styles;

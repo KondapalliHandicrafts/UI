@@ -1,29 +1,53 @@
 module.exports = {
-  parser: 'babel-eslint',
-  plugins: ['react', 'prettier', 'react-hooks', 'flowtype'],
+  env: {
+    browser: true,
+    es6: true,
+    node: true
+  },
   extends: [
     'airbnb',
+    'eslint:recommended',
+    'plugin:react/recommended',
     'plugin:prettier/recommended',
-    'prettier/react',
-    'plugin:import/errors',
+    'plugin:jsx-a11y/recommended',
+    'plugin:jest/recommended',
+    'plugin:jest-dom/recommended',
     'plugin:react-hooks/recommended',
-    'plugin:flowtype/recommended'
+    'plugin:testing-library/react',
+    'plugin:import/errors'
   ],
   globals: {
-    React: true,
     document: true,
-    window: true,
+    fetch: true,
     jQuery: true,
-    $: true,
     localStorage: true,
-    fetch: true
+    React: true,
+    window: true
   },
+  parser: '@babel/eslint-parser',
+  plugins: ['react', 'prettier', 'react-hooks', 'jest-dom'],
   root: true,
   rules: {
-    indent: ['error', 2],
+    'sort-imports': [
+      'error',
+      {
+        ignoreDeclarationSort: true
+      }
+    ],
+    'react/jsx-no-literals': 0,
+    'react/jsx-max-depth': 0,
+    'react/no-multi-comp': 0,
+    indent: ['error', 2, { SwitchCase: 1 }],
     'no-underscore-dangle': 0,
     'import/no-cycle': [2, { maxDepth: 1 }],
     'react/prefer-stateless-function': 'warn',
+    'no-param-reassign': [
+      'error',
+      {
+        props: true,
+        ignorePropertyModificationsFor: ['state']
+      }
+    ],
     'react/self-closing-comp': [
       'warn',
       {
@@ -39,6 +63,7 @@ module.exports = {
         }
       }
     ],
+    'no-return-assign': ['error', 'except-parens'],
     'react/sort-comp': [
       1,
       {
@@ -62,6 +87,13 @@ module.exports = {
         aspects: ['invalidHref']
       }
     ],
+    'react/no-unstable-nested-components': [
+      'error',
+      {
+        allowAsProps: true
+      }
+    ],
+    'react/jsx-no-useless-fragment': 'off',
     'react/jsx-boolean-value': ['warn', 'never'],
     'react/jsx-closing-bracket-location': ['warn'],
     'react/jsx-curly-spacing': ['warn', 'never'],
@@ -74,7 +106,7 @@ module.exports = {
       }
     ],
     'react/jsx-first-prop-new-line': ['warn', 'multiline'],
-    // 'react/jsx-indent': ['warn', 2],
+    'react/jsx-indent': ['warn', 2],
     'comma-dangle': ['error', 'never'],
     'react/jsx-key': 'error',
     'react/jsx-indent-props': 0,
@@ -90,11 +122,13 @@ module.exports = {
     'import/no-extraneous-dependencies': 0,
     'import/extensions': 0,
     'babel/object-curly-spacing': 0,
-    'import/no-named-as-default': 0
-  },
-  env: {
-    es6: true,
-    browser: true,
-    node: true
+    'import/no-named-as-default': 0,
+    'react/function-component-definition': [
+      2,
+      {
+        namedComponents: 'arrow-function'
+      }
+    ],
+    'react/jsx-no-bind': 'error'
   }
 };

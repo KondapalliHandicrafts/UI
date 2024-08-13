@@ -1,20 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import SvgIcon from '@material-ui/core/SvgIcon';
+import SvgIcon from '@mui/material/SvgIcon';
 import styles from './styles.css';
 
-const LocationIcon = props => {
-  const { className } = props;
-  const classes = styles(props);
+const Location = props => {
+  const { sx = {}, width = 18, height = 18, ...rest } = props;
   return (
-    <SvgIcon classes={{ root: classNames(classes.icon, className) }} {...props}>
-      <path d="M12 11.484q1.031 0 1.758-0.727t0.727-1.758-0.727-1.758-1.758-0.727-1.758 0.727-0.727 1.758 0.727 1.758 1.758 0.727zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z"></path>
+    <SvgIcon
+      fontSize="small"
+      sx={[styles.icon, { width, height }, ...(Array.isArray(sx) ? sx : [sx])]}
+      viewBox="0 0 32 32"
+      {...rest}
+    >
+      <path d="M16 0c-5.523 0-10 4.477-10 10 0 10 10 22 10 22s10-12 10-22c0-5.523-4.477-10-10-10zM16 16.125c-3.383 0-6.125-2.742-6.125-6.125s2.742-6.125 6.125-6.125 6.125 2.742 6.125 6.125-2.742 6.125-6.125 6.125zM12.125 10c0-2.14 1.735-3.875 3.875-3.875s3.875 1.735 3.875 3.875c0 2.14-1.735 3.875-3.875 3.875s-3.875-1.735-3.875-3.875z" />
     </SvgIcon>
   );
 };
 
-LocationIcon.propTypes = { className: PropTypes.string };
-LocationIcon.defaultProps = { className: null };
+Location.propTypes = {
+  height: PropTypes.oneOfType(PropTypes.number, PropTypes.string),
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  ),
+  width: PropTypes.oneOfType(PropTypes.number, PropTypes.string)
+};
 
-export default LocationIcon;
+export default Location;

@@ -1,62 +1,75 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import TextField from '@material-ui/core/TextField';
 import { Controller, useFormContext } from 'react-hook-form';
-import { VisibilityOffIcon, VisibilityOnIcon } from '__SHARED__/SVG';
-import IconButton from '__SHARED__/IconButton';
-import { typeValidation } from './_helpers';
+import { InputAdornment, TextField as MuiTextField } from '@mui/material';
+import { VisibilityOffIcon, VisibilityOnIcon } from '../SVG';
+import { IconButton } from '..';
+import { typeValidation } from './helpers';
 
-const TextFieldKH = props => {
+const TextField = props => {
   const {
-    required,
+    required = false,
     name,
-    id,
-    type,
-    label,
-    rules,
-    InputProps,
-    className,
-    ...others
+    label = '',
+    type = 'text',
+    rules = {},
+    sx = {},
+    helperText = '',
+    ...rest
   } = props;
 
-  const { errors, control } = useFormContext();
+  const [showPassword, setShowPassword] = React.useState(false);
   const { validate, ...restRules } = rules;
-  const [show, setShow] = useState(false);
+
   const allValidations = { ...typeValidation(type), ...validate };
+
+  const handleClickShowPassword = () => setShowPassword(show => !show);
+
+  const handleMouseDownPassword = event => {
+    event.preventDefault();
+  };
+
+  const {
+    formState: { errors },
+    control
+  } = useFormContext();
 
   return (
     <Controller
-      render={renderProps => {
-        return (
-          <TextField
-            fullWidth
-            className={className}
-            id={id}
-            type={type && !show ? type : 'text'}
-            autoComplete="off"
-            label={label}
-            helperText={errors[name]?.message}
-            error={!!errors[name]}
-            required={required}
-            size="small"
-            variant="outlined"
-            InputProps={{
-              endAdornment: type === 'password' && (
-                <IconButton
-                  onClick={() => setShow(!show)}
-                  icon={!show ? <VisibilityOffIcon /> : <VisibilityOnIcon />}
-                />
-              ),
-              ...InputProps
-            }}
-            {...renderProps}
-            {...others}
-          />
-        );
-      }}
-      name={name}
-      defaultValue=""
       control={control}
+      defaultValue=""
+      name={name}
+      render={({ field }) => (
+        <MuiTextField
+          autoComplete="off"
+          error={!!errors[name]}
+          fullWidth
+          helperText={errors[name]?.message || helperText}
+          InputProps={{
+            endAdornment: type === 'password' && (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  edge="end"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {!showPassword ? <VisibilityOffIcon /> : <VisibilityOnIcon />}
+                </IconButton>
+              </InputAdornment>
+            )
+          }}
+          label={label}
+          placeholder={label}
+          required={required}
+          size="small"
+          sx={[...(Array.isArray(sx) ? sx : [sx])]}
+          type={type === 'password' && showPassword ? 'text' : type}
+          variant="outlined"
+          {...field}
+          {...rest}
+        />
+      )}
       rules={{
         required: { value: required, message: 'Required' },
         validate: allValidations,
@@ -66,22 +79,18 @@ const TextFieldKH = props => {
   );
 };
 
-TextFieldKH.propTypes = {
-  className: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  InputProps: PropTypes.object,
-  label: PropTypes.string.isRequired,
-  rules: PropTypes.object,
-  required: PropTypes.bool,
+TextField.propTypes = {
+  helperText: PropTypes.string,
+  label: PropTypes.string,
   name: PropTypes.string.isRequired,
+  required: PropTypes.oneOfType(PropTypes.bool, PropTypes.number),
+  rules: PropTypes.object,
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  ),
   type: PropTypes.string
 };
 
-TextFieldKH.defaultProps = {
-  className: null,
-  InputProps: {},
-  required: false,
-  rules: {},
-  type: 'text'
-};
-export default TextFieldKH;
+export default TextField;

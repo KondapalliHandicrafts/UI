@@ -1,20 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import SvgIcon from '@material-ui/core/SvgIcon';
+import SvgIcon from '@mui/material/SvgIcon';
 import styles from './styles.css';
 
-const PhoneIcon = props => {
-  const { className } = props;
-  const classes = styles(props);
+const Phone = props => {
+  const { sx = {}, width = 18, height = 18, ...rest } = props;
   return (
-    <SvgIcon classes={{ root: classNames(classes.icon, className) }} {...props}>
-      <path d="M20.016 15.375q0.422 0 0.703 0.281t0.281 0.703v3.469q0 1.172-0.984 1.172-6.984 0-12-5.016t-5.016-12q0-0.984 1.172-0.984h3.469q0.422 0 0.703 0.281t0.281 0.703q0 1.828 0.563 3.516 0.188 0.609-0.234 1.031l-1.922 1.688q2.156 4.5 6.891 6.797l1.547-1.969q0.281-0.281 0.703-0.281 0.234 0 0.328 0.047 1.688 0.563 3.516 0.563z"></path>
+    <SvgIcon
+      fontSize="small"
+      sx={[styles.icon, { width, height }, ...(Array.isArray(sx) ? sx : [sx])]}
+      viewBox="0 0 32 32"
+      {...rest}
+    >
+      <path d="M22 20c-2 2-2 4-4 4s-4-2-6-4-4-4-4-6 2-2 4-4-4-8-6-8-6 6-6 6c0 4 4.109 12.109 8 16s12 8 16 8c0 0 6-4 6-6s-6-8-8-6z" />
     </SvgIcon>
   );
 };
 
-PhoneIcon.propTypes = { className: PropTypes.string };
-PhoneIcon.defaultProps = { className: null };
+Phone.propTypes = {
+  height: PropTypes.oneOfType(PropTypes.number, PropTypes.string),
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  ),
+  width: PropTypes.oneOfType(PropTypes.number, PropTypes.string)
+};
 
-export default PhoneIcon;
+export default Phone;

@@ -1,7 +1,10 @@
-export { default as SelectField } from './SelectField';
 export { default as TextField } from './TextField';
-export { default as FileUploadField } from './FileUploadField';
-export { default as AutoCompleteField } from './AutoCompleteField';
+export { default as SelectField } from './SelectField';
 export { default as CheckField } from './CheckField';
 export { default as RadioField } from './RadioField';
+export { default as AutoCompleteField } from './AutoCompleteField';
+export { default as SwitchField } from './SwitchField';
 export { default as DateField } from './DateField';
+export { default as TimeField } from './TimeField';
+export { default as DateTimeField } from './DateTimeField';
+export { default as SliderField } from './SliderField';

@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 
-const styles = makeStyles(theme => ({
+import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+
+const styles = {
   root: {
     flexGrow: 1,
     display: 'flex',
@@ -14,8 +14,8 @@ const styles = makeStyles(theme => ({
     marginBottom: '1rem'
   },
   primary: {
-    color: theme.colors.progressbarColor,
-    backgroundColor: theme.colors.footerNav,
+    color: 'colors.progressbarColor',
+    backgroundColor: 'colors.footerNav',
     borderRadius: '10px'
   },
   value: {
@@ -29,27 +29,25 @@ const styles = makeStyles(theme => ({
     fontWeight: 500,
     marginBottom: '0.5rem'
   }
-}));
+};
 
 const ProgressBar = props => {
-  const { value, heading } = props;
-  const classes = styles();
+  const { value, heading = null } = props;
+
   return (
-    <Grid container className={classes.root}>
+    <Grid container sx={styles.root}>
       <Grid item md={11} xs={10}>
-        <Typography className={classes.title} variant="h4" component="h4">
+        <Typography component="h4" sx={styles.title} variant="h4">
           {heading}
         </Typography>
         <LinearProgress
-          classes={{
-            colorPrimary: classes.primary
-          }}
-          variant="determinate"
+          sx={styles.primary}
           value={value}
+          variant="determinate"
         />
       </Grid>
       <Grid item md={1} xs={2}>
-        <Typography className={classes.value} variant="h4" component="h4">
+        <Typography component="h5" sx={styles.value} variant="h5">
           {value}%
         </Typography>
       </Grid>
@@ -58,11 +56,8 @@ const ProgressBar = props => {
 };
 
 ProgressBar.propTypes = {
-  value: PropTypes.number.isRequired,
-  heading: PropTypes.string
-};
-ProgressBar.defaultProps = {
-  heading: null
+  heading: PropTypes.string,
+  value: PropTypes.number.isRequired
 };
 
 export default ProgressBar;

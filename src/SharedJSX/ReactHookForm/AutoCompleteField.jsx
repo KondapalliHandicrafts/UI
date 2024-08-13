@@ -1,76 +1,89 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { Autocomplete, TextField } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
 
-const RadioField = props => {
+const AutoCompleteField = props => {
   const {
-    className,
-    required,
+    required = false,
     name,
-    id,
-    label,
-    rules,
+    defaultValue = null,
+    rules = {},
     options,
-    ...others
+    label = '',
+    helperText = '',
+    onChange = null,
+    ...rest
   } = props;
-  const { errors, control } = useFormContext();
+
+  const { validate, ...restRules } = rules;
+
+  const {
+    formState: { errors },
+    control
+  } = useFormContext();
+
+  const renderInput = useCallback(
+    params => {
+      return (
+        <TextField
+          {...params}
+          autoComplete="off"
+          error={!!errors[name]}
+          fullWidth
+          helperText={errors[name]?.message || helperText}
+          label={label}
+          required={required}
+          size="small"
+          variant="outlined"
+        />
+      );
+    },
+    [errors, helperText, label, name, required]
+  );
 
   return (
     <Controller
-      render={renderProps => {
-        return (
-          <Autocomplete
-            className={className}
-            id={id}
-            options={options}
-            {...renderProps}
-            size="small"
-            renderInput={params => (
-              <TextField
-                {...params}
-                fullWidth
-                id={id}
-                label={label}
-                variant="outlined"
-                autoComplete="off"
-                helperText={errors[name]?.message}
-                error={!!errors[name]}
-                required={required}
-                size="small"
-              />
-            )}
-            {...others}
-          />
-        );
-      }}
-      name={name}
       control={control}
+      defaultValue={defaultValue}
+      name={name}
+      render={({ field }) => (
+        <Autocomplete
+          disablePortal
+          onChange={(a, b) => {
+            field.onChange(b);
+            if (onChange) onChange(a, b);
+          }}
+          options={options}
+          size="small"
+          {...field}
+          renderInput={renderInput}
+          {...rest}
+        />
+      )}
       rules={{
         required: { value: required, message: 'Required' },
-        ...rules
+        validate,
+        ...restRules
       }}
     />
   );
 };
 
-RadioField.propTypes = {
-  className: PropTypes.string,
-  id: PropTypes.string.isRequired,
+AutoCompleteField.propTypes = {
+  defaultValue: PropTypes.string,
+  helperText: PropTypes.string,
   label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
   options: PropTypes.array.isRequired,
-  required: PropTypes.bool,
+  required: PropTypes.oneOfType(PropTypes.bool, PropTypes.number),
   rules: PropTypes.object,
-  register: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired
+  sx: PropTypes.oneOfType(
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.arrayOf([PropTypes.object, PropTypes.func, PropTypes.bool])
+  )
 };
 
-RadioField.defaultProps = {
-  className: null,
-  label: null,
-  rules: {},
-  required: false
-};
-
-export default RadioField;
+export default AutoCompleteField;

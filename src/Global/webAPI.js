@@ -1,12 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import SnackbarAPI from '../SharedJSX/SnackbarAPI';
-import ThemeCSS from './theme';
+import { commonLoader, commonSnackbar } from '../Widgets/Routing/routingSlice';
 import { store } from '../store';
 
-const axiosAPI = axios.create({
+const axiosInstance = axios.create({
   baseURL:
     process.env.NODE_ENV === 'production' ||
     (process.env.NODE_ENV === 'development' && process.env.API_URL === 'prod')
@@ -14,87 +10,86 @@ const axiosAPI = axios.create({
       : 'http://localhost:3000'
 });
 
-export const renderAPIResult = (apiPostResult, status) => {
-  ReactDOM.render(
-    <MuiThemeProvider theme={ThemeCSS}>
-      <SnackbarAPI apiResult={apiPostResult} open status={status} />
-    </MuiThemeProvider>,
-    document.getElementById('snackbar')
-  );
-  return apiPostResult;
+const thenRederSnackbar = (showSnack, res) => {
+  if (showSnack) store.dispatch(commonSnackbar(res.data));
+  return res;
 };
 
-export const postCall = ({ url, inputs, showSnack, headers }) =>
-  axiosAPI
-    .post(url, inputs, {
-      headers: {
-        Authorization: store.getState().loginReducer.token,
-        ...headers
-      }
-    })
-    .then(res => {
-      if (showSnack) return renderAPIResult(res.data, res.status);
-      return res.data;
-    })
-    .catch(err => {
-      if (err.response) {
-        renderAPIResult(err.response.data, err.response.status);
-        throw new Error(err);
-      }
-      return err.response.data;
-    });
+const catchRenderSnackbar = err => {
+  if (err && err.response?.status === 401) {
+    store.dispatch(
+      commonSnackbar(
+        err.response.data || { message: err.response.statusText, status: 500 }
+      )
+    );
+  } else {
+    store.dispatch(commonSnackbar({ message: err.message, status: 500 }));
+  }
+  store.dispatch(commonLoader(false));
+  throw new Error(err);
+};
 
-export const getCall = ({ url, headers }) =>
-  axiosAPI
+export const getCall = async ({ instance = axiosInstance, url, headers }) => {
+  return instance
     .get(url, {
       headers: {
-        Authorization: store.getState().loginReducer.token,
+        Authorization: store.getState().login.jwtToken,
         ...headers
       }
     })
-    .then(res => res.data)
-    .catch(err => {
-      throw new Error(err);
-    });
+    .then(res => res)
+    .catch(err => catchRenderSnackbar(err));
+};
 
-export const deleteCall = ({ url, showSnack = true, headers }) =>
-  axiosAPI
+export const postCall = async ({
+  instance = axiosInstance,
+  url,
+  body,
+  showSnack = true,
+  headers
+}) => {
+  return instance
+    .post(url, body, {
+      headers: {
+        Authorization: store.getState().login.jwtToken,
+        ...headers
+      }
+    })
+    .then(res => thenRederSnackbar(showSnack, res))
+    .catch(err => catchRenderSnackbar(err));
+};
+
+export const deleteCall = ({
+  instance = axiosInstance,
+  url,
+  showSnack = true,
+  headers
+}) =>
+  instance
     .delete(url, {
       headers: {
-        Authorization: store.getState().loginReducer.token,
+        Authorization: store.getState().login.jwtToken,
         ...headers
       }
     })
-    .then(res => {
-      if (showSnack) return renderAPIResult(res.data, res.status);
-      return res.data;
-    })
-    .catch(err => {
-      if (err.response) {
-        renderAPIResult(err.response.data, err.response.status);
-        throw new Error(err);
-      }
-      return err.response.data;
-    });
+    .then(res => thenRederSnackbar(showSnack, res))
+    .catch(err => catchRenderSnackbar(err));
 
-export const putCall = ({ url, inputs, showSnack = true, headers }) =>
-  axiosAPI
-    .put(url, inputs, {
+export const putCall = ({
+  instance = axiosInstance,
+  url,
+  body,
+  showSnack = true,
+  headers
+}) =>
+  instance
+    .put(url, body, {
       headers: {
-        Authorization: store.getState().loginReducer.token,
+        Authorization: store.getState().login.jwtToken,
         ...headers
       }
     })
-    .then(res => {
-      if (showSnack) return renderAPIResult(res.data, res.status);
-      return res.data;
-    })
-    .catch(err => {
-      if (err.response) {
-        renderAPIResult(err.response.data, err.response.status);
-        throw new Error(err);
-      }
-      return err.response.data;
-    });
+    .then(res => thenRederSnackbar(showSnack, res))
+    .catch(err => catchRenderSnackbar(err));
 
-export default axiosAPI;
+export default axiosInstance;
